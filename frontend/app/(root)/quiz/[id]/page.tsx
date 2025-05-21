@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -14,11 +14,18 @@ import {
   CheckCircle, 
   Clock,  
   AlertTriangle,
-  Brain
+  Brain,
+  Eye,
+  Shield,
+  EyeOff,
+  Camera,
+  MonitorX
 } from 'lucide-react'
 import MCQQuestion from "@/components/quiz/MCQQuestion"
 import QuizTimer from "@/components/quiz/Timer"
 import ResultSummary from "@/components/quiz/ResultSummary"
+import EyeTrackingProctor from "@/components/quiz/EyeTrakingProctor"
+import DisqualificationScreen from "@/components/quiz/DisqualificationScreen"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,6 +37,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { motion, AnimatePresence } from "framer-motion"
+import { toast } from "sonner"
 
 export default function QuizPage() {
   const params = useParams()
@@ -45,9 +53,26 @@ export default function QuizPage() {
   const [quizResult, setQuizResult] = useState<any>(null)
   const [startTime, setStartTime] = useState<Date | null>(null)
   
+  // Proctoring states
+  const [proctorEnabled, setProctorEnabled] = useState(false)
+  const [showProctorVideo, setShowProctorVideo] = useState(true)
+  const [isDisqualified, setIsDisqualified] = useState(false)
+  const [disqualificationReason, setDisqualificationReason] = useState("")
+  const [cameraPermissionChecked, setCameraPermissionChecked] = useState(false)
+  const [quizStarted, setQuizStarted] = useState(false)
+  
+  // Tab visibility tracking
+  const tabHiddenTime = useRef<number | null>(null)
+  
   // Alert dialog state
   const [alertOpen, setAlertOpen] = useState(false)
-  const [alertType, setAlertType] = useState<'incomplete' | 'timeUp' | 'error'>('incomplete')
+  const [alertType, setAlertType] = useState<
+    'incomplete' | 
+    'timeUp' | 
+    'error' | 
+    'welcome' | 
+    'setupRequired'
+  >('welcome')
   const [alertMessage, setAlertMessage] = useState('')
   
   useEffect(() => {
@@ -60,7 +85,6 @@ export default function QuizPage() {
         
         const data = await response.json()
         setQuiz(data)
-        setStartTime(new Date())
       } catch (err: any) {
         setError(err.message)
       } finally {
@@ -70,6 +94,42 @@ export default function QuizPage() {
     
     fetchQuiz()
   }, [quizId])
+  
+  // Show welcome dialog when quiz is loaded
+  useEffect(() => {
+    if (quiz && !quizStarted && !isLoading) {
+      setAlertType('welcome')
+      setAlertMessage(
+        "Welcome to your quiz! Before starting, please note:\n\n" +
+        "1. You must allow camera access for proctoring\n" +
+        "2. Looking away for more than 5 seconds will result in disqualification\n" +
+        "3. Switching to another tab will result in immediate disqualification\n\n" +
+        "Click 'Start Quiz' when ready to proceed."
+      )
+      setAlertOpen(true)
+    }
+  }, [quiz, quizStarted, isLoading])
+  
+  // Tab visibility change detection
+  useEffect(() => {
+    if (!quizStarted) return
+    
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // User switched away from the tab
+        if (!isDisqualified) {
+          handleCheatingDetected("Switched to another tab during the exam")
+          tabHiddenTime.current = null
+        }
+      }
+    }
+    
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+    
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
+    }
+  }, [quizStarted, isDisqualified])
   
   const handleAnswer = (questionId: string, optionId: string) => {
     setAnswers(prev => ({ ...prev, [questionId]: optionId }))
@@ -129,6 +189,13 @@ export default function QuizPage() {
     submitQuiz()
   }
   
+  const startQuiz = () => {
+    setProctorEnabled(true)
+    setQuizStarted(true)
+    setStartTime(new Date())
+    toast.success("Quiz started. Proctoring is active.")
+  }
+  
   const submitQuiz = async () => {
     const score = calculateScore()
     const timeTaken = calculateTimeTaken()
@@ -139,7 +206,9 @@ export default function QuizPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           answers,
-          completedAt: new Date().toISOString()
+          completedAt: new Date().toISOString(),
+          disqualified: isDisqualified,
+          disqualificationReason: disqualificationReason
         })
       })
       
@@ -172,9 +241,49 @@ export default function QuizPage() {
   // Handler for alert dialog confirmation
   const handleAlertConfirm = () => {
     setAlertOpen(false)
+    
     if (alertType === 'incomplete' || alertType === 'timeUp') {
       submitQuiz()
+    } else if (alertType === 'welcome') {
+      setAlertType('setupRequired')
+      setAlertMessage("Please enable your camera to start the quiz. Your webcam will be used for proctoring during the exam.")
+      setAlertOpen(true)
+    } else if (alertType === 'setupRequired') {
+      setCameraPermissionChecked(true)
     }
+  }
+  
+  // Toggle proctor video visibility
+  const toggleProctorVideo = () => {
+    setShowProctorVideo(prev => !prev)
+  }
+  
+  // Handle camera ready event
+  const handleCameraReady = () => {
+    setCameraPermissionChecked(true)
+    if (!quizStarted) {
+      startQuiz()
+    }
+  }
+  
+  // Handle cheating detection
+  const handleCheatingDetected = (reason?: string) => {
+    // Only process if not already disqualified
+    if (isDisqualified) return
+    
+    const disqualificationMessage = reason || "Looking away from screen for more than 5 seconds"
+    console.log("Cheating detected:", disqualificationMessage)
+    
+    // Store the reason in localStorage
+    if (quizId) {
+      localStorage.setItem(`quiz_disqualification_reason_${quizId}`, disqualificationMessage)
+    }
+    
+    setDisqualificationReason(disqualificationMessage)
+    setIsDisqualified(true)
+    
+    // Submit the quiz with current answers
+    submitQuiz()
   }
   
   // Get difficulty color
@@ -285,14 +394,78 @@ export default function QuizPage() {
     )
   }
   
+  // Show camera setup screen when not started yet but welcome dialog has been shown
+//   if (!quizStarted && alertType === 'setupRequired' && !isLoading) {
+//     return (
+//       <motion.div
+//         initial={{ opacity: 0, y: 20 }}
+//         animate={{ opacity: 1, y: 0 }}
+//         className="max-w-xl mx-auto"
+//       >
+//         <Card className="bg-black border border-gray-800 shadow-xl overflow-hidden">
+//           <div className="absolute inset-0 bg-gradient-to-br from-blue-950/10 via-transparent to-indigo-950/10 pointer-events-none" />
+          
+//           <CardHeader>
+//             <div className="flex justify-center mb-4">
+//               <div className="p-3 rounded-full bg-blue-900/20 border border-blue-800/30">
+//                 <Camera className="h-8 w-8 text-blue-500" />
+//               </div>
+//             </div>
+//             <CardTitle className="text-white text-center">Camera Access Required</CardTitle>
+//             <CardDescription className="text-center">
+//               Please allow camera access to begin the quiz. This is required for proctoring.
+//             </CardDescription>
+//           </CardHeader>
+          
+//           <CardContent className="flex justify-center py-6">
+//             {/* Eye tracking proctor in setup mode */}
+//             <EyeTrackingProctor
+//               isActive={true}
+//               onCheatingDetected={() => {}} // No cheating detection during setup
+//               showVideo={true}
+//               disqualificationThreshold={5}
+//               warningThreshold={3}
+//               lookAwayThreshold={2}
+//             />
+//           </CardContent>
+          
+//           <CardFooter className="flex justify-between border-t border-gray-800 bg-gray-950/50">
+//             <Button 
+//               onClick={() => router.push('/quiz')}
+//               variant="outline"
+//               className="border-gray-700 hover:bg-gray-800"
+//             >
+//               Cancel
+//             </Button>
+            
+//             {cameraPermissionChecked && (
+//               <Button 
+//                 onClick={startQuiz}
+//                 className="bg-blue-600 hover:bg-blue-700"
+//               >
+//                 Start Quiz
+//                 <ArrowRight className="ml-2 h-4 w-4" />
+//               </Button>
+//             )}
+//           </CardFooter>
+//         </Card>
+//       </motion.div>
+//     )
+//   }
+  
   if (isSubmitted && quizResult) {
+    // If user was disqualified, show the disqualification screen
+    if (isDisqualified) {
+      return <DisqualificationScreen examId={quizId} />
+    }
+    
+    // Otherwise show regular results
     return (
       <ResultSummary 
         score={quizResult.score}
         totalQuestions={quizResult.totalQuestions}
         quizId={quizId}
         timeTaken={quizResult.timeTaken}
-        answers={answers}
       />
     )
   }
@@ -307,6 +480,77 @@ export default function QuizPage() {
         transition={{ duration: 0.3 }}
         className="space-y-6 max-w-4xl mx-auto"
       >
+        {/* Proctoring control panel */}
+        <Card className="bg-black border border-indigo-900/20 shadow-xl overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/5 via-transparent to-purple-950/5 pointer-events-none" />
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-full bg-green-900/30 text-green-400">
+                  <Shield className="h-4 w-4" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-200">Proctoring Active</p>
+                  <p className="text-xs text-gray-400">
+                    Academic integrity protection is monitoring your session
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-4">
+                <Badge variant="outline" className="bg-red-950/20 text-red-300 border-red-800/30 flex items-center">
+                  <MonitorX className="h-3 w-3 mr-1" />
+                  Tab switching prohibited
+                </Badge>
+                
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={toggleProctorVideo}
+                  className="border-gray-700 hover:bg-gray-800"
+                >
+                  {showProctorVideo ? (
+                    <>
+                      <EyeOff className="h-3.5 w-3.5 mr-1.5" />
+                      Hide Camera
+                    </>
+                  ) : (
+                    <>
+                      <Eye className="h-3.5 w-3.5 mr-1.5" />
+                      Show Camera
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        {/* Webcam proctor panel (conditionally shown) */}
+        {showProctorVideo && (
+          <div className="mb-6">
+            <Card>
+              <CardHeader className="py-3">
+                <CardTitle className="text-sm flex items-center gap-2">
+                  <Eye className="h-4 w-4" />
+                  Proctoring Monitor
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex justify-center py-2">
+                <EyeTrackingProctor
+                  isActive={true}
+                  onCheatingDetected={handleCheatingDetected}
+                  showVideo={true}
+                  disqualificationThreshold={5} // 5 seconds for immediate disqualification
+                  warningThreshold={3} // 3 warnings before disqualification
+                  lookAwayThreshold={2} // 2 seconds before warning
+                />
+              </CardContent>
+            </Card>
+          </div>
+        )}
+        
+        {/* Main quiz card */}
         <Card className="bg-black border border-gray-800 shadow-xl overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/10 via-transparent to-purple-950/10 pointer-events-none" />
           
@@ -449,18 +693,34 @@ export default function QuizPage() {
               {alertType === 'error' && (
                 <AlertCircle className="h-5 w-5 text-red-400" />
               )}
+              {alertType === 'welcome' && (
+                <Brain className="h-5 w-5 text-indigo-400" />
+              )}
+              {alertType === 'setupRequired' && (
+                <Camera className="h-5 w-5 text-blue-400" />
+              )}
               
               {alertType === 'timeUp' && "Time's Up!"}
               {alertType === 'incomplete' && "Incomplete Quiz"}
               {alertType === 'error' && "Error"}
+              {alertType === 'welcome' && "Quiz Instructions"}
+              {alertType === 'setupRequired' && "Camera Access Required"}
             </AlertDialogTitle>
-            <AlertDialogDescription className="text-gray-300">
+            <AlertDialogDescription className="text-gray-300 whitespace-pre-line">
               {alertMessage}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            {alertType !== 'error' && (
+            {alertType !== 'error' && alertType !== 'welcome' && alertType !== 'setupRequired' && (
               <AlertDialogCancel className="bg-gray-800 text-white border-gray-700 hover:bg-gray-700">
+                Cancel
+              </AlertDialogCancel>
+            )}
+            {alertType === 'welcome' && (
+              <AlertDialogCancel 
+                className="bg-gray-800 text-white border-gray-700 hover:bg-gray-700"
+                onClick={() => router.push('/quiz')}
+              >
                 Cancel
               </AlertDialogCancel>
             )}
@@ -469,14 +729,36 @@ export default function QuizPage() {
               className={
                 alertType === 'error' 
                   ? "bg-gray-700 hover:bg-gray-600" 
+                  : alertType === 'welcome' || alertType === 'setupRequired'
+                  ? "bg-blue-600 hover:bg-blue-700"
                   : "bg-green-600 hover:bg-green-700"
               }
             >
-              {alertType === 'error' ? 'OK' : 'Submit Quiz'}
+              {alertType === 'error' 
+                ? 'OK' 
+                : alertType === 'welcome'
+                ? 'Start Quiz'
+                : alertType === 'setupRequired'
+                ? 'Enable Camera'
+                : 'Submit Quiz'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      
+      {/* Hidden EyeTrackingProctor when not shown */}
+      {!showProctorVideo && proctorEnabled && (
+        <div className="hidden">
+          <EyeTrackingProctor
+            isActive={true}
+            onCheatingDetected={handleCheatingDetected}
+            showVideo={false}
+            disqualificationThreshold={5} // 5 seconds for disqualification
+            warningThreshold={3}
+            lookAwayThreshold={2}
+          />
+        </div>
+      )}
     </>
   )
 }

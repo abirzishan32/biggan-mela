@@ -70,13 +70,13 @@ const GlobalSidebar = ({ isSidebarCollapsed, toggleSidebar }: GlobalSidebarProps
     {
       href: "/dashboard",
       icon: <Home size={20} />,
-      label: "Dashboard",
+      label: "ড্যাশবোর্ড",
       id: "dashboard",
     },
     {
       href: "/profile",
       icon: <Users size={20} />,
-      label: "Profile",
+      label: "প্রোফাইল",
       id: "profile",
     },
   ];
@@ -85,14 +85,14 @@ const GlobalSidebar = ({ isSidebarCollapsed, toggleSidebar }: GlobalSidebarProps
     {
       href: "/virtual-lab",
       icon: <Zap size={20} />,
-      label: "Virtual Labs",
+      label: "ভার্চুয়াল ল্যাব",
       id: "virtual-labs",
       pulse: true,
     },
     {
       href: "/storytelling",
       icon: <BookOpen size={20} />,
-      label: "Science for Kids",
+      label: "গল্পে গল্পে বিজ্ঞান",
       id: "storytelling",
     },
     {
