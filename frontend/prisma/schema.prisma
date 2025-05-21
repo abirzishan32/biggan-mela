@@ -1,0 +1,24 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Profile {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String    @unique
+  role          String    @default("student")
+  bio           String?
+  institution   String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime?  @updatedAt @default(now()) @map("updated_at")
+
+}
