@@ -1,0 +1,67 @@
+{
+  "subtitle": "Interactive Science Learning",
+  "title_part1": "Explore",
+  "title_part2": "Learn Through Experience",
+  "description": "Our platform brings science to life through virtual labs, interactive games, AI-powered problem solving, citizen science projects, and critical thinking tools.",
+  "button_start": "Start Learning",
+  "button_demo": "Watch Demo",
+  "trusted_by": "Trusted by leading educational institutions",
+  
+  "features_tag": "Learning Features",
+  "features_title_part1": "Interactive Tools",
+  "features_title_part2": "for Science Education",
+  "features_description": "Our platform offers a comprehensive suite of tools designed to make science accessible, engaging, and fun for learners of all ages.",
+  
+  "feature1_title": "Interactive Virtual Labs",
+  "feature1_desc": "Conduct experiments like double-slit, electric circuits, and more in our safe virtual environment.",
+  
+  "feature2_title": "Story-Based Science Games",
+  "feature2_desc": "Immerse kids in adventures that teach fundamental scientific concepts through gameplay and storytelling.",
+  
+  "feature3_title": "AI Problem Solver",
+  "feature3_desc": "Upload study materials and get AI assistance with solving complex scientific problems.",
+  
+  "feature4_title": "Citizen Science Projects",
+  "feature4_desc": "Contribute to real research by collecting and analyzing data, like bird identification through sound patterns.",
+  
+  "feature5_title": "Scientific Method Trainer",
+  "feature5_desc": "Learn to evaluate claims, design experiments, and distinguish credible science from pseudoscience.",
+  
+  "feature6_title": "Algorithm Visualization",
+  "feature6_desc": "Watch algorithms come to life and understand computational concepts through dynamic visualizations.",
+  
+  "feature7_title": "Educational Resources",
+  "feature7_desc": "Access a library of materials to supplement learning and deepen understanding of scientific topics.",
+  
+  "stat1_value": "50+",
+  "stat1_label": "Virtual Experiments",
+  "stat2_value": "25+",
+  "stat2_label": "Interactive Games",
+  "stat3_value": "100K+",
+  "stat3_label": "Learners",
+  "stat4_value": "92%",
+  "stat4_label": "Engagement",
+  
+  "cta_tag": "Special offer",
+  "cta_discount": "20% OFF",
+  "cta_title": "Ready to Start Your Scientific Journey?",
+  "cta_description": "Join thousands of students, teachers, and curious minds who are already using our platform to explore the wonders of science.",
+  "cta_feature1": "Full access to all virtual labs",
+  "cta_feature2": "Unlimited AI-powered problem solving",
+  "cta_feature3": "Access to all educational games",
+  "cta_feature4": "Participate in citizen science projects",
+  "cta_button1": "Get Started",
+  "cta_button2": "Request Demo",
+  
+  "footer_description": "Making science accessible and engaging through interactive learning experiences for the next generation of scientific thinkers.",
+  "footer_product": "Product",
+  "footer_company": "Company",
+  "footer_legal": "Legal",
+
+  "nav_features": "Features",
+  "nav_pricing": "Pricing",
+  "nav_contact": "Contact",
+  "nav_blog": "Blog",
+  "nav_login": "Log in",
+  "nav_signup": "Sign up"
+}
