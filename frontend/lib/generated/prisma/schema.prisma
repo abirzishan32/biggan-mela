@@ -10,12 +10,66 @@ datasource db {
 }
 
 model Profile {
-  id          String    @id @default(uuid())
-  name        String?
-  email       String    @unique
-  role        String    @default("student")
-  bio         String?
-  institution String?
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime? @default(now()) @updatedAt @map("updated_at")
+  id           String        @id @default(uuid())
+  name         String?
+  email        String        @unique
+  role         String        @default("student")
+  bio          String?
+  institution  String?
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime?     @default(now()) @updatedAt @map("updated_at")
+  quizAttempts QuizAttempt[]
+}
+
+model Quiz {
+  id              String        @id @default(uuid())
+  title           String
+  subject         String // physics, chemistry, biology
+  topic           String // specific topic within subject
+  difficulty      String // easy, medium, hard
+  language        String // english, bengali
+  durationMinutes Int
+  createdAt       DateTime      @default(now()) @map("created_at")
+  questions       Question[]
+  attempts        QuizAttempt[]
+}
+
+model Question {
+  id            String   @id @default(uuid())
+  quizId        String
+  quiz          Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  questionText  String
+  options       Option[]
+  correctOption String // ID of the correct option
+  explanation   String? // Optional explanation for the answer
+}
+
+model Option {
+  id         String   @id @default(uuid())
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  optionText String
+  isCorrect  Boolean  @default(false)
+}
+
+model QuizAttempt {
+  id             String    @id @default(uuid())
+  quizId         String
+  quiz           Quiz      @relation(fields: [quizId], references: [id])
+  profileId      String?
+  profile        Profile?  @relation(fields: [profileId], references: [id])
+  score          Int       @default(0)
+  totalQuestions Int
+  startedAt      DateTime  @default(now())
+  completedAt    DateTime?
+  answers        Answer[]
+}
+
+model Answer {
+  id             String      @id @default(uuid())
+  quizAttemptId  String
+  quizAttempt    QuizAttempt @relation(fields: [quizAttemptId], references: [id], onDelete: Cascade)
+  questionId     String
+  selectedOption String
+  isCorrect      Boolean
 }

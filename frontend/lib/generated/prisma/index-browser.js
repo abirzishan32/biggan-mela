@@ -131,6 +131,50 @@ exports.Prisma.ProfileScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.QuizScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  subject: 'subject',
+  topic: 'topic',
+  difficulty: 'difficulty',
+  language: 'language',
+  durationMinutes: 'durationMinutes',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.QuestionScalarFieldEnum = {
+  id: 'id',
+  quizId: 'quizId',
+  questionText: 'questionText',
+  correctOption: 'correctOption',
+  explanation: 'explanation'
+};
+
+exports.Prisma.OptionScalarFieldEnum = {
+  id: 'id',
+  questionId: 'questionId',
+  optionText: 'optionText',
+  isCorrect: 'isCorrect'
+};
+
+exports.Prisma.QuizAttemptScalarFieldEnum = {
+  id: 'id',
+  quizId: 'quizId',
+  profileId: 'profileId',
+  score: 'score',
+  totalQuestions: 'totalQuestions',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt'
+};
+
+exports.Prisma.AnswerScalarFieldEnum = {
+  id: 'id',
+  quizAttemptId: 'quizAttemptId',
+  questionId: 'questionId',
+  selectedOption: 'selectedOption',
+  isCorrect: 'isCorrect'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -148,7 +192,12 @@ exports.Prisma.NullsOrder = {
 
 
 exports.Prisma.ModelName = {
-  Profile: 'Profile'
+  Profile: 'Profile',
+  Quiz: 'Quiz',
+  Question: 'Question',
+  Option: 'Option',
+  QuizAttempt: 'QuizAttempt',
+  Answer: 'Answer'
 };
 
 /**
