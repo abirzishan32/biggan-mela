@@ -49,21 +49,24 @@ export default function ObservationPanel({
   // Calculate theoretical fringe spacing
   const theoreticalSpacing = calculateFringeSpacing(wavelength, slitDistance, screenDistance);
   
-  // Prepare chart data
+  // Prepare chart data with improved colors for dark theme
   const chartData: ChartData<'line'> = {
     labels: measurements.map(m => m.position.toFixed(1)),
     datasets: [
       {
         label: 'Measured Intensity',
         data: measurements.map(m => m.intensity),
-        borderColor: 'rgb(75, 192, 192)',
-        backgroundColor: 'rgba(75, 192, 192, 0.5)',
-        pointRadius: 4
+        borderColor: 'rgb(56, 189, 248)',
+        backgroundColor: 'rgba(56, 189, 248, 0.5)',
+        pointRadius: 4,
+        pointBackgroundColor: 'rgba(56, 189, 248, 0.8)',
+        borderWidth: 2,
+        fill: true,
       }
     ]
   };
   
-  // Chart options
+  // Chart options with dark theme
   const chartOptions: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
@@ -71,25 +74,49 @@ export default function ObservationPanel({
       x: {
         title: {
           display: true,
-          text: 'Position (mm)'
+          text: 'Position (mm)',
+          color: '#e2e8f0',
+        },
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)',
+        },
+        ticks: {
+          color: '#e2e8f0',
         }
       },
       y: {
         title: {
           display: true,
-          text: 'Intensity (%)'
+          text: 'Intensity (%)',
+          color: '#e2e8f0',
         },
         min: 0,
-        max: 100
+        max: 100,
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)',
+        },
+        ticks: {
+          color: '#e2e8f0',
+        }
       }
     },
     plugins: {
+      legend: {
+        labels: {
+          color: '#e2e8f0',
+        }
+      },
       tooltip: {
         callbacks: {
           label: function(context) {
             return `Intensity: ${parseFloat(context.formattedValue).toFixed(1)}%`;
           }
-        }
+        },
+        backgroundColor: 'rgba(17, 24, 39, 0.8)',
+        titleColor: '#ffffff',
+        bodyColor: '#e2e8f0',
+        borderColor: 'rgba(56, 189, 248, 0.5)',
+        borderWidth: 1,
       }
     }
   };
@@ -105,28 +132,28 @@ export default function ObservationPanel({
   const hasEnoughData = measurements.length >= 5;
   
   return (
-    <div className="mt-4 bg-white p-4 rounded-lg shadow">
-      <h2 className="text-lg font-semibold mb-2">Observations & Analysis</h2>
+    <div className="mt-4 bg-gray-900 p-4 rounded-lg shadow-lg border border-gray-800">
+      <h2 className="text-lg font-semibold mb-4 text-white">Observations & Analysis</h2>
       
       <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="bg-blue-50 p-3 rounded-md">
-          <div className="text-sm text-blue-800 font-medium">Fringe Spacing</div>
-          <div className="text-xl font-bold">{fringeSpacing.toFixed(2)} mm</div>
+        <div className="bg-gray-800 p-3 rounded-md border border-gray-700">
+          <div className="text-sm text-blue-400 font-medium">Fringe Spacing</div>
+          <div className="text-xl font-bold text-white">{fringeSpacing.toFixed(2)} mm</div>
         </div>
         
-        <div className="bg-green-50 p-3 rounded-md">
-          <div className="text-sm text-green-800 font-medium">Central Maxima</div>
-          <div className="text-xl font-bold">{centralMaxima.toFixed(1)}%</div>
+        <div className="bg-gray-800 p-3 rounded-md border border-gray-700">
+          <div className="text-sm text-green-400 font-medium">Central Maxima</div>
+          <div className="text-xl font-bold text-white">{centralMaxima.toFixed(1)}%</div>
         </div>
       </div>
       
       {measurements.length === 0 ? (
-        <div className="text-center text-gray-500 py-4">
+        <div className="text-center text-gray-400 py-12 bg-gray-800 rounded-md border border-gray-700">
           Click on the screen to take intensity measurements.
         </div>
       ) : (
         <>
-          <div className="h-64 mb-4">
+          <div className="h-64 mb-4 bg-gray-800 p-3 rounded-md border border-gray-700">
             <Line 
               ref={chartRef}
               data={chartData} 
@@ -134,25 +161,25 @@ export default function ObservationPanel({
             />
           </div>
           
-          <div className="overflow-x-auto mt-4">
-            <table className="min-w-full divide-y divide-gray-200">
+          <div className="overflow-x-auto mt-4 bg-gray-800 rounded-md border border-gray-700">
+            <table className="min-w-full divide-y divide-gray-700">
               <thead>
-                <tr>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <tr className="bg-gray-900">
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                     Position (mm)
                   </th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                     Intensity (%)
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-700">
                 {measurements.map((measurement, index) => (
-                  <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                    <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-900">
+                  <tr key={index} className={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-750'}>
+                    <td className="px-3 py-2  text-sm text-gray-300">
                       {measurement.position.toFixed(1)}
                     </td>
-                    <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-3 py-2  text-sm text-gray-300">
                       {measurement.intensity.toFixed(1)}%
                     </td>
                   </tr>
@@ -162,12 +189,12 @@ export default function ObservationPanel({
           </div>
           
           {hasEnoughData && (
-            <div className="mt-4 p-3 bg-yellow-50 rounded-md">
-              <h3 className="font-medium text-yellow-800">Analysis</h3>
-              <p className="text-sm mt-1">
+            <div className="mt-4 p-4 bg-blue-900/30 rounded-md border border-blue-800">
+              <h3 className="font-medium text-blue-400">Analysis</h3>
+              <p className="text-sm mt-1 text-gray-200">
                 {`The fringe spacing matches the theoretical prediction: λL/d = ${theoreticalSpacing.toFixed(2)} mm`}
               </p>
-              <p className="text-sm mt-1">
+              <p className="text-sm mt-1 text-gray-200">
                 The interference pattern follows the expected pattern of maxima and minima, confirming 
                 wave nature of light in this experiment.
               </p>

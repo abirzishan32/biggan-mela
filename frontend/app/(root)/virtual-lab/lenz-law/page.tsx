@@ -78,15 +78,19 @@ export default function LenzLawPage() {
   }, [isSimulating]);
   
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
-      <header className="bg-indigo-700 text-white p-4">
-        <h1 className="text-2xl font-bold">Lenz's Law </h1>
-        
+    <div className="flex flex-col h-screen bg-black">
+      <header className="bg-gray-900 text-white p-4 border-b border-gray-800">
+        <div className="container mx-auto">
+          <h1 className="text-2xl font-bold text-blue-300">Lenz's Law Simulator</h1>
+          <p className="text-gray-300 text-sm">
+            Explore electromagnetic induction and opposing forces
+          </p>
+        </div>
       </header>
 
       <div className="flex flex-1 overflow-hidden">
         {/* 3D Simulation View */}
-        <div className="w-2/3 bg-gray-900 relative">
+        <div className="w-2/3 bg-gray-900 relative border-r border-gray-800">
           <LenzLawScene 
             magnetStrength={magnetStrength}
             coilTurns={coilTurns}
@@ -99,15 +103,21 @@ export default function LenzLawPage() {
           />
           
           {/* Overlay for data display */}
-          <div className="absolute top-4 right-4 bg-black bg-opacity-60 text-white p-3 rounded-md">
-            <div className="text-xl font-bold">Current: {inducedCurrent.toFixed(2)} A</div>
-            <div>Magnet Position: {magnetPosition.toFixed(2)} m</div>
-            <div>Time: {elapsedTime.toFixed(1)} s</div>
+          <div className="absolute top-4 right-4 bg-gray-900 bg-opacity-80 text-white p-3 rounded-md border border-gray-700 shadow-lg">
+            <div className="text-xl font-bold text-blue-300">
+              Current: <span className="font-mono">{inducedCurrent.toFixed(2)} A</span>
+            </div>
+            <div className="text-gray-300">
+              Magnet Position: <span className="font-mono">{magnetPosition.toFixed(2)} m</span>
+            </div>
+            <div className="text-gray-300">
+              Time: <span className="font-mono">{elapsedTime.toFixed(1)} s</span>
+            </div>
           </div>
         </div>
         
         {/* Controls and Information */}
-        <div className="w-1/3 p-4 overflow-y-auto">
+        <div className="w-1/3 bg-gray-900 p-4 overflow-y-auto">
           <ControlPanel 
             magnetStrength={magnetStrength}
             setMagnetStrength={setMagnetStrength}

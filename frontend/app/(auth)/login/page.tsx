@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { login, signup } from './action'
+import { login, signup } from '../actions'
 import {
   Card,
   CardHeader,
@@ -9,11 +9,12 @@ import {
   CardDescription,
   CardContent
 } from '@/components/ui/card'
+import { FormMessage } from '@/components/ui/form-message'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-export default function LoginPage() {
+export default function LoginPage({searchParams}) {
   const [isSignUp, setIsSignUp] = useState(false)
 
   return (
@@ -34,6 +35,7 @@ export default function LoginPage() {
             className="space-y-4"
             action={isSignUp ? signup : login}
           >
+            <FormMessage message={searchParams} />
             {isSignUp && (
               <>
                 {/* Name */}

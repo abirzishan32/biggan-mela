@@ -17,7 +17,7 @@ export function Footer() {
                   <span className="text-lg font-bold text-white">বি</span>
                 </div>
               </div>
-              <span className="text-xl font-bold">বিজ্ঞানযজ্ঞ</span>
+              <span className="text-xl font-bold">বিজ্ঞানমেলা</span>
             </div>
             <p className="text-sm text-muted-foreground">
               {t('footer_description')}
@@ -114,7 +114,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} বিজ্ঞানযজ্ঞ. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} বিজ্ঞানমেলা. All rights reserved.</p>
         </div>
       </div>
     </footer>

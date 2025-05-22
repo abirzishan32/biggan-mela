@@ -206,7 +206,7 @@ export default function VirtualLabs() {
     {
     title: {
       english: "Breadth-First Search",
-      bengali: "প্রস্থ-প্রথম অনুসন্ধান"
+      bengali: "ব্রেথ ফার্স্ট সার্চ"
     },
     description: {
       english: "Visualize the BFS graph traversal algorithm and learn how it finds the shortest path.",
@@ -226,7 +226,7 @@ export default function VirtualLabs() {
   {
     title: {
       english: "Depth-First Search",
-      bengali: "গভীরতা-প্রথম অনুসন্ধান"
+      bengali: "ডেপথ ফার্স্ট সার্চ"
     },
     description: {
       english: "See how DFS explores as far as possible along each branch before backtracking.",
@@ -258,7 +258,7 @@ export default function VirtualLabs() {
     },
     difficulty: {
       english: "Advanced",
-      bengali: "উন্নত"
+      bengali: "এডভান্স"
     },
     icon: <Code className="h-6 w-6" />,
     href: "/virtual-lab/dijkstra"

@@ -19,7 +19,7 @@ export function HeroSection() {
 
   // an empty component with the height of the screen to prevent the page from jumping when the hero section is loaded
   if (!mounted) return (
-    <div className="h-screen w-full" />
+    <div className="h-screen w-full container" />
   )
 
   return (
