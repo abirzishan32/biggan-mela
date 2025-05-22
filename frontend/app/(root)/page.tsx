@@ -81,7 +81,7 @@ export default function Dashboard() {
               ) : username ? (
                 <span>Welcome back, <span className="text-purple-500">{username}</span>!</span>
               ) : (
-                <span>Welcome to <span className="text-purple-500">বিজ্ঞানযজ্ঞ</span></span>
+                <span>Welcome to <span className="text-purple-500">বিজ্ঞানমেলা</span></span>
               )}
             </h1>
             <p className="text-muted-foreground mt-2">
@@ -104,7 +104,7 @@ export default function Dashboard() {
               </Button>
               <Button
                 className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white"
-                onClick={() => router.push('/signup')}
+                onClick={() => router.push('/login')}
               >
                 Create Account
               </Button>

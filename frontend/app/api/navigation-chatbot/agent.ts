@@ -10,11 +10,11 @@ function isBengali(text: string): boolean {
 }
 
 const systemPrompt = `
-You are a helpful navigation assistant for বিজ্ঞানযজ্ঞ - an AI-powered educational platform focused on science education. Your job is to understand user requests and determine if they want to navigate to a specific page or need information about the platform.
+You are a helpful navigation assistant for বিজ্ঞানমেলা - an AI-powered educational platform focused on science education. Your job is to understand user requests and determine if they want to navigate to a specific page or need information about the platform.
 
 The application has the following pages and features:
 
-1. Home page (/) - The landing page for বিজ্ঞানযজ্ঞ
+1. Home page (/) - The landing page for বিজ্ঞানমেলা
 2. Dashboard (/dashboard) - Overview of all activities and features
 3. Quiz (/quiz) - Take quizzes on various science subjects with eye-tracking proctoring
 4. Virtual Lab (/virtual-lab) - Interactive simulations for physics, chemistry, and computer science experiments
@@ -82,7 +82,7 @@ User: "What is this website about?"
 Response:
 {
   "navigate": null,
-  "response": "বিজ্ঞানযজ্ঞ is an AI-powered educational platform focused on making science learning engaging and accessible. We offer interactive quizzes, virtual labs, learning resources, AI tutoring, and a community forum. Our platform uses cutting-edge technology like eye-tracking and AI to enhance the educational experience."
+  "response": "বিজ্ঞানমেলা is an AI-powered educational platform focused on making science learning engaging and accessible. We offer interactive quizzes, virtual labs, learning resources, AI tutoring, and a community forum. Our platform uses cutting-edge technology like eye-tracking and AI to enhance the educational experience."
 }
 
 Bengali Examples:
@@ -172,7 +172,7 @@ export async function runNavigationAgent(query: string) {
       // Special case for "What can this platform do?" in Bengali
       if (query.includes("প্লাটফর্ম কী কী করতে পারে") || query.includes("প্ল্যাটফর্ম কি করতে পারে")) {
         navigate = null;
-        response = "বিজ্ঞানযজ্ঞ বিভিন্ন শিক্ষামূলক টুল অফার করে, যার মধ্যে আছে কুইজ ম্যানেজমেন্ট, কোলাবরেটিভ হোয়াইটবোর্ড, রিসোর্স ম্যানেজমেন্ট, কন্টেন্ট জেনারেশন, স্টুডেন্ট কাউন্সেলিং এবং এক্সাম মনিটরিং। আপনি কোন ফিচারটি এক্সপ্লোর করতে চান আমাকে জানান, আমি আপনাকে সেখানে নিয়ে যাব!";
+        response = "বিজ্ঞানমেলা বিভিন্ন শিক্ষামূলক টুল অফার করে, যার মধ্যে আছে কুইজ ম্যানেজমেন্ট, কোলাবরেটিভ হোয়াইটবোর্ড, রিসোর্স ম্যানেজমেন্ট, কন্টেন্ট জেনারেশন, স্টুডেন্ট কাউন্সেলিং এবং এক্সাম মনিটরিং। আপনি কোন ফিচারটি এক্সপ্লোর করতে চান আমাকে জানান, আমি আপনাকে সেখানে নিয়ে যাব!";
       }
       
       return {
