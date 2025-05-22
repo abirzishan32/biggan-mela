@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ArrowRight, Search, Sparkles, Atom, CloudRain, BookOpen } from "lucide-react"
+import { ArrowRight, Search, Sparkles, Atom, CloudRain, BookOpen, Flame } from "lucide-react"
 import Link from 'next/link'
 import { Badge } from "@/components/ui/badge"
 import { ReactNode } from 'react'
@@ -23,26 +23,36 @@ interface Story {
 export default function StorytellingPage() {
   const [searchQuery, setSearchQuery] = useState('')
   
-  // Define available stories - just the two you have
+  // Define available stories with Bengali content
   const stories: Story[] = [
     {
-      title: "States of Matter Adventure",
-      description: "Join Alex and Maya as they discover solids, liquids, and gases through everyday examples.",
-      category: "Basic Physics",
-      ageRange: "6-9 years",
+      title: "পদার্থের অবস্থা অ্যাডভেঞ্চার",
+      description: "রাজু এবং মিতার সাথে যোগ দিন যারা দৈনন্দিন উদাহরণের মাধ্যমে কঠিন, তরল এবং গ্যাস আবিষ্কার করে।",
+      category: "মৌলিক পদার্থবিদ্যা",
+      ageRange: "৬-৯ বছর",
       icon: <Atom className="h-6 w-6" />,
       href: "/storytelling/matter-of-state",
-      badge: "Popular",
-      image: "/images/stories/matter-states.jpg" // Add an image path if you have one
+      badge: "জনপ্রিয়",
+      image: "/images/stories/matter-states.jpg"
     },
     {
-      title: "The Water Cycle Journey",
-      description: "Follow a water droplet as it travels through the water cycle, becoming rain, snow, and more.",
-      category: "Earth Science",
-      ageRange: "5-8 years",
+      title: "জলচক্রের যাত্রা",
+      description: "একটি জলের ফোঁটার যাত্রা অনুসরণ করুন যখন এটি জলচক্রের মধ্য দিয়ে যায়, বৃষ্টি, তুষার এবং আরও অনেক কিছু হয়ে ওঠে।",
+      category: "পৃথিবী বিজ্ঞান",
+      ageRange: "৫-৮ বছর",
       icon: <CloudRain className="h-6 w-6" />,
       href: "/storytelling/water-cycle",
-      image: "/images/stories/water-cycle.jpg" // Add an image path if you have one
+      image: "/images/stories/water-cycle.jpg"
+    },
+    {
+      title: "অগ্নি নির্বাপকের রহস্য",
+      description: "শিশুরা শিখবে কিভাবে আগুন জ্বলে এবং অগ্নি নির্বাপক কিভাবে আগুন নেভায়, একটি আকর্ষণীয় এবং শিক্ষামূলক গল্পের মাধ্যমে।",
+      category: "বিজ্ঞান ও সুরক্ষা",
+      ageRange: "৭-১০ বছর",
+      icon: <Flame className="h-6 w-6" />,
+      href: "/storytelling/fire-extinguisher",
+      badge: "নতুন",
+      image: "/images/stories/fire-safety.jpg"
     }
   ]
 
@@ -77,18 +87,60 @@ export default function StorytellingPage() {
           </div>
         </div>
         
-
+        <div className="relative z-10 px-6 py-12 md:py-20 md:px-10 flex flex-col md:flex-row justify-between items-center">
+          <div className="mb-8 md:mb-0 md:mr-8">
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              শিশুদের জন্য বিজ্ঞান গল্প
+            </h1>
+            <p className="text-white/90 max-w-lg">
+              বিজ্ঞানকে সহজ এবং মজার উপায়ে ছোট শিক্ষার্থীদের জন্য উপস্থাপন করা হয়েছে। আকর্ষণীয় গল্প ও অ্যানিমেশনের মাধ্যমে বাচ্চাদের বিজ্ঞান শিখতে সাহায্য করুন।
+            </p>
+            <div className="mt-6 flex gap-4">
+              <Button className="bg-white text-indigo-700 hover:bg-white/90">
+                সব গল্প দেখুন
+              </Button>
+              <Button variant="outline" className="border-white text-white hover:bg-white/20 hover:text-white">
+                আরও জানুন
+              </Button>
+            </div>
+          </div>
+          
+          <div className="relative">
+            <div className="p-1 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600">
+              <div className="p-6 md:p-8 bg-gray-950 rounded-full">
+                <BookOpen size={80} className="w-16 h-16 md:w-20 md:h-20 text-white/90" />
+              </div>
+            </div>
+            <div className="absolute -top-3 -right-3 w-6 h-6 rounded-full bg-indigo-500 animate-pulse"></div>
+            <div className="absolute -bottom-2 -left-2 w-4 h-4 rounded-full bg-purple-500 animate-pulse delay-300"></div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Search Section */}
+      <section className="relative">
+        <div className="max-w-md mx-auto">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Input 
+              className="pl-10 bg-gray-900 border-gray-700 rounded-lg focus-visible:ring-purple-500 placeholder:text-gray-500"
+              placeholder="গল্প খুঁজুন..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+        </div>
       </section>
       
       {/* Stories Section */}
       <section>
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white">
-            {searchQuery ? 'Search Results' : 'Available Stories'}
+            {searchQuery ? 'সার্চ ফলাফল' : 'উপলব্ধ গল্প'}
           </h2>
           
           <div className="text-sm text-muted-foreground">
-            Showing {filteredStories.length} {filteredStories.length === 1 ? 'story' : 'stories'}
+            দেখানো হচ্ছে {filteredStories.length}টি {filteredStories.length === 1 ? 'গল্প' : 'গল্প'}
           </div>
         </div>
         
@@ -101,14 +153,14 @@ export default function StorytellingPage() {
         ) : (
           <div className="text-center py-12 border border-gray-800 rounded-lg bg-gray-900/50">
             <Sparkles className="h-12 w-12 mx-auto text-gray-600 mb-4" />
-            <p className="text-lg font-medium text-white">No stories match your search</p>
-            <p className="text-gray-400 mt-2">Try adjusting your search terms</p>
+            <p className="text-lg font-medium text-white">আপনার সার্চের সাথে কোন গল্প মেলেনি</p>
+            <p className="text-gray-400 mt-2">সার্চ টার্ম পরিবর্তন করে চেষ্টা করুন</p>
             <Button 
               variant="link" 
               className="mt-4 text-purple-400"
               onClick={() => setSearchQuery('')}
             >
-              Clear search
+              সার্চ পরিষ্কার করুন
             </Button>
           </div>
         )}
@@ -120,16 +172,16 @@ export default function StorytellingPage() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
               <span className="px-3 py-1 text-xs font-medium rounded-full bg-purple-500/20 text-purple-300 mb-4 inline-block">
-                Coming Soon
+                আসছে শীঘ্রই
               </span>
-              <h3 className="text-xl font-bold text-white mb-2">More Stories On The Way!</h3>
+              <h3 className="text-xl font-bold text-white mb-2">আরও নতুন গল্প আসছে!</h3>
               <p className="text-gray-400">
-                We're working on new exciting scientific adventures for young minds. Stay tuned!
+                আমরা ছোট শিক্ষার্থীদের জন্য নতুন এবং আকর্ষণীয় বিজ্ঞান অ্যাডভেঞ্চার তৈরি করছি। অপেক্ষায় থাকুন!
               </p>
             </div>
             <div className="flex items-center">
               <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 border-0 text-white">
-                Get Notified
+                নোটিফিকেশন পান
               </Button>
             </div>
           </div>
@@ -203,7 +255,7 @@ function StoryCard({ story }: { story: Story }) {
               </div>
               
               <div className="mt-4 flex items-center text-sm font-medium text-purple-400 group-hover:text-purple-300 transition-colors">
-                <span className="group-hover:translate-x-1 transition-transform duration-300">Start Story</span>
+                <span className="group-hover:translate-x-1 transition-transform duration-300">গল্প শুরু করুন</span>
                 <ArrowRight className="ml-1.5 h-3.5 w-3.5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
               </div>
             </div>

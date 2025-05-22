@@ -32,15 +32,17 @@ export default function ControlPanel({
   isSimulating
 }: ControlPanelProps) {
   return (
-    <div className="bg-white p-4 rounded-lg shadow mb-4">
-      <h2 className="text-lg font-bold mb-4">Projectile Controls</h2>
+    <div className="bg-gray-800 p-4 rounded-lg shadow-lg mb-4">
+      <h2 className="text-lg font-bold mb-4 text-white">Projectile Controls</h2>
       
       <div className="space-y-5">
         {/* Initial Velocity */}
         <div className="space-y-1">
           <div className="flex justify-between">
-            <label className="text-sm font-medium">Initial Velocity:</label>
-            <span className="text-sm">{velocity.toFixed(1)} m/s</span>
+            <label className="text-sm font-medium text-gray-300">Initial Velocity:</label>
+            <span className="text-sm bg-gray-700 px-2 py-0.5 rounded text-blue-300 font-mono">
+              {velocity.toFixed(1)} m/s
+            </span>
           </div>
           <input
             type="range"
@@ -50,15 +52,17 @@ export default function ControlPanel({
             value={velocity}
             onChange={(e) => onVelocityChange(parseFloat(e.target.value))}
             disabled={isSimulating}
-            className={`w-full ${isSimulating ? 'opacity-50' : ''}`}
+            className={`w-full accent-blue-500 ${isSimulating ? 'opacity-50' : ''}`}
           />
         </div>
         
         {/* Projectile Mass */}
         <div className="space-y-1">
           <div className="flex justify-between">
-            <label className="text-sm font-medium">Mass:</label>
-            <span className="text-sm">{mass.toFixed(1)} kg</span>
+            <label className="text-sm font-medium text-gray-300">Mass:</label>
+            <span className="text-sm bg-gray-700 px-2 py-0.5 rounded text-blue-300 font-mono">
+              {mass.toFixed(1)} kg
+            </span>
           </div>
           <input
             type="range"
@@ -68,15 +72,17 @@ export default function ControlPanel({
             value={mass}
             onChange={(e) => onMassChange(parseFloat(e.target.value))}
             disabled={isSimulating}
-            className={`w-full ${isSimulating ? 'opacity-50' : ''}`}
+            className={`w-full accent-blue-500 ${isSimulating ? 'opacity-50' : ''}`}
           />
         </div>
         
         {/* Launch Angle */}
         <div className="space-y-1">
           <div className="flex justify-between">
-            <label className="text-sm font-medium">Launch Angle:</label>
-            <span className="text-sm">{angle.toFixed(1)}°</span>
+            <label className="text-sm font-medium text-gray-300">Launch Angle:</label>
+            <span className="text-sm bg-gray-700 px-2 py-0.5 rounded text-blue-300 font-mono">
+              {angle.toFixed(1)}°
+            </span>
           </div>
           <input
             type="range"
@@ -86,7 +92,7 @@ export default function ControlPanel({
             value={angle}
             onChange={(e) => onAngleChange(parseFloat(e.target.value))}
             disabled={isSimulating}
-            className={`w-full ${isSimulating ? 'opacity-50' : ''}`}
+            className={`w-full accent-blue-500 ${isSimulating ? 'opacity-50' : ''}`}
           />
           <div className="flex justify-between text-xs text-gray-500">
             <span>0° (Horizontal)</span>
@@ -102,11 +108,11 @@ export default function ControlPanel({
             checked={airResistance}
             onChange={(e) => onAirResistanceToggle(e.target.checked)}
             disabled={isSimulating}
-            className="mr-2"
+            className="mr-2 accent-blue-500 h-4 w-4"
           />
           <label 
             htmlFor="air-resistance" 
-            className={`text-sm font-medium ${isSimulating ? 'text-gray-400' : ''}`}
+            className={`text-sm font-medium ${isSimulating ? 'text-gray-500' : 'text-gray-300'}`}
           >
             Enable Air Resistance
           </label>
@@ -116,8 +122,10 @@ export default function ControlPanel({
         {airResistance && (
           <div className="space-y-1">
             <div className="flex justify-between">
-              <label className="text-sm font-medium">Wind Speed:</label>
-              <span className="text-sm">{windSpeed.toFixed(1)} m/s</span>
+              <label className="text-sm font-medium text-gray-300">Wind Speed:</label>
+              <span className="text-sm bg-gray-700 px-2 py-0.5 rounded text-blue-300 font-mono">
+                {windSpeed.toFixed(1)} m/s
+              </span>
             </div>
             <input
               type="range"
@@ -127,7 +135,7 @@ export default function ControlPanel({
               value={windSpeed}
               onChange={(e) => onWindSpeedChange(parseFloat(e.target.value))}
               disabled={isSimulating}
-              className={`w-full ${isSimulating ? 'opacity-50' : ''}`}
+              className={`w-full accent-blue-500 ${isSimulating ? 'opacity-50' : ''}`}
             />
             <div className="flex justify-between text-xs text-gray-500">
               <span>← Headwind</span>
@@ -138,14 +146,14 @@ export default function ControlPanel({
         )}
         
         {/* Action Buttons */}
-        <div className="space-y-3 pt-2">
+        <div className="space-y-3 pt-2 border-t border-gray-700">
           <button
             onClick={onLaunch}
             disabled={isSimulating}
-            className={`w-full py-2 px-4 rounded font-medium ${
+            className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${
               isSimulating
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-green-500 hover:bg-green-600 text-white'
+                ? 'bg-gray-600 cursor-not-allowed'
+                : 'bg-emerald-600 hover:bg-emerald-700 text-white'
             }`}
           >
             Launch Projectile
@@ -153,14 +161,14 @@ export default function ControlPanel({
           
           <button
             onClick={onReset}
-            className="w-full py-2 px-4 bg-gray-200 hover:bg-gray-300 rounded font-medium"
+            className="w-full py-2 px-4 bg-gray-700 hover:bg-gray-600 text-white rounded-md font-medium transition-colors"
           >
             Reset Simulation
           </button>
         </div>
       </div>
       
-      <div className="mt-4 text-sm text-gray-600">
+      <div className="mt-4 text-sm text-gray-400">
         <p>Tip: You can also adjust the angle by dragging the red handle on the launcher.</p>
       </div>
     </div>

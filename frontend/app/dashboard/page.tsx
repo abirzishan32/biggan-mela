@@ -53,16 +53,16 @@ export default function Dashboard() {
               {isLoading ? (
                 <Skeleton className="h-9 w-64" />
               ) : username ? (
-                <span>Welcome back, <span className="text-purple-400">{username}</span>!</span>
+                <span>স্বাগতম, <span className="text-purple-400">{username}</span>!</span>
               ) : (
-                <span>Welcome to <span className="text-purple-400">বিজ্ঞানমেলা</span></span>
+                <span><span className="text-purple-400">বিজ্ঞানমেলায়</span> স্বাগতম</span>
               )}
             </h1>
             <p className="text-gray-400 text-lg max-w-md">
               {isLoading ? (
                 <Skeleton className="h-5 w-96" />
               ) : (
-                "What would you like to explore today?"
+                "আজ আপনি কোন বিষয় অন্বেষণ করতে চান?"
               )}
             </p>
           </div>
@@ -73,7 +73,7 @@ export default function Dashboard() {
                 className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-lg px-6 py-6 h-auto"
                 onClick={() => router.push('/login')}
               >
-                Get Started
+                শুরু করুন
               </Button>
             </div>
           )}
@@ -82,37 +82,37 @@ export default function Dashboard() {
       
       {/* Main learning paths - big clear buttons */}
       <section>
-        <h2 className="text-2xl font-bold text-white mb-6">Choose Your Learning Path</h2>
+        <h2 className="text-2xl font-bold text-white mb-6">আপনার শিক্ষণ পথ বেছে নিন</h2>
         
         <div className="grid gap-6 md:grid-cols-2">
           <LearningButtonCard 
             icon={<Beaker className="h-10 w-10 text-purple-400" />}
-            title="Virtual Labs"
-            description="Interactive simulations and experiments to explore scientific concepts"
+            title="ভার্চুয়াল ল্যাব"
+            description="বিজ্ঞানের ধারণা অন্বেষণ করতে ইন্টারেক্টিভ সিমুলেশন এবং পরীক্ষা-নিরীক্ষা"
             href="/virtual-lab"
             color="purple"
           />
           
           <LearningButtonCard 
             icon={<BookOpen className="h-10 w-10 text-indigo-400" />}
-            title="Science for Kids"
-            description="Story-based adventures that make science fun for young learners"
+            title="গল্পে গল্পে বিজ্ঞান"
+            description="ছোট শিক্ষার্থীদের জন্য আকর্ষণীয় গল্পভিত্তিক বিজ্ঞান শিক্ষা"
             href="/storytelling"
             color="indigo"
           />
           
           <LearningButtonCard 
             icon={<Brain className="h-10 w-10 text-pink-400" />}
-            title="AI Problem Solver"
-            description="Get personalized help solving scientific problems and questions"
+            title="এআই সমস্যা সমাধান"
+            description="বিজ্ঞান সম্পর্কিত প্রশ্ন ও সমস্যার ব্যক্তিগত সমাধান পান"
             href="/ai-helper"
             color="pink"
           />
           
           <LearningButtonCard 
             icon={<Microscope className="h-10 w-10 text-blue-400" />}
-            title="Citizen Science"
-            description="Contribute to real scientific research projects"
+            title="সিটিজেন সায়েন্স"
+            description="আসল বিজ্ঞান গবেষণা প্রকল্পে অবদান রাখুন"
             href="/citizen-science"
             color="blue"
             isNew={true}
@@ -122,47 +122,47 @@ export default function Dashboard() {
       
       {/* Featured content - curated selection */}
       <section className="bg-gray-900/50 p-8 rounded-xl border border-gray-800">
-        <h2 className="text-2xl font-bold text-white mb-6">Featured Content</h2>
+        <h2 className="text-2xl font-bold text-white mb-6">বিশেষ বিষয়বস্তু</h2>
         
         <div className="grid gap-6 md:grid-cols-2">
           <FeaturedCard
             icon={<Atom className="h-8 w-8 text-purple-400" />}
-            title="States of Matter Adventure"
-            description="A fun story-based experience for kids to learn about solids, liquids and gases"
+            title="পদার্থের অবস্থা অ্যাডভেঞ্চার"
+            description="শিশুদের কঠিন, তরল এবং গ্যাস সম্পর্কে শিখতে আকর্ষণীয় গল্পভিত্তিক অভিজ্ঞতা"
             href="/storytelling/matter-of-state"
-            type="Story"
-            badge="Popular"
+            type="গল্প"
+            badge="জনপ্রিয়"
           />
           
           <FeaturedCard
             icon={<Zap className="h-8 w-8 text-indigo-400" />}
-            title="Double Slit Experiment"
-            description="Explore the fascinating wave-particle duality in this interactive simulation"
+            title="দ্বি-চিড় পরীক্ষা"
+            description="এই ইন্টারেক্টিভ সিমুলেশনে আকর্ষণীয় তরঙ্গ-কণা দ্বৈততা অন্বেষণ করুন"
             href="/virtual-lab/double-slit"
-            type="Virtual Lab"
-            badge="Featured"
+            type="ভার্চুয়াল ল্যাব"
+            badge="বিশেষ"
           />
           
           <FeaturedCard
             icon={<CircuitBoard className="h-8 w-8 text-blue-400" />}
-            title="Electric Circuits"
-            description="Build and test electric circuits in this beginner-friendly virtual lab"
+            title="বৈদ্যুতিক সার্কিট"
+            description="এই নতুনদের অনুকূল ভার্চুয়াল ল্যাবে বৈদ্যুতিক সার্কিট তৈরি করুন এবং পরীক্ষা করুন"
             href="/virtual-lab/electric-ckt"
-            type="Virtual Lab"
+            type="ভার্চুয়াল ল্যাব"
           />
           
           <FeaturedCard
             icon={<Sparkles className="h-8 w-8 text-pink-400" />}
-            title="The Water Cycle Journey"
-            description="Follow a water droplet's adventure through the water cycle"
+            title="পানি চক্রের যাত্রা"
+            description="পানি চক্রের মধ্য দিয়ে একটি পানির ফোঁটার অ্যাডভেঞ্চার অনুসরণ করুন"
             href="/storytelling/water-cycle"
-            type="Story"
+            type="গল্প"
           />
         </div>
         
         <div className="mt-6 flex justify-center">
           <Button variant="outline" size="lg" className="text-white border-gray-700 hover:bg-gray-800">
-            Explore All Content
+            সমস্ত বিষয়বস্তু দেখুন
           </Button>
         </div>
       </section>
@@ -204,7 +204,7 @@ function LearningButtonCard({
           
           {isNew && (
             <span className="absolute top-4 right-4 px-2 py-0.5 text-xs font-medium bg-indigo-500/30 text-indigo-300 rounded-full border border-indigo-500/30">
-              New
+              নতুন
             </span>
           )}
         </div>
@@ -213,7 +213,7 @@ function LearningButtonCard({
         
         <div className="flex items-center text-sm font-medium mt-auto">
           <span className="text-white group-hover:text-purple-300 transition-colors flex items-center">
-            Get Started
+            শুরু করুন
             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
           </span>
         </div>
@@ -235,7 +235,7 @@ function FeaturedCard({
   title: string;
   description: string;
   href: string;
-  type: "Virtual Lab" | "Story";
+  type: "ভার্চুয়াল ল্যাব" | "গল্প";
   badge?: string;
 }) {
   return (
@@ -261,7 +261,7 @@ function FeaturedCard({
           <p className="text-gray-400 text-sm">{description}</p>
           
           <div className="mt-4 flex items-center text-sm font-medium text-purple-400 group-hover:text-purple-300 transition-colors">
-            <span>Explore</span>
+            <span>অন্বেষণ করুন</span>
             <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
           </div>
         </CardContent>

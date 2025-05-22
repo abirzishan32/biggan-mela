@@ -33,20 +33,22 @@ export default function ControlPanel({
   resetMeasurements
 }: ControlPanelProps) {
   return (
-    <div className="bg-white p-4 rounded-lg shadow mb-4">
-      <h2 className="text-lg font-semibold mb-4">Laboratory Controls</h2>
+    <div className="bg-gray-900 p-4 rounded-lg shadow-lg mb-4 border border-gray-800">
+      <h2 className="text-lg font-semibold mb-4 text-white">Laboratory Controls</h2>
       
       <div className="space-y-5">
         {/* Prism Properties */}
-        <fieldset className="border border-gray-200 rounded p-3">
-          <legend className="text-sm font-medium px-2">Prism Properties</legend>
+        <fieldset className="border border-gray-700 rounded-md p-3 bg-gray-800">
+          <legend className="text-sm font-medium px-2 text-gray-300">Prism Properties</legend>
           
           <div className="space-y-3">
             {/* Prism Angle */}
             <div className="space-y-1">
               <div className="flex justify-between">
-                <label className="text-sm font-medium">Prism Angle (A):</label>
-                <span className="text-sm">{prismAngle}°</span>
+                <label className="text-sm font-medium text-gray-300">Prism Angle (A):</label>
+                <span className="text-blue-300 bg-gray-700 px-2 py-0.5 rounded font-mono">
+                  {prismAngle}°
+                </span>
               </div>
               <input
                 type="range"
@@ -55,10 +57,10 @@ export default function ControlPanel({
                 step="1"
                 value={prismAngle}
                 onChange={(e) => setPrismAngle(parseInt(e.target.value))}
-                className="w-full"
+                className="w-full accent-blue-500"
                 disabled={isSimulating}
               />
-              <div className="flex justify-between text-xs text-gray-500">
+              <div className="flex justify-between text-xs text-gray-400">
                 <span>30°</span>
                 <span>60°</span>
                 <span>90°</span>
@@ -67,16 +69,16 @@ export default function ControlPanel({
             
             {/* Prism Material */}
             <div>
-              <label className="text-sm font-medium block mb-1">Material:</label>
+              <label className="text-sm font-medium block mb-1 text-gray-300">Material:</label>
               <div className="grid grid-cols-2 gap-2">
                 {Object.keys(refractiveIndices).map((material) => (
                   material !== 'vacuum' && (
                     <button
                       key={material}
-                      className={`py-1 px-2 text-sm rounded ${
+                      className={`py-1 px-2 text-sm rounded transition-colors ${
                         prismMaterial === material
                           ? 'bg-indigo-600 text-white'
-                          : 'bg-gray-200 hover:bg-gray-300'
+                          : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
                       }`}
                       onClick={() => setPrismMaterial(material)}
                       disabled={isSimulating}
@@ -94,15 +96,17 @@ export default function ControlPanel({
         </fieldset>
         
         {/* Experiment Setup */}
-        <fieldset className="border border-gray-200 rounded p-3">
-          <legend className="text-sm font-medium px-2">Experiment Setup</legend>
+        <fieldset className="border border-gray-700 rounded-md p-3 bg-gray-800">
+          <legend className="text-sm font-medium px-2 text-gray-300">Experiment Setup</legend>
           
           <div className="space-y-3">
             {/* Incident Angle */}
             <div className="space-y-1">
               <div className="flex justify-between">
-                <label className="text-sm font-medium">Incident Angle (i):</label>
-                <span className="text-sm">{incidentAngle}°</span>
+                <label className="text-sm font-medium text-gray-300">Incident Angle (i):</label>
+                <span className="text-blue-300 bg-gray-700 px-2 py-0.5 rounded font-mono">
+                  {incidentAngle}°
+                </span>
               </div>
               <input
                 type="range"
@@ -111,9 +115,9 @@ export default function ControlPanel({
                 step="1"
                 value={incidentAngle}
                 onChange={(e) => setIncidentAngle(parseInt(e.target.value))}
-                className="w-full"
+                className="w-full accent-blue-500"
               />
-              <div className="flex justify-between text-xs text-gray-500">
+              <div className="flex justify-between text-xs text-gray-400">
                 <span>0°</span>
                 <span>40°</span>
                 <span>80°</span>
@@ -123,8 +127,10 @@ export default function ControlPanel({
             {/* Pin Distance */}
             <div className="space-y-1">
               <div className="flex justify-between">
-                <label className="text-sm font-medium">Pin Distance:</label>
-                <span className="text-sm">{pinDistance} cm</span>
+                <label className="text-sm font-medium text-gray-300">Pin Distance:</label>
+                <span className="text-blue-300 bg-gray-700 px-2 py-0.5 rounded font-mono">
+                  {pinDistance} cm
+                </span>
               </div>
               <input
                 type="range"
@@ -133,10 +139,10 @@ export default function ControlPanel({
                 step="1"
                 value={pinDistance}
                 onChange={(e) => setPinDistance(parseInt(e.target.value))}
-                className="w-full"
+                className="w-full accent-blue-500"
                 disabled={isSimulating}
               />
-              <div className="flex justify-between text-xs text-gray-500">
+              <div className="flex justify-between text-xs text-gray-400">
                 <span>8 cm</span>
                 <span>20 cm</span>
               </div>
@@ -145,13 +151,13 @@ export default function ControlPanel({
         </fieldset>
         
         {/* Simulation Controls */}
-        <div className="space-y-3">
+        <div className="space-y-3 pt-2">
           <div className="flex space-x-2">
             <button
-              className={`flex-1 py-2 rounded font-medium ${
+              className={`flex-1 py-2 rounded-md font-medium transition-colors ${
                 isSimulating
-                  ? 'bg-red-500 hover:bg-red-600 text-white'
-                  : 'bg-green-500 hover:bg-green-600 text-white'
+                  ? 'bg-red-600 hover:bg-red-700 text-white'
+                  : 'bg-emerald-600 hover:bg-emerald-700 text-white'
               }`}
               onClick={() => setIsSimulating(!isSimulating)}
             >
@@ -159,7 +165,7 @@ export default function ControlPanel({
             </button>
             
             <button
-              className="flex-1 py-2 bg-gray-200 hover:bg-gray-300 rounded font-medium"
+              className="flex-1 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-md font-medium transition-colors"
               onClick={resetMeasurements}
             >
               Reset Data
@@ -167,7 +173,7 @@ export default function ControlPanel({
           </div>
           
           <button
-            className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded font-medium"
+            className="w-full py-2 bg-indigo-700 hover:bg-indigo-800 text-white rounded-md font-medium transition-colors"
             onClick={addMeasurement}
             disabled={!isSimulating}
           >

@@ -23,8 +23,8 @@ export default function ComponentPanel() {
   };
 
   return (
-    <div className="w-64 bg-gray-800 text-white p-4 overflow-y-auto">
-      <h2 className="text-xl font-bold mb-4">Components</h2>
+    <div className="w-72 bg-gray-800 text-white p-4 overflow-y-auto border-r border-gray-700">
+      <h2 className="text-xl font-bold mb-4 text-blue-300">Components</h2>
       
       <div className="space-y-2">
         {COMPONENTS.map((component) => (
@@ -34,24 +34,47 @@ export default function ComponentPanel() {
             onDragStart={() => handleDragStart(component.type as ComponentType)}
             onDragEnd={handleDragEnd}
             className={cn(
-              "bg-gray-700 p-4 rounded flex items-center cursor-grab",
-              "hover:bg-gray-600 transition"
+              "bg-gray-700 p-4 rounded-md flex items-center cursor-grab",
+              "hover:bg-gray-600 transition border border-gray-600"
             )}
           >
-            <span className="text-2xl mr-3">{component.icon}</span>
+            <span className="text-2xl mr-3 text-blue-300">{component.icon}</span>
             <span>{component.name}</span>
           </div>
         ))}
       </div>
       
-      <div className="mt-8 p-4 bg-gray-700 rounded">
-        <h3 className="font-medium mb-2">Instructions:</h3>
-        <ul className="list-disc pl-4 text-sm">
+      <div className="mt-8 p-4 bg-gray-700 rounded-md border border-gray-600">
+        <h3 className="font-medium mb-2 text-blue-300">Instructions:</h3>
+        <ul className="list-disc pl-4 text-sm space-y-2 text-gray-200">
           <li>Drag components onto the canvas</li>
           <li>Click to select and move components</li>
           <li>Connect terminals by clicking and dragging between components</li>
           <li>Right-click to delete components</li>
         </ul>
+      </div>
+      
+      <div className="mt-8 p-4 bg-gray-900 rounded-md border border-gray-700">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center">
+            <div className="h-3 w-3 rounded-full bg-blue-400 mr-2"></div>
+            <span className="text-xs text-gray-300">Electron</span>
+          </div>
+          <div className="flex items-center">
+            <div className="h-3 w-3 rounded-full bg-green-400 mr-2"></div>
+            <span className="text-xs text-gray-300">Switch (on)</span>
+          </div>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="h-3 w-3 rounded-full bg-red-400 mr-2"></div>
+            <span className="text-xs text-gray-300">Selected</span>
+          </div>
+          <div className="flex items-center">
+            <div className="h-1 w-8 border-t-2 border-dashed border-gray-400 mr-2"></div>
+            <span className="text-xs text-gray-300">Open circuit</span>
+          </div>
+        </div>
       </div>
     </div>
   );
