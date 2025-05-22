@@ -179,6 +179,7 @@ export async function POST(request) {
   }
 }
 
+
 // Bird impact analysis endpoint
 export async function PUT(request) {
   try {
