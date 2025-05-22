@@ -107,7 +107,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       >
         <div className="flex flex-col h-full">
           <div className="p-6">
-            <h2 className="text-2xl font-bold">বিজ্ঞানযজ্ঞ</h2>
+            <h2 className="text-2xl font-bold">বিজ্ঞানমেলা</h2>
             <p className="text-muted-foreground text-sm">Admin Dashboard</p>
           </div>
 

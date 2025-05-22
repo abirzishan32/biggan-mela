@@ -271,16 +271,16 @@ const GlobalSidebar = ({ isSidebarCollapsed, toggleSidebar }: GlobalSidebarProps
       isNew: true,
     },
     {
-      href: "/citizen-science",
+      href: "/image-explanation",
       icon: <Zap size={20} />,
-      label: "Citizen Science",
-      id: "citizen-science",
+      label: "ছবি শনাক্তকরণ",
+      id: "image-explanation",
       isNew: true,
     },
     {
-      href: "/scientific-method",
+      href: "/submit",
       icon: <Lightbulb size={20} />,
-      label: "Scientific Method",
+      label: "প্রশ্ন",
       id: "scientific-method",
     },
   ];

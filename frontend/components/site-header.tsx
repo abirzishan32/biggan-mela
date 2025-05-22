@@ -107,7 +107,7 @@ export function SiteHeader() {
               <span className="text-base font-bold text-white">বি</span>
             </div>
           </div>
-          <span className="text-lg font-bold">বিজ্ঞানযজ্ঞ</span>
+          <span className="text-lg font-bold">বিজ্ঞানমেলা</span>
         </Link>
         
         {/* Desktop Navigation */}
@@ -180,7 +180,7 @@ export function SiteHeader() {
                     {t('nav_login')}
                   </Button>
                 </Link>
-                <Link href="/signup">
+                <Link href="/login">
                   <Button className="h-9 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white">
                     {t('nav_signup')}
                   </Button>
@@ -207,7 +207,7 @@ export function SiteHeader() {
                   <span className="text-base font-bold text-white">বি</span>
                 </div>
               </div>
-              <span className="text-lg font-bold">বিজ্ঞানযজ্ঞ</span>
+              <span className="text-lg font-bold">বিজ্ঞানমেলা</span>
             </Link>
             <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(false)}>
               <X className="h-5 w-5" />
@@ -280,7 +280,7 @@ export function SiteHeader() {
                     {t('nav_login')}
                   </Button>
                 </Link>
-                <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
+                <Link href="/login" onClick={() => setIsMenuOpen(false)}>
                   <Button className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white">
                     {t('nav_signup')}
                   </Button>

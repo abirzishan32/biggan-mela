@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/site-header"
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col">
+    <main className="min-h-screen flex flex-col container mx-auto px-4">
       <SiteHeader />
       <HeroSection />
       <FeatureSection />

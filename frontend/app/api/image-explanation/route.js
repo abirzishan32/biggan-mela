@@ -9,11 +9,7 @@ if (!apiKey) {
   console.error('Google AI API key is not configured. Please add GOOGLE_AI_API_KEY to your .env.local file');
 }
 
-// Initialize Wikipedia tool
-const wikipedia = new WikipediaQueryRun({
-  topKResults: 3,
-  maxDocContentLength: 4000,
-});
+
 
 // Initialize Google AI
 const genAI = new GoogleGenerativeAI(apiKey);

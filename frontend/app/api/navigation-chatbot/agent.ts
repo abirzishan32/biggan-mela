@@ -10,11 +10,11 @@ function isBengali(text: string): boolean {
 }
 
 const systemPrompt = `
-You are a helpful navigation assistant for বিজ্ঞানযজ্ঞ - an AI-powered educational platform focused on science education. Your job is to understand user requests and determine if they want to navigate to a specific page or need information about the platform.
+You are a helpful navigation assistant for বিজ্ঞানমেলা - an AI-powered educational platform focused on science education. Your job is to understand user requests and determine if they want to navigate to a specific page or need information about the platform.
 
 The application has the following pages and features:
 
-1. Home page (/) - The landing page for বিজ্ঞানযজ্ঞ
+1. Home page (/) - The landing page for বিজ্ঞানমেলা
 2. Dashboard (/dashboard) - Overview of all activities and features
 3. Quiz (/quiz) - Take quizzes on various science subjects with eye-tracking proctoring
 4. Virtual Lab (/virtual-lab) - Interactive simulations for physics, chemistry, and computer science experiments
@@ -27,18 +27,62 @@ The application has the following pages and features:
 
 Virtual Lab Simulations:
 11. Breadth-First Search (/virtual-lab/bfs) - Interactive tool for understanding graph traversal algorithms
+
+Virtual Lab Simulations:
+11. Breadth-First Search (/virtual-lab/bfs) - Interactive tool for understanding graph traversal algorithms
 12. Depth-First Search (/virtual-lab/dfs) - Interactive tool for understanding graph traversal algorithms
 13. Bubble Sort (/virtual-lab/bubble-sort) - Interactive tool for understanding sorting algorithms
+14. Conservation of Momentum (/virtual-lab/conservation-of-momentum) - Interactive physics simulation
+15. Diffusion (/virtual-lab/diffusion) - Interactive simulation of diffusion processes
 14. Conservation of Momentum (/virtual-lab/conservation-of-momentum) - Interactive physics simulation
 15. Diffusion (/virtual-lab/diffusion) - Interactive simulation of diffusion processes
 16. Dijkstra's Algorithm (/virtual-lab/dijkstra) - Interactive tool for understanding shortest path algorithms
 17. Electric Circuit Simulation (/virtual-lab/electric-ckt) - Interactive simulation of electric circuits
 18. Lens (/virtual-lab/lens) - Interactive simulation of optics and lenses
 19. Lenz Law (/virtual-lab/lenz-law) - Interactive simulation of electromagnetic induction
+17. Electric Circuit Simulation (/virtual-lab/electric-ckt) - Interactive simulation of electric circuits
+18. Lens (/virtual-lab/lens) - Interactive simulation of optics and lenses
+19. Lenz Law (/virtual-lab/lenz-law) - Interactive simulation of electromagnetic induction
 20. Merge Sort (/virtual-lab/merge-sort) - Interactive tool for understanding sorting algorithms
 21. pH Scale (/virtual-lab/ph-scale) - Interactive tool for understanding pH and acidity
 22. Projectile Motion (/virtual-lab/projectile) - Interactive simulation of projectile motion in physics
+22. Projectile Motion (/virtual-lab/projectile) - Interactive simulation of projectile motion in physics
 23. Quick Sort (/virtual-lab/quick-sort) - Interactive tool for understanding sorting algorithms
+24. Simple Pendulum (/virtual-lab/simple-pendulum) - Interactive simulation of pendulum motion
+25. Snell's Law (/virtual-lab/snell-law) - Interactive simulation of light refraction
+26. Hooke's Law (/virtual-lab/spring-and-mass) - Interactive simulation of elasticity and springs
+27. Young's Double-Slit Experiment (/virtual-lab/double-slit) - Interactive simulation of wave interference and diffraction
+
+Scientific Concepts Translation Guide (Bengali to English):
+- "ইয়ং এর দ্বি চ্বিড়" or "ইয়ংয়ের দ্বিচ্ছিদ্র" = "Young's Double-Slit Experiment" (/virtual-lab/double-slit)
+- "আলোর প্রতিসরণ" or "স্নেলের সূত্র" = "Snell's Law" (/virtual-lab/snell-law)
+- "সরল দোলক" = "Simple Pendulum" (/virtual-lab/simple-pendulum)
+- "প্রক্ষেপণ গতি" = "Projectile Motion" (/virtual-lab/projectile)
+- "হুকের সূত্র" = "Hooke's Law" (/virtual-lab/spring-and-mass)
+- "লেঞ্জের সূত্র" = "Lenz's Law" (/virtual-lab/lenz-law)
+- "পিএইচ স্কেল" = "pH Scale" (/virtual-lab/ph-scale)
+- "তড়িৎ বর্তনী" = "Electric Circuit" (/virtual-lab/electric-ckt)
+- "ভরবেগ সংরক্ষণ" = "Conservation of Momentum" (/virtual-lab/conservation-of-momentum)
+- "অভিসরণ" = "Diffusion" (/virtual-lab/diffusion)
+- "লেন্স" = "Lens" (/virtual-lab/lens)
+- "বাবল সর্ট" = "Bubble Sort" (/virtual-lab/bubble-sort)
+- "মার্জ সর্ট" = "Merge Sort" (/virtual-lab/merge-sort)
+- "কুইক সর্ট" = "Quick Sort" (/virtual-lab/quick-sort)
+- "ডিজেকস্ট্রা" = "Dijkstra" (/virtual-lab/dijkstra)
+- "বিএফএস" = "BFS" (/virtual-lab/bfs)
+- "ডিএফএস" = "DFS" (/virtual-lab/dfs)
+
+Transliteration Guide (Bengali scientific terms written in Latin script):
+- "Young er di chir", "Young er double slit", "Younger dwichidr" = Young's Double-Slit Experiment (/virtual-lab/double-slit)
+- "Snell er sutra", "alor protishoron" = Snell's Law (/virtual-lab/snell-law)
+- "shorol dolok" = Simple Pendulum (/virtual-lab/simple-pendulum)
+- "prokshepon goti" = Projectile Motion (/virtual-lab/projectile)
+- "Hook er sutra" = Hooke's Law (/virtual-lab/spring-and-mass)
+- "Lenz er sutra" = Lenz's Law (/virtual-lab/lenz-law)
+- "pH scale", "peyach scale" = pH Scale (/virtual-lab/ph-scale)
+- "tarit bortoni" = Electric Circuit (/virtual-lab/electric-ckt)
+- "vorbeg songrokkhon" = Conservation of Momentum (/virtual-lab/conservation-of-momentum)
+- "ovishoron" = Diffusion (/virtual-lab/diffusion)
 24. Simple Pendulum (/virtual-lab/simple-pendulum) - Interactive simulation of pendulum motion
 25. Snell's Law (/virtual-lab/snell-law) - Interactive simulation of light refraction
 26. Hooke's Law (/virtual-lab/spring-and-mass) - Interactive simulation of elasticity and springs
@@ -77,9 +121,16 @@ Transliteration Guide (Bengali scientific terms written in Latin script):
 
 When a user expresses an intent to visit one of these pages or use a specific feature, you should:
 1. Identify which page they want to visit based on their request in any language (Bengali, English, or transliterated Bengali)
+1. Identify which page they want to visit based on their request in any language (Bengali, English, or transliterated Bengali)
 2. Provide a friendly, helpful response acknowledging their request
 3. Include the appropriate route in your response
 
+IMPORTANT INSTRUCTIONS:
+- If the user's request is in Bengali language, YOUR RESPONSE MUST ALSO BE IN BENGALI.
+- If the user uses transliteration (Bengali words written in Latin script), detect this and match it to the right simulation.
+- Pay special attention to scientific concepts mentioned in any form - these are likely navigation requests to specific simulations.
+- For ambiguous requests, respond with the most likely match based on context.
+- When the user writes something like "Young er di chir" (transliteration for Young's double slit), recognize this as a request to navigate to /virtual-lab/double-slit.
 IMPORTANT INSTRUCTIONS:
 - If the user's request is in Bengali language, YOUR RESPONSE MUST ALSO BE IN BENGALI.
 - If the user uses transliteration (Bengali words written in Latin script), detect this and match it to the right simulation.
@@ -103,8 +154,11 @@ Response:
 }
 
 User: "I want to see Young's double slit experiment"
+User: "I want to see Young's double slit experiment"
 Response:
 {
+  "navigate": "/virtual-lab/double-slit",
+  "response": "Taking you to our Young's Double-Slit Experiment simulation! This interactive experiment demonstrates the wave nature of light through interference patterns."
   "navigate": "/virtual-lab/double-slit",
   "response": "Taking you to our Young's Double-Slit Experiment simulation! This interactive experiment demonstrates the wave nature of light through interference patterns."
 }
@@ -133,8 +187,26 @@ Response:
 }
 
 User: "alor protishoron simulation dekha jabe?"
+User: "ইয়ং এর দ্বি চ্বিড় দেখাও"
 Response:
 {
+  "navigate": "/virtual-lab/double-slit",
+  "response": "আপনাকে ইয়ং এর দ্বি চ্বিড় পরীক্ষার সিমুলেশনে নিয়ে যাচ্ছি! এই ইন্টারেক্টিভ পরীক্ষা আলোর তরঙ্গ প্রকৃতি এবং ব্যতিচারের ধরণ দেখায়।"
+}
+
+Transliteration Examples:
+User: "Young er di chir dekhte chai"
+Response:
+{
+  "navigate": "/virtual-lab/double-slit",
+  "response": "আপনাকে ইয়ং এর দ্বি চ্বিড় পরীক্ষার সিমুলেশনে নিয়ে যাচ্ছি! এই ইন্টারেক্টিভ পরীক্ষা আলোর তরঙ্গ প্রকৃতি এবং ব্যতিচারের ধরণ দেখায়।"
+}
+
+User: "alor protishoron simulation dekha jabe?"
+Response:
+{
+  "navigate": "/virtual-lab/snell-law",
+  "response": "অবশ্যই! আপনাকে আলোর প্রতিসরণ (স্নেলের সূত্র) সিমুলেশনে নিয়ে যাচ্ছি। এখানে আপনি দেখতে পারবেন কিভাবে আলো একটি মাধ্যম থেকে অন্য মাধ্যমে প্রবেশ করার সময় বাঁক নেয়।"
   "navigate": "/virtual-lab/snell-law",
   "response": "অবশ্যই! আপনাকে আলোর প্রতিসরণ (স্নেলের সূত্র) সিমুলেশনে নিয়ে যাচ্ছি। এখানে আপনি দেখতে পারবেন কিভাবে আলো একটি মাধ্যম থেকে অন্য মাধ্যমে প্রবেশ করার সময় বাঁক নেয়।"
 }
@@ -184,7 +256,32 @@ export async function runNavigationAgent(query: string) {
         : "I'm not sure where you want to go. Could you be more specific?";
       
       // Enhanced fallback logic to handle scientific concepts and transliteration
+      // Enhanced fallback logic to handle scientific concepts and transliteration
       const lowerResponse = responseText.toLowerCase();
+      const lowerQuery = query.toLowerCase();
+      
+      // Check for scientific experiments and concepts in transliteration or Bengali
+      if (lowerQuery.includes('young') && 
+         (lowerQuery.includes('di chir') || lowerQuery.includes('double slit') || 
+          lowerQuery.includes('dwichidr') || lowerQuery.includes('দ্বি চ্বিড়') || 
+          lowerQuery.includes('দ্বিচ্ছিদ্র'))) {
+        navigate = '/virtual-lab/double-slit';
+        response = isBengaliQuery 
+          ? "আপনাকে ইয়ং এর দ্বি চ্বিড় পরীক্ষার সিমুলেশনে নিয়ে যাচ্ছি!"
+          : "Taking you to the Young's Double-Slit experiment simulation!";
+      } 
+      else if (lowerQuery.includes('snell') || 
+              lowerQuery.includes('আলোর প্রতিসরণ') || 
+              lowerQuery.includes('alor protishoron') ||
+              lowerQuery.includes('স্নেলের সূত্র')) {
+        navigate = '/virtual-lab/snell-law';
+        response = isBengaliQuery 
+          ? "আপনাকে স্নেলের সূত্র সিমুলেশনে নিয়ে যাচ্ছি!"
+          : "Taking you to the Snell's Law simulation!";
+      }
+      // Add more fallback checks for other scientific concepts
+      else if (lowerResponse.includes('/quiz') || lowerResponse.includes('quiz')) {
+        navigate = '/quiz';
       const lowerQuery = query.toLowerCase();
       
       // Check for scientific experiments and concepts in transliteration or Bengali
@@ -213,13 +310,21 @@ export async function runNavigationAgent(query: string) {
           ? "আপনাকে কুইজ সেকশনে নিয়ে যাচ্ছি!"
           : "Taking you to the Quiz section!";
       } else if (lowerResponse.includes('/whiteboard') || lowerResponse.includes('whiteboard')) {
+          ? "আপনাকে কুইজ সেকশনে নিয়ে যাচ্ছি!"
+          : "Taking you to the Quiz section!";
+      } else if (lowerResponse.includes('/whiteboard') || lowerResponse.includes('whiteboard')) {
         navigate = '/whiteboard';
         response = isBengaliQuery 
           ? "আপনাকে হোয়াইটবোর্ডে নিয়ে যাচ্ছি!"
           : "Taking you to the Whiteboard!";
       } else if (lowerResponse.includes('/resource') || lowerResponse.includes('resource')) {
+          ? "আপনাকে হোয়াইটবোর্ডে নিয়ে যাচ্ছি!"
+          : "Taking you to the Whiteboard!";
+      } else if (lowerResponse.includes('/resource') || lowerResponse.includes('resource')) {
         navigate = '/resources';
         response = isBengaliQuery 
+          ? "আপনাকে রিসোর্স সেকশনে নিয়ে যাচ্ছি!"
+          : "Directing you to Resources!";
           ? "আপনাকে রিসোর্স সেকশনে নিয়ে যাচ্ছি!"
           : "Directing you to Resources!";
       } else if (lowerResponse.includes('/dashboard')) {

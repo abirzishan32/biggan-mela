@@ -39,7 +39,7 @@ function isBengali(text: string): boolean {
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'Hello! I\'m your বিজ্ঞানযজ্ঞ assistant. How can I help you navigate our platform?' }
+    { role: 'assistant', content: 'Hello! I\'m your বিজ্ঞানমেলা assistant. How can I help you navigate our platform?' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -202,12 +202,12 @@ export default function ChatBot() {
     const thinkingPhrases = isBengaliQuery ? [
       "আপনার জন্য উত্তর খুঁজছি...",
       "সবচেয়ে ভালো পথ খুঁজছি...",
-      "বিজ্ঞানযজ্ঞ নেভিগেট করছি...",
+      "বিজ্ঞানমেলা নেভিগেট করছি...",
       "আপনার রেসপন্স রেডি করছি..."
     ] : [
       "Searching for the right place...",
       "Finding the best path...",
-      "Navigating বিজ্ঞানযজ্ঞ...",
+      "Navigating বিজ্ঞানমেলা...",
       "Mapping your destination..."
     ];
 
@@ -306,7 +306,7 @@ export default function ChatBot() {
                     <Bot size={18} className="text-white" />
                   </div>
                   <CardTitle className="text-lg text-white font-medium">
-                    বিজ্ঞানযজ্ঞ Assistant
+                    বিজ্ঞানমেলা Assistant
                   </CardTitle>
                 </div>
                 

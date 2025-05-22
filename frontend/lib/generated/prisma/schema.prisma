@@ -16,11 +16,6 @@ model Profile {
   role         String        @default("student")
   bio          String?
   institution  String?
-  studentClass String?       
-  division     String?       
-  subjects     String[]      
-  interests    String[]      
-  lifeGoal     String?       
   createdAt    DateTime      @default(now()) @map("created_at")
   updatedAt    DateTime?     @default(now()) @updatedAt @map("updated_at")
   quizAttempts QuizAttempt[]
@@ -77,4 +72,12 @@ model Answer {
   questionId     String
   selectedOption String
   isCorrect      Boolean
+}
+
+model Observation {
+  id          String @id @default(uuid())
+  category    String
+  name        String
+  description String
+  importance  String
 }

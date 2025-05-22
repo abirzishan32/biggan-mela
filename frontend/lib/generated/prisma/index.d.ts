@@ -43,6 +43,11 @@ export type QuizAttempt = $Result.DefaultSelection<Prisma.$QuizAttemptPayload>
  * 
  */
 export type Answer = $Result.DefaultSelection<Prisma.$AnswerPayload>
+/**
+ * Model Observation
+ * 
+ */
+export type Observation = $Result.DefaultSelection<Prisma.$ObservationPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -228,6 +233,16 @@ export class PrismaClient<
     * ```
     */
   get answer(): Prisma.AnswerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.observation`: Exposes CRUD operations for the **Observation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Observations
+    * const observations = await prisma.observation.findMany()
+    * ```
+    */
+  get observation(): Prisma.ObservationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -673,7 +688,8 @@ export namespace Prisma {
     Question: 'Question',
     Option: 'Option',
     QuizAttempt: 'QuizAttempt',
-    Answer: 'Answer'
+    Answer: 'Answer',
+    Observation: 'Observation'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -692,7 +708,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "profile" | "quiz" | "question" | "option" | "quizAttempt" | "answer"
+      modelProps: "profile" | "quiz" | "question" | "option" | "quizAttempt" | "answer" | "observation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1140,6 +1156,80 @@ export namespace Prisma {
           }
         }
       }
+      Observation: {
+        payload: Prisma.$ObservationPayload<ExtArgs>
+        fields: Prisma.ObservationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ObservationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ObservationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ObservationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ObservationPayload>
+          }
+          findFirst: {
+            args: Prisma.ObservationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ObservationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ObservationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ObservationPayload>
+          }
+          findMany: {
+            args: Prisma.ObservationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ObservationPayload>[]
+          }
+          create: {
+            args: Prisma.ObservationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ObservationPayload>
+          }
+          createMany: {
+            args: Prisma.ObservationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ObservationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ObservationPayload>[]
+          }
+          delete: {
+            args: Prisma.ObservationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ObservationPayload>
+          }
+          update: {
+            args: Prisma.ObservationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ObservationPayload>
+          }
+          deleteMany: {
+            args: Prisma.ObservationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ObservationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ObservationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ObservationPayload>[]
+          }
+          upsert: {
+            args: Prisma.ObservationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ObservationPayload>
+          }
+          aggregate: {
+            args: Prisma.ObservationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateObservation>
+          }
+          groupBy: {
+            args: Prisma.ObservationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ObservationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ObservationCountArgs<ExtArgs>
+            result: $Utils.Optional<ObservationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1230,6 +1320,7 @@ export namespace Prisma {
     option?: OptionOmit
     quizAttempt?: QuizAttemptOmit
     answer?: AnswerOmit
+    observation?: ObservationOmit
   }
 
   /* Types for Logging */
@@ -8107,6 +8198,1001 @@ export namespace Prisma {
 
 
   /**
+   * Model Observation
+   */
+
+  export type AggregateObservation = {
+    _count: ObservationCountAggregateOutputType | null
+    _min: ObservationMinAggregateOutputType | null
+    _max: ObservationMaxAggregateOutputType | null
+  }
+
+  export type ObservationMinAggregateOutputType = {
+    id: string | null
+    category: string | null
+    name: string | null
+    description: string | null
+    importance: string | null
+  }
+
+  export type ObservationMaxAggregateOutputType = {
+    id: string | null
+    category: string | null
+    name: string | null
+    description: string | null
+    importance: string | null
+  }
+
+  export type ObservationCountAggregateOutputType = {
+    id: number
+    category: number
+    name: number
+    description: number
+    importance: number
+    _all: number
+  }
+
+
+  export type ObservationMinAggregateInputType = {
+    id?: true
+    category?: true
+    name?: true
+    description?: true
+    importance?: true
+  }
+
+  export type ObservationMaxAggregateInputType = {
+    id?: true
+    category?: true
+    name?: true
+    description?: true
+    importance?: true
+  }
+
+  export type ObservationCountAggregateInputType = {
+    id?: true
+    category?: true
+    name?: true
+    description?: true
+    importance?: true
+    _all?: true
+  }
+
+  export type ObservationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Observation to aggregate.
+     */
+    where?: ObservationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Observations to fetch.
+     */
+    orderBy?: ObservationOrderByWithRelationInput | ObservationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ObservationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Observations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Observations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Observations
+    **/
+    _count?: true | ObservationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ObservationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ObservationMaxAggregateInputType
+  }
+
+  export type GetObservationAggregateType<T extends ObservationAggregateArgs> = {
+        [P in keyof T & keyof AggregateObservation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateObservation[P]>
+      : GetScalarType<T[P], AggregateObservation[P]>
+  }
+
+
+
+
+  export type ObservationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ObservationWhereInput
+    orderBy?: ObservationOrderByWithAggregationInput | ObservationOrderByWithAggregationInput[]
+    by: ObservationScalarFieldEnum[] | ObservationScalarFieldEnum
+    having?: ObservationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ObservationCountAggregateInputType | true
+    _min?: ObservationMinAggregateInputType
+    _max?: ObservationMaxAggregateInputType
+  }
+
+  export type ObservationGroupByOutputType = {
+    id: string
+    category: string
+    name: string
+    description: string
+    importance: string
+    _count: ObservationCountAggregateOutputType | null
+    _min: ObservationMinAggregateOutputType | null
+    _max: ObservationMaxAggregateOutputType | null
+  }
+
+  type GetObservationGroupByPayload<T extends ObservationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ObservationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ObservationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ObservationGroupByOutputType[P]>
+            : GetScalarType<T[P], ObservationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ObservationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    category?: boolean
+    name?: boolean
+    description?: boolean
+    importance?: boolean
+  }, ExtArgs["result"]["observation"]>
+
+  export type ObservationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    category?: boolean
+    name?: boolean
+    description?: boolean
+    importance?: boolean
+  }, ExtArgs["result"]["observation"]>
+
+  export type ObservationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    category?: boolean
+    name?: boolean
+    description?: boolean
+    importance?: boolean
+  }, ExtArgs["result"]["observation"]>
+
+  export type ObservationSelectScalar = {
+    id?: boolean
+    category?: boolean
+    name?: boolean
+    description?: boolean
+    importance?: boolean
+  }
+
+  export type ObservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "category" | "name" | "description" | "importance", ExtArgs["result"]["observation"]>
+
+  export type $ObservationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Observation"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      category: string
+      name: string
+      description: string
+      importance: string
+    }, ExtArgs["result"]["observation"]>
+    composites: {}
+  }
+
+  type ObservationGetPayload<S extends boolean | null | undefined | ObservationDefaultArgs> = $Result.GetResult<Prisma.$ObservationPayload, S>
+
+  type ObservationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ObservationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ObservationCountAggregateInputType | true
+    }
+
+  export interface ObservationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Observation'], meta: { name: 'Observation' } }
+    /**
+     * Find zero or one Observation that matches the filter.
+     * @param {ObservationFindUniqueArgs} args - Arguments to find a Observation
+     * @example
+     * // Get one Observation
+     * const observation = await prisma.observation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ObservationFindUniqueArgs>(args: SelectSubset<T, ObservationFindUniqueArgs<ExtArgs>>): Prisma__ObservationClient<$Result.GetResult<Prisma.$ObservationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Observation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ObservationFindUniqueOrThrowArgs} args - Arguments to find a Observation
+     * @example
+     * // Get one Observation
+     * const observation = await prisma.observation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ObservationFindUniqueOrThrowArgs>(args: SelectSubset<T, ObservationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ObservationClient<$Result.GetResult<Prisma.$ObservationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Observation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ObservationFindFirstArgs} args - Arguments to find a Observation
+     * @example
+     * // Get one Observation
+     * const observation = await prisma.observation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ObservationFindFirstArgs>(args?: SelectSubset<T, ObservationFindFirstArgs<ExtArgs>>): Prisma__ObservationClient<$Result.GetResult<Prisma.$ObservationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Observation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ObservationFindFirstOrThrowArgs} args - Arguments to find a Observation
+     * @example
+     * // Get one Observation
+     * const observation = await prisma.observation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ObservationFindFirstOrThrowArgs>(args?: SelectSubset<T, ObservationFindFirstOrThrowArgs<ExtArgs>>): Prisma__ObservationClient<$Result.GetResult<Prisma.$ObservationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Observations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ObservationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Observations
+     * const observations = await prisma.observation.findMany()
+     * 
+     * // Get first 10 Observations
+     * const observations = await prisma.observation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const observationWithIdOnly = await prisma.observation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ObservationFindManyArgs>(args?: SelectSubset<T, ObservationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ObservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Observation.
+     * @param {ObservationCreateArgs} args - Arguments to create a Observation.
+     * @example
+     * // Create one Observation
+     * const Observation = await prisma.observation.create({
+     *   data: {
+     *     // ... data to create a Observation
+     *   }
+     * })
+     * 
+     */
+    create<T extends ObservationCreateArgs>(args: SelectSubset<T, ObservationCreateArgs<ExtArgs>>): Prisma__ObservationClient<$Result.GetResult<Prisma.$ObservationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Observations.
+     * @param {ObservationCreateManyArgs} args - Arguments to create many Observations.
+     * @example
+     * // Create many Observations
+     * const observation = await prisma.observation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ObservationCreateManyArgs>(args?: SelectSubset<T, ObservationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Observations and returns the data saved in the database.
+     * @param {ObservationCreateManyAndReturnArgs} args - Arguments to create many Observations.
+     * @example
+     * // Create many Observations
+     * const observation = await prisma.observation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Observations and only return the `id`
+     * const observationWithIdOnly = await prisma.observation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ObservationCreateManyAndReturnArgs>(args?: SelectSubset<T, ObservationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ObservationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Observation.
+     * @param {ObservationDeleteArgs} args - Arguments to delete one Observation.
+     * @example
+     * // Delete one Observation
+     * const Observation = await prisma.observation.delete({
+     *   where: {
+     *     // ... filter to delete one Observation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ObservationDeleteArgs>(args: SelectSubset<T, ObservationDeleteArgs<ExtArgs>>): Prisma__ObservationClient<$Result.GetResult<Prisma.$ObservationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Observation.
+     * @param {ObservationUpdateArgs} args - Arguments to update one Observation.
+     * @example
+     * // Update one Observation
+     * const observation = await prisma.observation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ObservationUpdateArgs>(args: SelectSubset<T, ObservationUpdateArgs<ExtArgs>>): Prisma__ObservationClient<$Result.GetResult<Prisma.$ObservationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Observations.
+     * @param {ObservationDeleteManyArgs} args - Arguments to filter Observations to delete.
+     * @example
+     * // Delete a few Observations
+     * const { count } = await prisma.observation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ObservationDeleteManyArgs>(args?: SelectSubset<T, ObservationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Observations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ObservationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Observations
+     * const observation = await prisma.observation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ObservationUpdateManyArgs>(args: SelectSubset<T, ObservationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Observations and returns the data updated in the database.
+     * @param {ObservationUpdateManyAndReturnArgs} args - Arguments to update many Observations.
+     * @example
+     * // Update many Observations
+     * const observation = await prisma.observation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Observations and only return the `id`
+     * const observationWithIdOnly = await prisma.observation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ObservationUpdateManyAndReturnArgs>(args: SelectSubset<T, ObservationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ObservationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Observation.
+     * @param {ObservationUpsertArgs} args - Arguments to update or create a Observation.
+     * @example
+     * // Update or create a Observation
+     * const observation = await prisma.observation.upsert({
+     *   create: {
+     *     // ... data to create a Observation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Observation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ObservationUpsertArgs>(args: SelectSubset<T, ObservationUpsertArgs<ExtArgs>>): Prisma__ObservationClient<$Result.GetResult<Prisma.$ObservationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Observations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ObservationCountArgs} args - Arguments to filter Observations to count.
+     * @example
+     * // Count the number of Observations
+     * const count = await prisma.observation.count({
+     *   where: {
+     *     // ... the filter for the Observations we want to count
+     *   }
+     * })
+    **/
+    count<T extends ObservationCountArgs>(
+      args?: Subset<T, ObservationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ObservationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Observation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ObservationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ObservationAggregateArgs>(args: Subset<T, ObservationAggregateArgs>): Prisma.PrismaPromise<GetObservationAggregateType<T>>
+
+    /**
+     * Group by Observation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ObservationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ObservationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ObservationGroupByArgs['orderBy'] }
+        : { orderBy?: ObservationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ObservationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetObservationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Observation model
+   */
+  readonly fields: ObservationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Observation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ObservationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Observation model
+   */
+  interface ObservationFieldRefs {
+    readonly id: FieldRef<"Observation", 'String'>
+    readonly category: FieldRef<"Observation", 'String'>
+    readonly name: FieldRef<"Observation", 'String'>
+    readonly description: FieldRef<"Observation", 'String'>
+    readonly importance: FieldRef<"Observation", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Observation findUnique
+   */
+  export type ObservationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Observation
+     */
+    select?: ObservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Observation
+     */
+    omit?: ObservationOmit<ExtArgs> | null
+    /**
+     * Filter, which Observation to fetch.
+     */
+    where: ObservationWhereUniqueInput
+  }
+
+  /**
+   * Observation findUniqueOrThrow
+   */
+  export type ObservationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Observation
+     */
+    select?: ObservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Observation
+     */
+    omit?: ObservationOmit<ExtArgs> | null
+    /**
+     * Filter, which Observation to fetch.
+     */
+    where: ObservationWhereUniqueInput
+  }
+
+  /**
+   * Observation findFirst
+   */
+  export type ObservationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Observation
+     */
+    select?: ObservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Observation
+     */
+    omit?: ObservationOmit<ExtArgs> | null
+    /**
+     * Filter, which Observation to fetch.
+     */
+    where?: ObservationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Observations to fetch.
+     */
+    orderBy?: ObservationOrderByWithRelationInput | ObservationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Observations.
+     */
+    cursor?: ObservationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Observations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Observations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Observations.
+     */
+    distinct?: ObservationScalarFieldEnum | ObservationScalarFieldEnum[]
+  }
+
+  /**
+   * Observation findFirstOrThrow
+   */
+  export type ObservationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Observation
+     */
+    select?: ObservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Observation
+     */
+    omit?: ObservationOmit<ExtArgs> | null
+    /**
+     * Filter, which Observation to fetch.
+     */
+    where?: ObservationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Observations to fetch.
+     */
+    orderBy?: ObservationOrderByWithRelationInput | ObservationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Observations.
+     */
+    cursor?: ObservationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Observations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Observations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Observations.
+     */
+    distinct?: ObservationScalarFieldEnum | ObservationScalarFieldEnum[]
+  }
+
+  /**
+   * Observation findMany
+   */
+  export type ObservationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Observation
+     */
+    select?: ObservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Observation
+     */
+    omit?: ObservationOmit<ExtArgs> | null
+    /**
+     * Filter, which Observations to fetch.
+     */
+    where?: ObservationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Observations to fetch.
+     */
+    orderBy?: ObservationOrderByWithRelationInput | ObservationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Observations.
+     */
+    cursor?: ObservationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Observations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Observations.
+     */
+    skip?: number
+    distinct?: ObservationScalarFieldEnum | ObservationScalarFieldEnum[]
+  }
+
+  /**
+   * Observation create
+   */
+  export type ObservationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Observation
+     */
+    select?: ObservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Observation
+     */
+    omit?: ObservationOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Observation.
+     */
+    data: XOR<ObservationCreateInput, ObservationUncheckedCreateInput>
+  }
+
+  /**
+   * Observation createMany
+   */
+  export type ObservationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Observations.
+     */
+    data: ObservationCreateManyInput | ObservationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Observation createManyAndReturn
+   */
+  export type ObservationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Observation
+     */
+    select?: ObservationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Observation
+     */
+    omit?: ObservationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Observations.
+     */
+    data: ObservationCreateManyInput | ObservationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Observation update
+   */
+  export type ObservationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Observation
+     */
+    select?: ObservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Observation
+     */
+    omit?: ObservationOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Observation.
+     */
+    data: XOR<ObservationUpdateInput, ObservationUncheckedUpdateInput>
+    /**
+     * Choose, which Observation to update.
+     */
+    where: ObservationWhereUniqueInput
+  }
+
+  /**
+   * Observation updateMany
+   */
+  export type ObservationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Observations.
+     */
+    data: XOR<ObservationUpdateManyMutationInput, ObservationUncheckedUpdateManyInput>
+    /**
+     * Filter which Observations to update
+     */
+    where?: ObservationWhereInput
+    /**
+     * Limit how many Observations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Observation updateManyAndReturn
+   */
+  export type ObservationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Observation
+     */
+    select?: ObservationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Observation
+     */
+    omit?: ObservationOmit<ExtArgs> | null
+    /**
+     * The data used to update Observations.
+     */
+    data: XOR<ObservationUpdateManyMutationInput, ObservationUncheckedUpdateManyInput>
+    /**
+     * Filter which Observations to update
+     */
+    where?: ObservationWhereInput
+    /**
+     * Limit how many Observations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Observation upsert
+   */
+  export type ObservationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Observation
+     */
+    select?: ObservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Observation
+     */
+    omit?: ObservationOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Observation to update in case it exists.
+     */
+    where: ObservationWhereUniqueInput
+    /**
+     * In case the Observation found by the `where` argument doesn't exist, create a new Observation with this data.
+     */
+    create: XOR<ObservationCreateInput, ObservationUncheckedCreateInput>
+    /**
+     * In case the Observation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ObservationUpdateInput, ObservationUncheckedUpdateInput>
+  }
+
+  /**
+   * Observation delete
+   */
+  export type ObservationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Observation
+     */
+    select?: ObservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Observation
+     */
+    omit?: ObservationOmit<ExtArgs> | null
+    /**
+     * Filter which Observation to delete.
+     */
+    where: ObservationWhereUniqueInput
+  }
+
+  /**
+   * Observation deleteMany
+   */
+  export type ObservationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Observations to delete
+     */
+    where?: ObservationWhereInput
+    /**
+     * Limit how many Observations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Observation without action
+   */
+  export type ObservationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Observation
+     */
+    select?: ObservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Observation
+     */
+    omit?: ObservationOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8191,6 +9277,17 @@ export namespace Prisma {
   };
 
   export type AnswerScalarFieldEnum = (typeof AnswerScalarFieldEnum)[keyof typeof AnswerScalarFieldEnum]
+
+
+  export const ObservationScalarFieldEnum: {
+    id: 'id',
+    category: 'category',
+    name: 'name',
+    description: 'description',
+    importance: 'importance'
+  };
+
+  export type ObservationScalarFieldEnum = (typeof ObservationScalarFieldEnum)[keyof typeof ObservationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8669,6 +9766,58 @@ export namespace Prisma {
     isCorrect?: BoolWithAggregatesFilter<"Answer"> | boolean
   }
 
+  export type ObservationWhereInput = {
+    AND?: ObservationWhereInput | ObservationWhereInput[]
+    OR?: ObservationWhereInput[]
+    NOT?: ObservationWhereInput | ObservationWhereInput[]
+    id?: StringFilter<"Observation"> | string
+    category?: StringFilter<"Observation"> | string
+    name?: StringFilter<"Observation"> | string
+    description?: StringFilter<"Observation"> | string
+    importance?: StringFilter<"Observation"> | string
+  }
+
+  export type ObservationOrderByWithRelationInput = {
+    id?: SortOrder
+    category?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    importance?: SortOrder
+  }
+
+  export type ObservationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ObservationWhereInput | ObservationWhereInput[]
+    OR?: ObservationWhereInput[]
+    NOT?: ObservationWhereInput | ObservationWhereInput[]
+    category?: StringFilter<"Observation"> | string
+    name?: StringFilter<"Observation"> | string
+    description?: StringFilter<"Observation"> | string
+    importance?: StringFilter<"Observation"> | string
+  }, "id">
+
+  export type ObservationOrderByWithAggregationInput = {
+    id?: SortOrder
+    category?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    importance?: SortOrder
+    _count?: ObservationCountOrderByAggregateInput
+    _max?: ObservationMaxOrderByAggregateInput
+    _min?: ObservationMinOrderByAggregateInput
+  }
+
+  export type ObservationScalarWhereWithAggregatesInput = {
+    AND?: ObservationScalarWhereWithAggregatesInput | ObservationScalarWhereWithAggregatesInput[]
+    OR?: ObservationScalarWhereWithAggregatesInput[]
+    NOT?: ObservationScalarWhereWithAggregatesInput | ObservationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Observation"> | string
+    category?: StringWithAggregatesFilter<"Observation"> | string
+    name?: StringWithAggregatesFilter<"Observation"> | string
+    description?: StringWithAggregatesFilter<"Observation"> | string
+    importance?: StringWithAggregatesFilter<"Observation"> | string
+  }
+
   export type ProfileCreateInput = {
     id?: string
     name?: string | null
@@ -9067,6 +10216,62 @@ export namespace Prisma {
     questionId?: StringFieldUpdateOperationsInput | string
     selectedOption?: StringFieldUpdateOperationsInput | string
     isCorrect?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type ObservationCreateInput = {
+    id?: string
+    category: string
+    name: string
+    description: string
+    importance: string
+  }
+
+  export type ObservationUncheckedCreateInput = {
+    id?: string
+    category: string
+    name: string
+    description: string
+    importance: string
+  }
+
+  export type ObservationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    importance?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ObservationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    importance?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ObservationCreateManyInput = {
+    id?: string
+    category: string
+    name: string
+    description: string
+    importance: string
+  }
+
+  export type ObservationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    importance?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ObservationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    importance?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -9471,6 +10676,30 @@ export namespace Prisma {
     questionId?: SortOrder
     selectedOption?: SortOrder
     isCorrect?: SortOrder
+  }
+
+  export type ObservationCountOrderByAggregateInput = {
+    id?: SortOrder
+    category?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    importance?: SortOrder
+  }
+
+  export type ObservationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    category?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    importance?: SortOrder
+  }
+
+  export type ObservationMinOrderByAggregateInput = {
+    id?: SortOrder
+    category?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    importance?: SortOrder
   }
 
   export type QuizAttemptCreateNestedManyWithoutProfileInput = {

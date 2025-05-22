@@ -8,7 +8,7 @@ import NavigationChatbot from "@/components/navigation-chatbot"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "বিজ্ঞানযজ্ঞ",
+  title: "বিজ্ঞানমেলা",
   description: "A platform for interactive science learning",
 }
 
