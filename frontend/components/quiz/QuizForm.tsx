@@ -87,9 +87,9 @@ export default function QuizForm({ onSuccess }: QuizFormProps) {
             AI-Powered
           </Badge>
         </div>
-        <CardTitle className="text-white text-xl">Generate a Science Quiz</CardTitle>
+        <CardTitle className="text-white text-xl">কুইজ জেনারেট করুন</CardTitle>
         <CardDescription className="text-gray-400">
-          Create a custom quiz tailored to your preferences
+            আপনার পছন্দের বিষয় এবং বিষয়বস্তু নির্বাচন করুন, এবং আমাদের AI আপনার জন্য একটি কুইজ তৈরি করবে।
         </CardDescription>
       </CardHeader>
       
@@ -97,9 +97,9 @@ export default function QuizForm({ onSuccess }: QuizFormProps) {
         <CardContent className="space-y-6 relative">
           {/* Subject Selection with Icon */}
           <div className="space-y-2">
-            <Label htmlFor="subject" className="text-gray-300">Subject</Label>
-            <Select 
-              value={formData.subject} 
+            <Label htmlFor="subject" className="text-gray-300">বিষয়</Label>
+            <Select
+              value={formData.subject}
               onValueChange={(value) => {
                 handleChange("subject", value)
                 handleChange("topic", "")
@@ -115,19 +115,19 @@ export default function QuizForm({ onSuccess }: QuizFormProps) {
                 <SelectItem value="physics" className="focus:bg-indigo-900/20">
                   <div className="flex items-center gap-2">
                     <Atom className="h-4 w-4" />
-                    <span>Physics</span>
+                    <span>পদার্থবিজ্ঞান</span>
                   </div>
                 </SelectItem>
                 <SelectItem value="chemistry" className="focus:bg-indigo-900/20">
                   <div className="flex items-center gap-2">
                     <Beaker className="h-4 w-4" />
-                    <span>Chemistry</span>
+                    <span>রসায়ন</span>
                   </div>
                 </SelectItem>
                 <SelectItem value="biology" className="focus:bg-indigo-900/20">
                   <div className="flex items-center gap-2">
                     <Leaf className="h-4 w-4" />
-                    <span>Biology</span>
+                    <span>জীববিজ্ঞান</span>
                   </div>
                 </SelectItem>
               </SelectContent>
@@ -136,8 +136,8 @@ export default function QuizForm({ onSuccess }: QuizFormProps) {
           
           {/* Topic Selection */}
           <div className="space-y-2">
-            <Label htmlFor="topic" className="text-gray-300">Topic</Label>
-            <Select 
+            <Label htmlFor="topic" className="text-gray-300">টপিক</Label>
+            <Select
               value={formData.topic} 
               onValueChange={(value) => handleChange("topic", value)}
             >
@@ -173,9 +173,9 @@ export default function QuizForm({ onSuccess }: QuizFormProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Difficulty Selection */}
             <div className="space-y-2">
-              <Label className="text-gray-300">Difficulty</Label>
+              <Label className="text-gray-300">কঠিনতার স্তর</Label>
               <div className="grid grid-cols-3 gap-2">
-                {["easy", "medium", "hard"].map((level) => (
+                {["সহজ", "মাঝারি", "কঠিন"].map((level) => (
                   <Button
                     key={level}
                     type="button"
@@ -200,9 +200,9 @@ export default function QuizForm({ onSuccess }: QuizFormProps) {
             
             {/* Language Selection */}
             <div className="space-y-2">
-              <Label className="text-gray-300">Language</Label>
+              <Label className="text-gray-300">ভাষা</Label>
               <div className="grid grid-cols-2 gap-2">
-                {["english", "bengali"].map((lang) => (
+                {["ইংরেজি", "বাংলা"].map((lang) => (
                   <Button
                     key={lang}
                     type="button"
@@ -224,7 +224,7 @@ export default function QuizForm({ onSuccess }: QuizFormProps) {
           
           {/* Number of Questions */}
           <div className="space-y-2">
-            <Label htmlFor="numberOfQuestions" className="text-gray-300">Number of Questions</Label>
+            <Label htmlFor="numberOfQuestions" className="text-gray-300">প্রশ্নের সংখ্যা</Label>
             <div className="grid grid-cols-4 gap-2">
               {[5, 10, 15, 20].map((num) => (
                 <Button

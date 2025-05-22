@@ -3,12 +3,13 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/context/language-context"
+import NavigationChatbot from "@/components/navigation-chatbot"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "বিজ্ঞানযজ্ঞ",
-  description: "AI-powered platform to combat misinformation in health, climate change, and technology",
+  description: "A platform for interactive science learning",
 }
 
 export default function RootLayout({
@@ -27,6 +28,7 @@ export default function RootLayout({
         >
           <LanguageProvider>
             {children}
+            <NavigationChatbot />
           </LanguageProvider>
         </ThemeProvider>
       </body>

@@ -201,17 +201,6 @@ export default function QuizPage() {
           </div>
         </div>
         
-        <div className="relative z-10 px-8 py-12 md:py-16">
-          <div className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 flex items-center gap-3">
-              <Brain className="h-8 w-8" />
-              Science Quiz Generator
-            </h1>
-            <p className="text-white/90 mb-6">
-              Test your knowledge with custom quizzes on various science topics. Choose your subject, difficulty level, and get instant feedback on your understanding.
-            </p>
-          </div>
-        </div>
       </motion.section>
       
       {/* Main content */}
@@ -225,25 +214,25 @@ export default function QuizPage() {
             <CardContent className="p-6 relative">
               <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <Filter className="h-4 w-4 text-indigo-400" />
-                How It Works
+                কীভাবে কাজ করে?
               </h3>
               <ul className="space-y-4">
                 {[
                   {
                     icon: <Brain className="h-4 w-4" />,
-                    text: "Select your preferred subject, topic, and difficulty level"
+                    text: "আপনার পছন্দের বিষয়, টপিক এবং কঠিনতার স্তর নির্বাচন করুন"
                   },
                   {
                     icon: <BookOpen className="h-4 w-4" />,
-                    text: "Our AI generates personalized questions tailored to your choices"
+                    text: "আমাদের AI আপনার পছন্দ অনুযায়ী ব্যক্তিগতকৃত প্রশ্ন তৈরি করে"
                   },
                   {
                     icon: <Clock className="h-4 w-4" />,
-                    text: "Answer the questions within the time limit and get instant feedback"
+                    text: "সময়সীমার মধ্যে প্রশ্নের উত্তর দিন এবং তাত্ক্ষণিক প্রতিক্রিয়া পান"
                   },
                   {
                     icon: <CheckCircle className="h-4 w-4" />,
-                    text: "Review your answers with detailed explanations to improve your knowledge"
+                    text: "আপনার জবাব পর্যালোচনা করুন বিস্তারিত ব্যাখ্যার সাথে আপনার জ্ঞান উন্নত করতে"
                   }
                 ].map((item, index) => (
                   <motion.li 
@@ -266,7 +255,7 @@ export default function QuizPage() {
         
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-xl font-semibold text-white">Available Quizzes</h3>
+            <h3 className="text-xl font-semibold text-white">এভেইলেবল কুইজ</h3>
             <Badge variant="outline" className="bg-indigo-950/30 text-indigo-300 border-indigo-800/30">
               {filteredQuizzes.length} quizzes
             </Badge>
@@ -376,16 +365,16 @@ export default function QuizPage() {
                 <div className="flex justify-center mb-3">
                   <Medal className="h-12 w-12 text-yellow-500 opacity-70" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-3">Quiz Leaderboard</h3>
+                <h3 className="text-lg font-semibold text-white mb-3">কুইজ লিডারবোর্ড</h3>
                 <p className="text-gray-400 mb-4">
-                  Complete quizzes to appear on the leaderboard and compete with other science enthusiasts!
+                  কুইজ সম্পন্ন করুন লিডারবোর্ডে স্থান পেতে এবং অন্যান্য বিজ্ঞান অনুরাগীদের সাথে প্রতিযোগিতা করতে!
                 </p>
                 <Button 
                   variant="outline" 
                   className="border-gray-700 hover:bg-gray-800 bg-black/50"
                   onClick={() => setIsLeaderboardOpen(true)}
                 >
-                  View Leaderboard
+                  লিডারবোর্ড দেখুন
                 </Button>
               </CardContent>
             </Card>
@@ -400,12 +389,12 @@ export default function QuizPage() {
             <div className="flex items-center justify-between">
               <DialogTitle className="text-xl text-white flex items-center gap-2">
                 <Trophy className="h-5 w-5 text-yellow-500" />
-                Quiz Leaderboard
+                কুইজ লিডারবোর্ড
               </DialogTitle>
               
             </div>
             <DialogDescription className="text-gray-400">
-              See how you rank against other science enthusiasts!
+                আপনার কুইজ পারফরম্যান্স ট্র্যাক করুন এবং অন্যান্য শিক্ষার্থীদের সাথে প্রতিযোগিতা করুন!
             </DialogDescription>
           </DialogHeader>
           

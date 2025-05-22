@@ -96,10 +96,10 @@ const GlobalSidebar = ({ isSidebarCollapsed, toggleSidebar }: GlobalSidebarProps
       id: "storytelling",
     },
     {
-      href: "/ai-helper",
+      href: "/quiz",
       icon: <Brain size={20} />,
-      label: "AI Problem Solver",
-      id: "ai-helper",
+      label: "AI-সাইন্স কুইজ",
+      id: "quiz",
     },
     {
       href: "/citizen-science",

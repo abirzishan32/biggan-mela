@@ -77,30 +77,7 @@ export default function StorytellingPage() {
           </div>
         </div>
         
-        <div className="relative z-10 px-8 py-12 md:py-16">
-          <div className="max-w-3xl">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 flex items-center gap-3">
-              <BookOpen className="h-8 w-8" />
-              Science Stories for Kids
-            </h1>
-            <p className="text-white/90 mb-6">
-              Explore scientific concepts through engaging interactive stories. Our storytelling approach makes learning fun and memorable for young scientists.
-            </p>
-            
-            <div className="relative bg-white/10 backdrop-blur-sm rounded-lg p-1 max-w-lg flex">
-              <Input
-                type="text"
-                placeholder="Search stories by title, description, or age range..."
-                className="bg-transparent border-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-white placeholder:text-white/70"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white/70">
-                <Search className="h-5 w-5" />
-              </div>
-            </div>
-          </div>
-        </div>
+
       </section>
       
       {/* Stories Section */}
