@@ -8,10 +8,10 @@ import { Camera, Mic, MapPin, Loader2, Search } from 'lucide-react'
 import { identifyPlant } from '@/lib/plantnet'
 
 const observationTypes = [
-  { value: 'plant', label: 'Plant' },
-  { value: 'bird', label: 'Bird'},
-  { value: 'pollution', label: 'Pollution' },
-  { value: 'noise' , label: 'Noise Pollution'},
+  { value: 'plant', label: 'উদ্ভিদ' },
+  { value: 'bird', label: 'পাখি'},
+  { value: 'pollution', label: 'দূষণ' },
+  { value: 'noise' , label: 'শব্দ দূষণ'},
 ]
 
 export default function SubmitObservation() {
@@ -88,7 +88,7 @@ export default function SubmitObservation() {
 
     // Validate file type
     if (!file.type.match(/^audio\/(wav|mp3|mpeg)$/)) {
-      setError('Please upload a WAV or MP3 file')
+      setError('অনুগ্রহ করে WAV বা MP3 ফাইল আপলোড করুন')
       return
     }
 
@@ -103,7 +103,7 @@ export default function SubmitObservation() {
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files)
     if (files.length > 5) {
-      setError('Maximum 5 images allowed')
+      setError('সর্বোচ্চ ৫টি ছবি আপলোড করা যাবে')
       return
     }
     setImages(files)
@@ -119,7 +119,7 @@ export default function SubmitObservation() {
 
   const handleAnalyzePlant = async () => {
     if (images.length === 0) {
-      setError('Please select at least one image')
+      setError('অন্তত একটি ছবি নির্বাচন করুন')
       return
     }
 
@@ -207,7 +207,7 @@ export default function SubmitObservation() {
 
   const handleAnalyzeBird = async () => {
     if (!audioFile) {
-      setError('Please select an audio file')
+      setError('অনুগ্রহ করে একটি অডিও ফাইল নির্বাচন করুন')
       return
     }
 
@@ -486,7 +486,7 @@ export default function SubmitObservation() {
           {/* Observation Type */}
           <div className="space-y-2">
             <label className="block text-sm font-medium text-foreground">
-              Observation Type
+              দৃষ্টিভ্য প্রকার
             </label>
             <select
               {...register('type', { required: 'Please select an observation type' })}
@@ -510,12 +510,12 @@ export default function SubmitObservation() {
           {/* File Upload */}
           <div>
             <label className="block text-sm font-medium text-foreground mb-2">
-              Upload Photo or Audio
+              ফটো অথবা অডিও আপলোড করুন
             </label>
             <div className="flex items-center space-x-4">
               <label className="flex items-center space-x-2 px-4 py-2 border border-input rounded-md hover:bg-accent hover:text-accent-foreground cursor-pointer">
                 <Camera className="w-5 h-5 text-muted-foreground" />
-                <span>Photo</span>
+                <span>ফটো</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -525,7 +525,7 @@ export default function SubmitObservation() {
               </label>
               <label className="flex items-center space-x-2 px-4 py-2 border border-input rounded-md hover:bg-accent hover:text-accent-foreground cursor-pointer">
                 <Mic className="w-5 h-5 text-muted-foreground" />
-                <span>Audio</span>
+                <span>অডিও</span>
                 <input
                   type="file"
                   accept="audio/wav,audio/mp3,audio/mpeg"
@@ -845,7 +845,7 @@ export default function SubmitObservation() {
                 {birdAnalysis.analysis.shouldMonitor && (
                   <div className="mt-4 p-4 bg-accent border border-accent-foreground/20 rounded-md">
                     <p className="text-accent-foreground font-medium">
-                      This bird species requires monitoring! Consider reporting this sighting to local conservation authorities.
+                      এই পাখির প্রকারটি পরিদর্শন করার প্রয়োজন! স্থানীয় পরিরক্তক্রিয়ার কর্তৃক দাবি করার বিষয়ে মন্তব্য করার বিষয়ে মন্তব্য করার প্রয়োজন।
                     </p>
                   </div>
                 )}
@@ -1069,7 +1069,7 @@ export default function SubmitObservation() {
                     className="flex items-center space-x-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
                   >
                     <Mic className="w-5 h-5" />
-                    <span>Start Measurement</span>
+                    <span>শব্দ পরিমাপ শুরু করুন</span>
                   </button>
                 ) : (
                   <button
@@ -1103,7 +1103,7 @@ export default function SubmitObservation() {
 
           {/* Error Message */}
           {error && (
-            <div className="p-4 bg-red-50 border border-red-200 rounded-md">
+            <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-md">
               <p className="text-destructive">{error}</p>
             </div>
           )}
@@ -1111,7 +1111,7 @@ export default function SubmitObservation() {
           {/* Notes */}
           <div>
             <label className="block text-sm font-medium text-foreground mb-2">
-              Notes
+              মন্তব্য
             </label>
             <textarea
               {...register('notes', { required: 'Please add some notes' })}
@@ -1127,7 +1127,7 @@ export default function SubmitObservation() {
           {/* Location */}
           <div>
             <label className="block text-sm font-medium text-foreground mb-2">
-              Location
+              অবস্থান
             </label>
             <button
               type="button"
@@ -1135,7 +1135,7 @@ export default function SubmitObservation() {
               className="flex items-center space-x-2 px-4 py-2 border border-input rounded-md hover:bg-accent hover:text-accent-foreground"
             >
               <MapPin className="w-5 h-5 text-muted-foreground" />
-              <span>Get Current Location</span>
+              <span>অবস্থান খুঁজুন</span>
             </button>
             {location && (
               <p className="mt-2 text-sm text-muted-foreground">
@@ -1149,7 +1149,7 @@ export default function SubmitObservation() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">
-                  Plant Images (up to 5)
+                  ফটো আপলোড (সর্বোচ্চ 5)
                 </label>
                 <input
                   type="file"
@@ -1308,9 +1308,16 @@ export default function SubmitObservation() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-primary text-primary-foreground py-3 rounded-md font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50"
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md"
           >
-            {isSubmitting ? 'Submitting...' : 'Submit Observation'}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                জমা দেওয়া হচ্ছে...
+              </>
+            ) : (
+              'জমা দিন'
+            )}
           </button>
         </form>
       </div>
