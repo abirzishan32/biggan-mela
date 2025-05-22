@@ -27,7 +27,8 @@ import {
   MagnetIcon,
   Microscope,
   CircuitBoard,
-  RadioTower
+  RadioTower,
+  Newspaper
 } from 'lucide-react'
 import Image from 'next/image'
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -106,11 +107,11 @@ const GlobalSidebar = ({ isSidebarCollapsed, toggleSidebar }: GlobalSidebarProps
 
   // Virtual Lab submenu items
   const virtualLabItems = [
-    {
-      href: "/virtual-lab/double-slit",
-      icon: <RadioTower size={16} />,
-      label: "দ্বি-চিড় পরীক্ষণ",
-      id: "double-slit",
+        {
+      href: "/virtual-lab/snell-law",
+      icon: <Zap size={16} />,
+      label: "স্নেলের সূত্র",
+      id: "snell-law",
     },
     {
       href: "/virtual-lab/electric-ckt",
@@ -137,10 +138,10 @@ const GlobalSidebar = ({ isSidebarCollapsed, toggleSidebar }: GlobalSidebarProps
       id: "simple-pendulum",
     },
     {
-      href: "/virtual-lab/snell-law",
-      icon: <Zap size={16} />,
-      label: "স্নেলের সূত্র",
-      id: "snell-law",
+      href: "/virtual-lab/double-slit",
+      icon: <RadioTower size={16} />,
+      label: "দ্বি-চিড় পরীক্ষণ",
+      id: "double-slit",
     },
     {
       href: "/virtual-lab/lens",
@@ -206,7 +207,7 @@ const GlobalSidebar = ({ isSidebarCollapsed, toggleSidebar }: GlobalSidebarProps
     {
       href: "/virtual-lab/diffusion",
       icon: <Beaker size={16} />,
-      label: "ব্যাপন সিমুলেশন",
+      label: "ব্যাপন",
       id: "diffusion",
     },
     {
@@ -269,6 +270,13 @@ const GlobalSidebar = ({ isSidebarCollapsed, toggleSidebar }: GlobalSidebarProps
       label: "ক্যারিয়ার গাইডেন্স",
       id: "career-guidance",
       isNew: true,
+    },
+    {
+      href: "/science-news",
+      icon: <Newspaper size={20} />,
+      label: "বিজ্ঞানের খবর",
+      id: "science-news",
+      isNew: false,
     },
     {
       href: "/image-explanation",
@@ -356,7 +364,7 @@ const GlobalSidebar = ({ isSidebarCollapsed, toggleSidebar }: GlobalSidebarProps
               > 
                 <h2 className="text-lg font-bold tracking-wide select-none">
                   <span className="text-purple-500">বিজ্ঞান</span>
-                  <span className="text-foreground">যজ্ঞ</span>
+                  <span className="text-foreground">মেলা</span>
                 </h2>
               </motion.div>
             )}

@@ -42,7 +42,7 @@ export default function LensLabPage() {
 
   // Ruler properties
   const [containerDimensions, setContainerDimensions] = useState({ width: 800, height: 500 });
-  
+
   // Conversion factor for pixel to cm
   const pixelToCm = 0.5;
 
@@ -106,16 +106,16 @@ export default function LensLabPage() {
     // Lens equation: 1/f = 1/do + 1/di
     // Rearranged: di = (do * f) / (do - f)
     const imageDistance = (objectDistance * f) / (objectDistance - f);
-    
+
     // Magnification: m = -di/do
     const magnification = -imageDistance / objectDistance;
-    
+
     // Image height = object height * magnification
     const imageHeight = objectHeight * magnification;
-    
+
     // Image is real if image distance is positive (opposite side of lens from object)
     const isReal = imageDistance > 0;
-    
+
     // Image is magnified if |magnification| > 1
     const isMagnified = Math.abs(magnification) > 1;
 
@@ -158,14 +158,14 @@ export default function LensLabPage() {
     if (isPanning && zoomLevel > 1) {
       const dx = e.clientX - startPanPoint.x;
       const dy = e.clientY - startPanPoint.y;
-      
+
       // Calculate max pan limits based on zoom level
       const maxPanX = (containerDimensions.width * (zoomLevel - 1)) / 2;
       const maxPanY = (containerDimensions.height * (zoomLevel - 1)) / 2;
-      
+
       const newX = Math.max(-maxPanX, Math.min(maxPanX, startPanOffset.x + dx));
       const newY = Math.max(-maxPanY, Math.min(maxPanY, startPanOffset.y + dy));
-      
+
       setPanOffset({ x: newX, y: newY });
     }
   };
@@ -187,14 +187,14 @@ export default function LensLabPage() {
     if (isPanning && zoomLevel > 1 && e.touches.length === 1) {
       const dx = e.touches[0].clientX - startPanPoint.x;
       const dy = e.touches[0].clientY - startPanPoint.y;
-      
+
       // Calculate max pan limits based on zoom level
       const maxPanX = (containerDimensions.width * (zoomLevel - 1)) / 2;
       const maxPanY = (containerDimensions.height * (zoomLevel - 1)) / 2;
-      
+
       const newX = Math.max(-maxPanX, Math.min(maxPanX, startPanOffset.x + dx));
       const newY = Math.max(-maxPanY, Math.min(maxPanY, startPanOffset.y + dy));
-      
+
       setPanOffset({ x: newX, y: newY });
     }
   };
@@ -223,7 +223,7 @@ export default function LensLabPage() {
 
       <main className="flex flex-1 overflow-hidden">
         {/* Main visualization area */}
-        <div 
+        <div
           ref={containerRef}
           className="flex-1 relative border-r border-gray-200 bg-gradient-to-b from-gray-100 to-gray-200 overflow-hidden"
           onMouseDown={handleMouseDown}
@@ -236,20 +236,20 @@ export default function LensLabPage() {
           onWheel={handleWheel}
           style={{ cursor: isPanning ? 'grabbing' : (zoomLevel > 1 ? 'grab' : 'default') }}
         >
-          <div 
+          <div
             className="absolute w-full h-full transition-transform duration-100 ease-out"
-            style={{ 
+            style={{
               transform: `scale(${zoomLevel}) translate(${panOffset.x / zoomLevel}px, ${panOffset.y / zoomLevel}px)`,
               transformOrigin: 'center center',
             }}
           >
-            <LensVisualizer 
+            <LensVisualizer
               lensType={lensProperties.type}
               lensParams={lensProperties}
               showFocalPoints={showFocalPoints}
             />
-            
-            <PrincipalRays 
+
+            <PrincipalRays
               lensType={lensProperties.type}
               lensParams={lensProperties}
               objectDistance={objectProperties.distance}
@@ -260,8 +260,8 @@ export default function LensLabPage() {
               showAllRays={showAllRays}
               visible={showPrincipalRays}
             />
-            
-            <ObjectImageRenderer 
+
+            <ObjectImageRenderer
               lensType={lensProperties.type}
               objectDistance={objectProperties.distance}
               objectHeight={objectProperties.height}
@@ -269,7 +269,7 @@ export default function LensLabPage() {
               imageHeight={imageProperties.height}
               imageType={imageType}
             />
-            
+
             {showRuler && (
               <MeasurementRuler
                 containerDimensions={containerDimensions}
@@ -277,10 +277,10 @@ export default function LensLabPage() {
               />
             )}
           </div>
-          
+
           {/* Zoom controls */}
-          <div className="absolute top-4 right-4 flex flex-col bg-white bg-opacity-75 rounded-lg shadow-md overflow-hidden">
-            <button 
+          <div className="absolute top-4 right-4 flex flex-col bg-gray-800 bg-opacity-75 rounded-lg shadow-md overflow-hidden">
+            <button
               className="p-2 hover:bg-gray-100 transition-colors flex items-center justify-center border-b border-gray-200"
               onClick={handleZoomIn}
               title="Zoom In"
@@ -289,7 +289,7 @@ export default function LensLabPage() {
                 <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
               </svg>
             </button>
-            <button 
+            <button
               className="p-2 hover:bg-gray-100 transition-colors flex items-center justify-center border-b border-gray-200"
               onClick={handleZoomOut}
               title="Zoom Out"
@@ -298,7 +298,7 @@ export default function LensLabPage() {
                 <path fillRule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clipRule="evenodd" />
               </svg>
             </button>
-            <button 
+            <button
               className="p-2 hover:bg-gray-100 transition-colors flex items-center justify-center"
               onClick={handleResetZoom}
               title="Reset Zoom"
@@ -308,55 +308,51 @@ export default function LensLabPage() {
               </svg>
             </button>
           </div>
-          
+
           {/* Zoom level indicator */}
-          <div className="absolute top-4 left-4 bg-white bg-opacity-75 px-2 py-1 rounded-md text-sm font-medium">
+          <div className="absolute top-4 left-4 bg-gray-800 bg-opacity-75 px-2 py-1 rounded-md text-sm font-medium">
             {Math.round(zoomLevel * 100)}%
           </div>
-          
+
           {/* Information overlay */}
-          <div className="absolute bottom-4 left-4 bg-white bg-opacity-85 p-3 rounded-lg shadow-lg text-sm max-w-xs">
+          <div className="absolute bottom-4 left-4 bg-gray-800 p-3 rounded-lg shadow-lg text-sm max-w-xs">
             <h3 className="font-bold text-base mb-1">Image Properties:</h3>
             <p>
-              Distance: {imageProperties.distance === Infinity 
-                ? "∞" 
+              Distance: {imageProperties.distance === Infinity
+                ? "∞"
                 : `${imageProperties.distance.toFixed(1)} cm ${imageProperties.isReal ? '(real)' : '(virtual)'}`
               }
             </p>
             <p>
-              Height: {imageProperties.height === Infinity 
-                ? "∞" 
+              Height: {imageProperties.height === Infinity
+                ? "∞"
                 : `${Math.abs(imageProperties.height).toFixed(1)} cm ${imageProperties.height > 0 ? '(upright)' : '(inverted)'}`
               }
             </p>
             <p>
-              Magnification: {imageProperties.distance === Infinity 
-                ? "∞" 
+              Magnification: {imageProperties.distance === Infinity
+                ? "∞"
                 : `${Math.abs(imageProperties.height / objectProperties.height).toFixed(2)}×`
               }
             </p>
           </div>
-          
-          {/* Pan instructions when zoomed */}
-          {zoomLevel > 1 && (
-            <div className="absolute bottom-4 right-4 bg-white bg-opacity-75 p-2 rounded-md text-xs max-w-xs">
-              <p>Click and drag to pan the view</p>
-            </div>
-          )}
+
+
         </div>
-        
+
         {/* Controls and information area */}
-        <div className="w-96 overflow-y-auto p-4 space-y-4">
-          <LensControls 
+        <div className="w-96 overflow-y-auto p-4 space-y-4 bg-gray-950">
+          {/* LensControls component remains as updated above */}
+          <LensControls
             lensProperties={lensProperties}
             objectProperties={objectProperties}
             onLensChange={setLensProperties}
             onObjectChange={setObjectProperties}
           />
-          
-          <div className="mt-4 space-y-2 bg-white rounded-lg shadow-md p-4">
-            <h3 className="font-medium mb-2">Display Options</h3>
-            
+
+          <div className="mt-4 space-y-2 bg-gray-900 rounded-lg shadow-lg p-4 border border-gray-800">
+            <h3 className="font-medium mb-2 text-white">Display Options</h3>
+
             <div className="flex items-center">
               <input
                 type="checkbox"
@@ -365,7 +361,7 @@ export default function LensLabPage() {
                 onChange={(e) => setShowPrincipalRays(e.target.checked)}
                 className="mr-2"
               />
-              <label htmlFor="show-rays" className="text-sm font-medium">Show Principal Rays</label>
+              <label htmlFor="show-rays" className="text-sm font-medium text-gray-300">Show Principal Rays</label>
             </div>
 
             <div className="flex items-center">
@@ -376,7 +372,7 @@ export default function LensLabPage() {
                 onChange={(e) => setShowAllRays(e.target.checked)}
                 className="mr-2"
               />
-              <label htmlFor="show-all-rays" className="text-sm font-medium">Show Additional Rays</label>
+              <label htmlFor="show-all-rays" className="text-sm font-medium text-gray-300">Show Additional Rays</label>
             </div>
 
             <div className="flex items-center">
@@ -387,7 +383,7 @@ export default function LensLabPage() {
                 onChange={(e) => setShowFocalPoints(e.target.checked)}
                 className="mr-2"
               />
-              <label htmlFor="show-focal-points" className="text-sm font-medium">Show Focal Points</label>
+              <label htmlFor="show-focal-points" className="text-sm font-medium text-gray-300">Show Focal Points</label>
             </div>
 
             <div className="flex items-center">
@@ -398,44 +394,44 @@ export default function LensLabPage() {
                 onChange={(e) => setShowRuler(e.target.checked)}
                 className="mr-2"
               />
-              <label htmlFor="show-ruler" className="text-sm font-medium">Show Measurement Ruler</label>
+              <label htmlFor="show-ruler" className="text-sm font-medium text-gray-300">Show Measurement Ruler</label>
             </div>
-            
+
             {/* Zoom controls in sidebar */}
-            <div className="pt-2 mt-2 border-t border-gray-200">
-              <h4 className="font-medium mb-2">Zoom Controls</h4>
+            <div className="pt-2 mt-2 border-t border-gray-700">
+              <h4 className="font-medium mb-2 text-white">Zoom Controls</h4>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <button
-                    className="p-1.5 bg-gray-100 hover:bg-gray-200 rounded-md"
+                    className="p-1.5 bg-gray-800 hover:bg-gray-700 rounded-md border border-gray-700"
                     onClick={handleZoomOut}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clipRule="evenodd" />
                     </svg>
                   </button>
-                  <span className="text-sm font-medium">{Math.round(zoomLevel * 100)}%</span>
+                  <span className="text-sm font-medium text-gray-300">{Math.round(zoomLevel * 100)}%</span>
                   <button
-                    className="p-1.5 bg-gray-100 hover:bg-gray-200 rounded-md"
+                    className="p-1.5 bg-gray-800 hover:bg-gray-700 rounded-md border border-gray-700"
                     onClick={handleZoomIn}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
                     </svg>
                   </button>
                 </div>
                 <button
-                  className="text-xs text-blue-600 hover:text-blue-800 ml-2"
+                  className="text-xs text-blue-400 hover:text-blue-300 ml-2"
                   onClick={handleResetZoom}
                 >
                   Reset
                 </button>
               </div>
-              <p className="text-xs text-gray-500 mt-1">Use mouse wheel to zoom in and out. When zoomed in, click and drag to pan.</p>
+              <p className="text-xs text-gray-400 mt-1">Use mouse wheel to zoom in and out. When zoomed in, click and drag to pan.</p>
             </div>
           </div>
-          
-          <LensFormulas 
+
+          <LensFormulas
             lensProperties={lensProperties}
             objectProperties={objectProperties}
             imageProperties={imageProperties}

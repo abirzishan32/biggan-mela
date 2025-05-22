@@ -11,7 +11,6 @@ interface LensControlsProps {
 }
 
 export default function LensControls({
-    
   lensProperties,
   objectProperties,
   onLensChange,
@@ -82,16 +81,16 @@ export default function LensControls({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
+    <div className="bg-gray-900 rounded-lg shadow-lg p-4 border border-gray-800">
       {/* Lens Type Selector */}
       <div className="mb-6">
-        <h3 className="text-lg font-semibold mb-3">Lens Type</h3>
+        <h3 className="text-lg font-semibold mb-3 text-white">Lens Type</h3>
         <div className="flex space-x-2">
           <button
             className={`flex-1 py-2 px-4 rounded-md border-2 transition-colors ${
               lensProperties.type === 'convex'
-                ? 'border-blue-500 bg-blue-50 text-blue-700'
-                : 'border-gray-300 hover:bg-gray-50'
+                ? 'border-blue-500 bg-blue-900/50 text-blue-300'
+                : 'border-gray-700 hover:bg-gray-800 text-gray-300'
             }`}
             onClick={() => handleLensTypeChange('convex')}
           >
@@ -99,8 +98,8 @@ export default function LensControls({
               <svg width="40" height="40" viewBox="0 0 40 40" className="mb-1">
                 <path
                   d="M10,5 Q20,20 10,35 L30,35 Q20,20 30,5 L10,5"
-                  fill="rgba(173, 216, 230, 0.7)"
-                  stroke="#0066cc"
+                  fill="rgba(59, 130, 246, 0.3)"
+                  stroke="#60a5fa"
                   strokeWidth="1.5"
                 />
               </svg>
@@ -111,8 +110,8 @@ export default function LensControls({
           <button
             className={`flex-1 py-2 px-4 rounded-md border-2 transition-colors ${
               lensProperties.type === 'concave'
-                ? 'border-blue-500 bg-blue-50 text-blue-700'
-                : 'border-gray-300 hover:bg-gray-50'
+                ? 'border-blue-500 bg-blue-900/50 text-blue-300'
+                : 'border-gray-700 hover:bg-gray-800 text-gray-300'
             }`}
             onClick={() => handleLensTypeChange('concave')}
           >
@@ -120,8 +119,8 @@ export default function LensControls({
               <svg width="40" height="40" viewBox="0 0 40 40" className="mb-1">
                 <path
                   d="M15,5 Q5,20 15,35 L25,35 Q35,20 25,5 L15,5"
-                  fill="rgba(173, 216, 230, 0.7)"
-                  stroke="#0066cc"
+                  fill="rgba(59, 130, 246, 0.3)"
+                  stroke="#60a5fa"
                   strokeWidth="1.5"
                 />
               </svg>
@@ -134,9 +133,9 @@ export default function LensControls({
       {/* Lens Properties */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-lg font-semibold">Lens Properties</h3>
+          <h3 className="text-lg font-semibold text-white">Lens Properties</h3>
           <button
-            className="text-sm text-blue-500 hover:text-blue-700"
+            className="text-sm text-blue-400 hover:text-blue-300"
             onClick={() => setExpandedSection(expandedSection === 'lens' ? 'both' : 'lens')}
           >
             {expandedSection === 'lens' || expandedSection === 'both' ? 'Collapse' : 'Expand'}
@@ -148,11 +147,11 @@ export default function LensControls({
             {/* Focal Length */}
             <div>
               <div className="flex justify-between">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-gray-300">
                   Focal Length: {Math.abs(lensProperties.focalLength).toFixed(1)} cm
                   {lensProperties.type === 'convex' ? ' (positive)' : ' (negative)'}
                 </label>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-blue-400">
                   {lensProperties.focalLength > 0 ? 'Converging' : 'Diverging'}
                 </span>
               </div>
@@ -163,9 +162,9 @@ export default function LensControls({
                 step="1"
                 value={Math.abs(lensProperties.focalLength)}
                 onChange={(e) => handleFocalLengthChange(parseFloat(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1"
+                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mt-1"
               />
-              <div className="flex justify-between mt-1 text-xs text-gray-500">
+              <div className="flex justify-between mt-1 text-xs text-gray-400">
                 <span>5cm</span>
                 <span>25cm</span>
                 <span>50cm</span>
@@ -175,7 +174,7 @@ export default function LensControls({
             {/* Radius of Curvature */}
             <div>
               <div className="flex justify-between">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-gray-300">
                   Radius of Curvature: {lensProperties.radius.toFixed(1)} cm
                 </label>
               </div>
@@ -186,14 +185,14 @@ export default function LensControls({
                 step="1"
                 value={lensProperties.radius}
                 onChange={(e) => handleRadiusChange(parseFloat(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1"
+                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mt-1"
               />
             </div>
             
             {/* Refractive Index */}
             <div>
               <div className="flex justify-between">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-gray-300">
                   Refractive Index: {lensProperties.refractiveIndex.toFixed(2)}
                 </label>
               </div>
@@ -204,9 +203,9 @@ export default function LensControls({
                 step="0.01"
                 value={lensProperties.refractiveIndex}
                 onChange={(e) => handleRefractiveIndexChange(parseFloat(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1"
+                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mt-1"
               />
-              <div className="flex justify-between mt-1 text-xs text-gray-500">
+              <div className="flex justify-between mt-1 text-xs text-gray-400">
                 <span>1.3 (Plastic)</span>
                 <span>1.5 (Glass)</span>
                 <span>1.8 (Dense Glass)</span>
@@ -216,7 +215,7 @@ export default function LensControls({
             {/* Diameter */}
             <div>
               <div className="flex justify-between">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-gray-300">
                   Diameter: {lensProperties.diameter.toFixed(1)} cm
                 </label>
               </div>
@@ -231,7 +230,7 @@ export default function LensControls({
                   diameter: parseFloat(e.target.value),
                   thickness: parseFloat(e.target.value) * 0.2 // Set thickness proportional to diameter
                 })}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1"
+                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mt-1"
               />
             </div>
           </div>
@@ -241,9 +240,9 @@ export default function LensControls({
       {/* Object Properties */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-lg font-semibold">Object Properties</h3>
+          <h3 className="text-lg font-semibold text-white">Object Properties</h3>
           <button
-            className="text-sm text-blue-500 hover:text-blue-700"
+            className="text-sm text-blue-400 hover:text-blue-300"
             onClick={() => setExpandedSection(expandedSection === 'object' ? 'both' : 'object')}
           >
             {expandedSection === 'object' || expandedSection === 'both' ? 'Collapse' : 'Expand'}
@@ -255,7 +254,7 @@ export default function LensControls({
             {/* Object Distance */}
             <div>
               <div className="flex justify-between">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-gray-300">
                   Distance from Lens: {objectProperties.distance.toFixed(1)} cm
                 </label>
               </div>
@@ -266,9 +265,9 @@ export default function LensControls({
                 step="1"
                 value={objectProperties.distance}
                 onChange={(e) => handleObjectDistanceChange(parseFloat(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1"
+                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mt-1"
               />
-              <div className="flex justify-between mt-1 text-xs text-gray-500">
+              <div className="flex justify-between mt-1 text-xs text-gray-400">
                 <span>10cm</span>
                 <span>50cm</span>
                 <span>100cm</span>
@@ -278,7 +277,7 @@ export default function LensControls({
             {/* Object Height */}
             <div>
               <div className="flex justify-between">
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-gray-300">
                   Height: {objectProperties.height.toFixed(1)} cm
                 </label>
               </div>
@@ -289,7 +288,7 @@ export default function LensControls({
                 step="1"
                 value={objectProperties.height}
                 onChange={(e) => handleObjectHeightChange(parseFloat(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1"
+                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer mt-1"
               />
             </div>
           </div>
@@ -298,10 +297,10 @@ export default function LensControls({
       
       {/* Preset Configurations */}
       <div>
-        <h3 className="text-lg font-semibold mb-2">Preset Configurations</h3>
+        <h3 className="text-lg font-semibold mb-2 text-white">Preset Configurations</h3>
         <div className="grid grid-cols-2 gap-2">
           <button
-            className="py-1 px-3 bg-gray-100 hover:bg-gray-200 rounded text-sm"
+            className="py-1 px-3 bg-gray-800 hover:bg-gray-700 rounded text-sm text-gray-300 border border-gray-700"
             onClick={() => {
               onLensChange({
                 type: 'convex',
@@ -321,7 +320,7 @@ export default function LensControls({
           </button>
           
           <button
-            className="py-1 px-3 bg-gray-100 hover:bg-gray-200 rounded text-sm"
+            className="py-1 px-3 bg-gray-800 hover:bg-gray-700 rounded text-sm text-gray-300 border border-gray-700"
             onClick={() => {
               onLensChange({
                 type: 'concave',
@@ -341,7 +340,7 @@ export default function LensControls({
           </button>
           
           <button
-            className="py-1 px-3 bg-gray-100 hover:bg-gray-200 rounded text-sm"
+            className="py-1 px-3 bg-gray-800 hover:bg-gray-700 rounded text-sm text-gray-300 border border-gray-700"
             onClick={() => {
               onLensChange({
                 type: 'convex',
@@ -361,7 +360,7 @@ export default function LensControls({
           </button>
           
           <button
-            className="py-1 px-3 bg-gray-100 hover:bg-gray-200 rounded text-sm"
+            className="py-1 px-3 bg-gray-800 hover:bg-gray-700 rounded text-sm text-gray-300 border border-gray-700"
             onClick={() => {
               onLensChange({
                 type: 'convex',

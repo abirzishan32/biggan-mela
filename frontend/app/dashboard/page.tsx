@@ -54,7 +54,6 @@ export default function Dashboard() {
                 <Skeleton className="h-9 w-64" />
               ) : username ? (
                 <span>স্বাগতম, <span className="text-purple-400">{username}</span>!</span>
-                <span>স্বাগতম, <span className="text-purple-400">{username}</span>!</span>
               ) : (
                 <span><span className="text-purple-400">বিজ্ঞানমেলায়</span> স্বাগতম</span>
               )}
@@ -64,7 +63,6 @@ export default function Dashboard() {
                 <Skeleton className="h-5 w-96" />
               ) : (
                 "আজ আপনি কোন বিষয় অন্বেষণ করতে চান?"
-                "আজ আপনি কোন বিষয় অন্বেষণ করতে চান?"
               )}
             </p>
           </div>
@@ -73,7 +71,7 @@ export default function Dashboard() {
             <div>
               <Button
                 className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-lg px-6 py-6 h-auto"
-                onClick={() => router.push('/login')}
+                onClick={() => router.push('/signup')}
               >
                 শুরু করুন
               </Button>
