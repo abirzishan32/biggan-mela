@@ -264,7 +264,7 @@ const GlobalSidebar = ({ isSidebarCollapsed, toggleSidebar }: GlobalSidebarProps
       id: "quiz",
     },
     {
-      href: "career-guidance",
+      href: "/career-guidance",
       icon: <Star size={20} />,
       label: "ক্যারিয়ার গাইডেন্স",
       id: "career-guidance",
