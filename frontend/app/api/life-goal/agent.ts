@@ -15,15 +15,23 @@ export async function generateRoadmap(lifeGoal: string, studentInfo: StudentInfo
     // Generate contextual prompt based on student information
     const prompt = createPrompt(lifeGoal, studentInfo);
     
-    // Using a more reliable model
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-001" });
+    // Use gemini-pro model for more reliable results
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
     
     // Extract the Mermaid diagram code and fix any syntax issues
-    const mermaidDiagram = extractMermaidDiagram(text, lifeGoal, studentInfo);
+    let mermaidDiagram = "";
+    
+    try {
+      mermaidDiagram = extractMermaidDiagram(text, lifeGoal, studentInfo);
+    } catch (diagramError) {
+      console.error("Error processing mermaid diagram:", diagramError);
+      // Fallback to a simple valid diagram
+      mermaidDiagram = createFallbackDiagram(lifeGoal, studentInfo);
+    }
     
     // Since we're only generating Mermaid code, provide a default explanation
     const explanation = createDefaultExplanation(lifeGoal, studentInfo);
@@ -34,7 +42,11 @@ export async function generateRoadmap(lifeGoal: string, studentInfo: StudentInfo
     };
   } catch (error) {
     console.error("Error calling Gemini API:", error);
-    throw new Error("Failed to generate roadmap with AI");
+    // Return a fallback diagram and explanation if API call fails
+    return {
+      mermaidDiagram: createFallbackDiagram(lifeGoal, studentInfo),
+      explanation: createDefaultExplanation(lifeGoal, studentInfo)
+    };
   }
 }
 
@@ -46,7 +58,7 @@ function createPrompt(lifeGoal: string, studentInfo: StudentInfo) {
   const interestsList = interests?.join(", ") || "not specified";
   
   return `
-You are a Mermaid diagram syntax expert. Create a valid mermaid.js flowchart for a career roadmap.
+You are a Mermaid diagram syntax expert. Generate only valid mermaid.js flowchart code.
 
 STUDENT INFORMATION:
 - Name: ${name || "A student"}
@@ -56,35 +68,33 @@ STUDENT INFORMATION:
 - Future goal: ${lifeGoal}
 
 CRITICAL SYNTAX REQUIREMENTS:
-1. Start with exactly "flowchart TD" on its own line
-2. Put EACH node and connection on ITS OWN LINE with proper indentation (4 spaces)
-3. Use simple IDs like A, B, C, or A1, B2, C3 - NO spaces or special characters in IDs
-4. Format nodes as: A[Text] or B(Text) or C{Text}
-5. Format connections as: A --> B or A ==> C 
-6. Use proper spacing around arrows: "A --> B" not "A-->B"
-7. NEVER put text directly next to a node ID without brackets: "A[Text]" NOT "A Text"
-8. NEVER put semicolons at the end of lines
+1. EXACTLY START WITH "flowchart TD" AS THE FIRST LINE
+2. PUT EACH NODE AND CONNECTION ON A SEPARATE LINE
+3. USE PROPER INDENTATION (4 spaces)
+4. USE ONLY SIMPLE ALPHANUMERIC IDs LIKE A, B, C, or A1, B2, C3
+5. FORMAT NODES AS: "A[Text]" or "B(Text)" or "C{Text}"
+6. CONNECTION SYNTAX: "A --> B" with spaces before and after arrows
+7. DO NOT use semicolons at line ends
 
-INSTRUCTIONS:
-1. Create a simple, valid flowchart showing the path to become a ${lifeGoal} in Bangladesh
-2. Include 6-10 nodes maximum for simplicity
-3. Focus on Bangladesh education system milestones
-4. Use different node shapes: [] for regular steps, () for actions, {} for decisions
+YOUR TASK:
+Create a simple, valid flowchart showing educational/career path to become a ${lifeGoal}.
+Include 5-7 nodes maximum for simplicity.
+Focus on Bangladesh education system milestones.
 
-EXAMPLE OF CORRECT SYNTAX (notice each element on its own line):
+EXAMPLE OF VALID SYNTAX:
 flowchart TD
-    A[Start Here] --> B[Next Step]
-    B --> C{Decision Point}
-    C --> D[Option 1]
-    C --> E[Option 2]
-    D --> F[Final Goal]
-    E --> F
+    A[Start] --> B[Education]
+    B --> C[Training]
+    C --> D{Decision}
+    D --> E[Option 1]
+    D --> F[Option 2]
+    E --> G[Goal]
+    F --> G
 
-YOU MUST FOLLOW THIS FORMAT EXACTLY. DO NOT ADD ANY EXPLANATIONS OR COMMENTS.
+ONLY PROVIDE THE MERMAID CODE, NO EXPLANATIONS OR OTHER TEXT.
 `;
 }
 
-// Pass studentInfo and lifeGoal to the function
 function extractMermaidDiagram(text: string, lifeGoal: string, studentInfo: StudentInfo): string {
   // First, try to extract any existing code block format
   const mermaidRegex = /```mermaid\s*([\s\S]*?)```/;
@@ -99,111 +109,126 @@ function extractMermaidDiagram(text: string, lifeGoal: string, studentInfo: Stud
     code = text.trim();
   }
   
-  // Ensure the code starts with flowchart TD
+  // Ensure it starts with the flowchart declaration
   if (!code.startsWith('flowchart TD') && !code.startsWith('graph TD')) {
     code = 'flowchart TD\n' + code;
   }
   
-  // Apply syntax fixes
+  // Remove any non-mermaid text before or after the diagram
+  const lines = code.split('\n');
+  let startIndex = 0;
+  let endIndex = lines.length;
+  
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].trim().startsWith('flowchart TD') || lines[i].trim().startsWith('graph TD')) {
+      startIndex = i;
+      break;
+    }
+  }
+  
+  // Apply thorough syntax fixes
+  code = lines.slice(startIndex, endIndex).join('\n');
   code = sanitizeMermaidCode(code);
-
-  // Last resort: if code is still problematic, provide a simple valid diagram
+  
+  // Validate if the code is well-formed
   if (!isValidMermaidSyntax(code)) {
-    const studentClass = studentInfo.class || 'School';
-    code = `flowchart TD
-    A[Current: ${studentClass}] --> B[Complete Education]
-    B --> C[Develop Skills]
-    C --> D[Professional Training]
-    D --> E[${lifeGoal}]`;
+    return createFallbackDiagram(lifeGoal, studentInfo);
   }
   
   return code;
 }
 
+function createFallbackDiagram(lifeGoal: string, studentInfo: StudentInfo): string {
+  const className = studentInfo.class || 'Current Education';
+  const sanitizedLifeGoal = lifeGoal.replace(/[^\w\s]/gi, '').trim();
+  
+  // Create a simple, guaranteed valid diagram
+  return `flowchart TD
+    A[${className}] --> B[Secondary Education]
+    B --> C[Higher Education]
+    C --> D[Skill Development]
+    D --> E[Professional Training]
+    E --> F[${sanitizedLifeGoal}]`;
+}
+
 function isValidMermaidSyntax(code: string): boolean {
-  // Basic validation to check if the syntax has proper line breaks
-  const lines = code.trim().split('\n');
-  if (lines.length < 3) return false; // Need at least header + 2 connections
+  // Basic validation checks
+  const lines = code.split('\n');
   
-  // Check if first line is flowchart declaration
-  if (!lines[0].trim().startsWith('flowchart') && !lines[0].trim().startsWith('graph')) {
-    return false;
-  }
+  if (lines.length < 3) return false; // Need at least declaration and 2 nodes
+  if (!lines[0].includes('flowchart TD') && !lines[0].includes('graph TD')) return false;
   
-  // Check if there are any node definitions
+  // Check if there are node definitions and connections
   let hasNodeDef = false;
+  let hasConnection = false;
+  
   for (let i = 1; i < lines.length; i++) {
-    if (lines[i].match(/[A-Za-z0-9_]+\s*(\[|\(|\{)/)) {
-      hasNodeDef = true;
-      break;
-    }
+    const line = lines[i].trim();
+    if (line.match(/\w+\s*(\[|\(|\{)/)) hasNodeDef = true;
+    if (line.includes('-->') || line.includes('==>')) hasConnection = true;
   }
   
-  return hasNodeDef;
+  return hasNodeDef && hasConnection;
 }
 
 function sanitizeMermaidCode(code: string): string {
-  // Fix any all-in-one line issues by ensuring proper line breaks
+  // Fix common issues in the mermaid code
   let sanitized = code;
   
-  // If everything is on one line, break it up
-  if (!sanitized.includes('\n') && sanitized.includes('-->')) {
-    // Replace node connections with newlines
-    sanitized = sanitized.replace(/\s*-->\s*/g, '\n--> ');
-    // Then add proper indentation
-    sanitized = sanitized.replace(/\n/g, '\n    ');
-    // Keep the header on its own line
-    sanitized = sanitized.replace(/flowchart TD\s+/, 'flowchart TD\n    ');
+  // Fix broken flowchart declaration
+  if (sanitized.includes('flowchart') && !sanitized.startsWith('flowchart')) {
+    sanitized = sanitized.replace(/.*flowchart/, 'flowchart');
   }
   
-  // Fix common syntax issues
-  sanitized = sanitized
-    // Remove semicolons at line ends
-    .replace(/;(\s*\n|\s*$)/g, '$1')
-    // Fix spaces in node IDs (A [Text] -> A[Text])
-    .replace(/([A-Za-z0-9_]+)\s+(\[|\(|\{)/g, '$1$2')
-    // Fix missing brackets (A Text -> A[Text])
-    .replace(/([A-Za-z0-9_]+)\s+([^-=>\s\[\(\{][^\n]*)/g, '$1[$2]')
-    // Ensure proper arrow syntax
-    .replace(/-->/g, ' --> ')
-    .replace(/==>/g, ' ==> ')
-    // Fix multiple spaces
-    .replace(/\s{2,}/g, ' ')
-    // Ensure proper indentation for all lines except first
-    .replace(/^(?!flowchart|graph)(.+)$/gm, '    $1');
-
-  // Split nodes and connections on the same line
-  const fixedLines = [];
+  // Fix nodes without proper brackets
   const lines = sanitized.split('\n');
+  const fixedLines = [];
+  
+  let insideNodeDef = false;
   
   for (const line of lines) {
-    if (line.includes('-->') && line.match(/.*\].*-->/) && !line.trim().startsWith('-->')) {
-      // Split complex line with multiple nodes into separate lines
-      const parts = line.split('-->').map(p => p.trim());
-      
-      // First part likely contains a node definition
-      if (parts[0] && !parts[0].trim().startsWith('flowchart')) {
-        fixedLines.push('    ' + parts[0]);
-      }
-      
-      // Add connection lines for the rest
-      for (let i = 1; i < parts.length; i++) {
-        const prevNodeMatch = parts[i-1].match(/([A-Za-z0-9_]+)(?:\s*\[|\(|\{)/);
-        const prevNodeId = prevNodeMatch ? prevNodeMatch[1] : `Node${i-1}`;
-        
-        if (parts[i].includes('[') || parts[i].includes('(') || parts[i].includes('{')) {
-          const currNodeMatch = parts[i].match(/([A-Za-z0-9_]+)(?:\s*\[|\(|\{)/);
-          const currNodeId = currNodeMatch ? currNodeMatch[1] : `Node${i}`;
-          
-          fixedLines.push(`    ${prevNodeId} --> ${parts[i]}`);
-        } else {
-          // Just a node ID without definition
-          fixedLines.push(`    ${prevNodeId} --> ${parts[i]}`);
-        }
-      }
-    } else {
+    // Keep flowchart declaration as is
+    if (line.trim().startsWith('flowchart') || line.trim().startsWith('graph')) {
       fixedLines.push(line);
+      continue;
     }
+    
+    // Skip empty lines
+    if (!line.trim()) continue;
+    
+    let fixedLine = line;
+    
+    // Fix lines with direct node-to-arrow connections
+    if (fixedLine.includes('-->')) {
+      if (!fixedLine.match(/\[|\(|\{/)) {
+        // Line has connection but no proper node definition
+        const parts = fixedLine.split('-->').map(p => p.trim());
+        
+        // Fix each part that doesn't have a proper node definition
+        const fixedParts = parts.map(part => {
+          const nodeMatch = part.match(/^([A-Za-z0-9]+)(?!\[|\(|\{)(.*)/);
+          if (nodeMatch) {
+            return `${nodeMatch[1]}[${nodeMatch[2] || nodeMatch[1]}]`;
+          }
+          return part;
+        });
+        
+        fixedLine = fixedParts.join(' --> ');
+      }
+    }
+    
+    // Ensure proper node formatting
+    fixedLine = fixedLine
+      .replace(/([A-Za-z0-9]+)\s+(?!\[|\(|\{)([^\s-=]+)/g, '$1[$2]')
+      .replace(/\s*-->\s*/g, ' --> ')
+      .replace(/;/g, '');
+    
+    // Add proper indentation for readability
+    if (!fixedLine.startsWith('    ')) {
+      fixedLine = '    ' + fixedLine;
+    }
+    
+    fixedLines.push(fixedLine);
   }
   
   return fixedLines.join('\n');
@@ -216,8 +241,8 @@ function createDefaultExplanation(lifeGoal: string, studentInfo: StudentInfo): s
 This diagram outlines a possible career pathway for becoming a ${lifeGoal} in Bangladesh.
 
 The roadmap shows:
-- Educational requirements starting from ${studentClass || "your current education level"}
-- Key skills to develop at each stage
+- Educational stages starting from ${studentClass || "your current education level"}
+- Key skills to develop at each step
 - Important exams and certifications
 - Potential specializations and career paths
 
