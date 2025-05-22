@@ -16,6 +16,11 @@ model Profile {
   role         String        @default("student")
   bio          String?
   institution  String?
+  studentClass String?       
+  division     String?       
+  subjects     String[]      
+  interests    String[]      
+  lifeGoal     String?       
   createdAt    DateTime      @default(now()) @map("created_at")
   updatedAt    DateTime?     @default(now()) @updatedAt @map("updated_at")
   quizAttempts QuizAttempt[]

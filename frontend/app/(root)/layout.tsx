@@ -123,6 +123,7 @@ export default function RootLayout({
       >
         <div className="md:container px-4 pt-20 md:pt-6 pb-6 mx-auto max-w-7xl min-h-screen">
           {children}
+          
         </div>
       </motion.main>
     </div>
