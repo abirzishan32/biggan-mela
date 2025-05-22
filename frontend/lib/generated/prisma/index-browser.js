@@ -175,6 +175,14 @@ exports.Prisma.AnswerScalarFieldEnum = {
   isCorrect: 'isCorrect'
 };
 
+exports.Prisma.ObservationScalarFieldEnum = {
+  id: 'id',
+  category: 'category',
+  name: 'name',
+  description: 'description',
+  importance: 'importance'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -197,7 +205,8 @@ exports.Prisma.ModelName = {
   Question: 'Question',
   Option: 'Option',
   QuizAttempt: 'QuizAttempt',
-  Answer: 'Answer'
+  Answer: 'Answer',
+  Observation: 'Observation'
 };
 
 /**
