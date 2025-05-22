@@ -28,7 +28,6 @@ interface ChatContextType {
   connectionStatus: 'connecting' | 'connected' | 'disconnected';
   createChat: (title: string, initialMessage: string) => Promise<void>;
   sendMessage: (chatId: string, content: string) => Promise<void>;
-  sendMessageWithFiles: (chatId: string, content: string, files: File[]) => Promise<void>;
   selectChat: (chatId: string) => Promise<void>;
   deleteChat: (chatId: string) => Promise<void>;
 }
@@ -70,6 +69,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     
     setConnectionStatus('connecting');
     
+    // Initialize socket connection
     const socketInstance = io(socketUrl, {
       transports: ['websocket', 'polling'],
       autoConnect: true,
@@ -82,6 +82,8 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       console.log('Socket connected:', socketInstance.id);
       setConnectionStatus('connected');
       setError(null);
+      
+      // Join a room with the socket ID
       socketInstance.emit('join_room', { room: socketInstance.id });
     });
 
@@ -116,15 +118,6 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       let metadata = undefined;
       
       switch (update.type) {
-        case 'file_upload_start':
-          content = '📁 ' + update.message;
-          break;
-        case 'file_processing':
-          content = '⚙️ ' + update.message;
-          break;
-        case 'content_extracted':
-          content = '📄 ' + update.message;
-          break;
         case 'search_start':
           content = '🔍 ' + update.message;
           break;
@@ -202,6 +195,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(true);
       setError(null);
       
+      // Add user message immediately for better UX
       const userMessage: Message = {
         id: Date.now().toString(),
         content,
@@ -219,6 +213,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         });
       }
 
+      // Add temporary assistant message
       const tempAssistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: '🤖 Initializing fact-check process...',
@@ -252,6 +247,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       if (currentChat?.id === chatId) {
         setCurrentChat(prev => {
           if (!prev) return prev;
+          // Remove temporary messages and add real ones
           const filteredMessages = prev.messages.filter(msg => 
             msg.id !== userMessage.id && msg.id !== tempAssistantMessage.id
           );
@@ -263,6 +259,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (err: any) {
       setError(err.message);
+      // Add error message to chat
       if (currentChat?.id === chatId) {
         setCurrentChat(prev => {
           if (!prev) return prev;
@@ -274,117 +271,6 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
             messages: [...filteredMessages, {
               id: Date.now().toString(),
               content: '❌ Failed to process message. Please try again.',
-              role: 'assistant',
-              createdAt: new Date()
-            }]
-          };
-        });
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const sendMessageWithFiles = async (chatId: string, content: string, files: File[]) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      
-      const userMessage: Message = {
-        id: Date.now().toString(),
-        content: content || 'Analyze uploaded files',
-        role: 'user',
-        metadata: { 
-          files: files.map(f => ({ name: f.name, type: f.type, size: f.size }))
-        },
-        createdAt: new Date()
-      };
-
-      if (currentChat?.id === chatId) {
-        setCurrentChat(prev => {
-          if (!prev) return prev;
-          return {
-            ...prev,
-            messages: [...prev.messages, userMessage]
-          };
-        });
-      }
-
-      const tempAssistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: '🤖 Processing uploaded files...',
-        role: 'assistant',
-        createdAt: new Date()
-      };
-
-      if (currentChat?.id === chatId) {
-        setCurrentChat(prev => {
-          if (!prev) return prev;
-          return {
-            ...prev,
-            messages: [...prev.messages, tempAssistantMessage]
-          };
-        });
-      }
-
-      // Create FormData for file upload
-      const formData = new FormData();
-      files.forEach(file => {
-        formData.append('files', file);
-      });
-      if (content) {
-        formData.append('query', content);
-      }
-
-      const response = await fetch('http://localhost:5000/api/factcheck-files', {
-        method: 'POST',
-        headers: {
-          'X-Socket-ID': socket?.id || ''
-        },
-        body: formData
-      });
-
-      if (!response.ok) throw new Error('Failed to process files');
-      
-      const result = await response.json();
-      
-      // Create assistant response message
-      const assistantMessage: Message = {
-        id: (Date.now() + 2).toString(),
-        content: result.analysis || 'File processing completed',
-        role: 'assistant',
-        metadata: {
-          sources: result.sources || [],
-          file_metadata: result.file_metadata
-        },
-        createdAt: new Date()
-      };
-
-      if (currentChat?.id === chatId) {
-        setCurrentChat(prev => {
-          if (!prev) return prev;
-          const filteredMessages = prev.messages.filter(msg => 
-            msg.id !== userMessage.id && msg.id !== tempAssistantMessage.id
-          );
-          return {
-            ...prev,
-            messages: [...filteredMessages, userMessage, assistantMessage]
-          };
-        });
-      }
-    } catch (err: any) {
-      setError(err.message);
-      if (currentChat?.id === chatId) {
-        setCurrentChat(prev => {
-          if (!prev) return prev;
-          const filteredMessages = prev.messages.filter(msg => 
-            msg.role === 'user' || !msg.content.includes('🤖 Processing')
-          );
-          return {
-            ...prev,
-            messages: [...filteredMessages, {
-              id: Date.now().toString(),
-              content: '❌ Failed to process files. Please try again.',
               role: 'assistant',
               createdAt: new Date()
             }]
@@ -454,7 +340,6 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         connectionStatus,
         createChat,
         sendMessage,
-        sendMessageWithFiles,
         selectChat,
         deleteChat
       }}

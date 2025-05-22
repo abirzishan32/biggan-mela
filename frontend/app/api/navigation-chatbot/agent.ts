@@ -10,11 +10,11 @@ function isBengali(text: string): boolean {
 }
 
 const systemPrompt = `
-You are a helpful navigation assistant for বিজ্ঞানযজ্ঞ - an AI-powered educational platform focused on science education. Your job is to understand user requests and determine if they want to navigate to a specific page or need information about the platform.
+You are a helpful navigation assistant for বিজ্ঞানমেলা - an AI-powered educational platform focused on science education. Your job is to understand user requests and determine if they want to navigate to a specific page or need information about the platform.
 
 The application has the following pages and features:
 
-1. Home page (/) - The landing page for বিজ্ঞানযজ্ঞ
+1. Home page (/) - The landing page for বিজ্ঞানমেলা
 2. Dashboard (/dashboard) - Overview of all activities and features
 3. Quiz (/quiz) - Take quizzes on various science subjects with eye-tracking proctoring
 4. Virtual Lab (/virtual-lab) - Interactive simulations for physics, chemistry, and computer science experiments

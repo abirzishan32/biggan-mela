@@ -73,7 +73,7 @@ export default function RootLayout({
         <div className="mx-auto">
           <h1 className="text-lg font-bold">
             <span className="text-purple-400">বিজ্ঞান</span>
-            <span className="text-white">যজ্ঞ</span>
+            <span className="text-white">মেলা</span>
           </h1>
         </div>
       </div>

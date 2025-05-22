@@ -61,7 +61,7 @@ export default function FireExtinguisherPage() {
       </main>
       
       <footer className="bg-gradient-to-r from-amber-500/20 to-red-500/20 p-2 text-center text-amber-800 text-xs">
-        <p>বিজ্ঞানযজ্ঞ | শিশুদের জন্য অগ্নি নিরাপত্তা শিক্ষা</p>
+        <p>বিজ্ঞানমেলা | শিশুদের জন্য অগ্নি নিরাপত্তা শিক্ষা</p>
       </footer>
     </div>
   );

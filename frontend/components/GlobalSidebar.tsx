@@ -29,7 +29,8 @@ import {
   CircuitBoard,
   RadioTower,
   Newspaper,
-  Eye
+  Eye,
+  BookCheck
 } from 'lucide-react'
 import Image from 'next/image'
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -264,6 +265,13 @@ const GlobalSidebar = ({ isSidebarCollapsed, toggleSidebar }: GlobalSidebarProps
       icon: <Brain size={20} />,
       label: "AI-সাইন্স কুইজ",
       id: "quiz",
+    },
+    {
+      href: "/fact-check",
+      icon: <BookCheck size={20} />,
+      label: "কল্পনা বনাম বাস্তবতা",
+      id: "fact-check",
+      isNew: true,
     },
     {
       href: "/career-guidance",

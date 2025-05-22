@@ -3,11 +3,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { useChat } from '@/context/chat-context';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Send, ExternalLink, Upload, X, File, Image } from 'lucide-react';
+import { Loader2, Send, ExternalLink } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 interface SourceBadgeProps {
@@ -58,14 +58,6 @@ interface MessageProps {
         url: string;
         score: number;
       }>;
-      file_metadata?: {
-        processed_files: number;
-        extracted_sources: number;
-        files_info: Array<{
-          filename: string;
-          type: string;
-        }>;
-      };
     };
   };
 }
@@ -106,28 +98,6 @@ function MessageBubble({ message }: MessageProps) {
           )}
         </div>
         
-        {/* File metadata display */}
-        {!isUser && message.metadata?.file_metadata && (
-          <div className="mt-3 mr-4">
-            <div className="text-xs text-muted-foreground mb-2">
-              <Badge variant="outline" className="mr-2">
-                📁 {message.metadata.file_metadata.processed_files} files processed
-              </Badge>
-              <Badge variant="outline">
-                📄 {message.metadata.file_metadata.extracted_sources} sources extracted
-              </Badge>
-            </div>
-            <div className="flex flex-wrap gap-1">
-              {message.metadata.file_metadata.files_info?.map((file, index) => (
-                <Badge key={index} variant="secondary" className="text-xs">
-                  {file.type === 'pdf' ? '📄' : '🖼️'} {file.filename}
-                </Badge>
-              ))}
-            </div>
-          </div>
-        )}
-        
-        {/* Sources display */}
         {!isUser && message.metadata?.sources && message.metadata.sources.length > 0 && (
           <div className="mt-3 mr-4">
             <p className="text-xs text-muted-foreground mb-2 font-medium">Sources:</p>
@@ -143,87 +113,6 @@ function MessageBubble({ message }: MessageProps) {
   );
 }
 
-interface FileUploadProps {
-  files: File[];
-  onFilesChange: (files: File[]) => void;
-  onRemoveFile: (index: number) => void;
-}
-
-function FileUpload({ files, onFilesChange, onRemoveFile }: FileUploadProps) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = Array.from(e.target.files || []);
-    const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
-    
-    const validFiles = selectedFiles.filter(file => 
-      allowedTypes.includes(file.type) && file.size <= 16 * 1024 * 1024 // 16MB limit
-    );
-    
-    onFilesChange([...files, ...validFiles]);
-    
-    // Reset input
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
-
-  const getFileIcon = (file: File) => {
-    if (file.type === 'application/pdf') return <File className="w-4 h-4" />;
-    if (file.type.startsWith('image/')) return <Image className="w-4 h-4" />;
-    return <File className="w-4 h-4" />;
-  };
-
-  return (
-    <div className="space-y-2">
-      <div className="flex items-center gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={() => fileInputRef.current?.click()}
-          className="flex items-center gap-2"
-        >
-          <Upload className="w-4 h-4" />
-          Add Files
-        </Button>
-        <span className="text-xs text-muted-foreground">
-          PDF, PNG, JPG (max 16MB each)
-        </span>
-      </div>
-      
-      <input
-        ref={fileInputRef}
-        type="file"
-        multiple
-        accept=".pdf,.png,.jpg,.jpeg,.gif"
-        onChange={handleFileSelect}
-        className="hidden"
-      />
-      
-      {files.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {files.map((file, index) => (
-            <div key={index} className="flex items-center gap-2 bg-muted rounded-lg px-3 py-2">
-              {getFileIcon(file)}
-              <span className="text-sm truncate max-w-32">{file.name}</span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => onRemoveFile(index)}
-                className="h-6 w-6 p-0 hover:bg-destructive/20"
-              >
-                <X className="w-4 h-4" />
-              </Button>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function ChatInterface() {
   const {
     chats,
@@ -232,13 +121,11 @@ export default function ChatInterface() {
     error,
     createChat,
     sendMessage,
-    sendMessageWithFiles,
     selectChat
   } = useChat();
 
   const [input, setInput] = useState('');
   const [title, setTitle] = useState('');
-  const [files, setFiles] = useState<File[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -248,26 +135,17 @@ export default function ChatInterface() {
   }, [currentChat?.messages]);
 
   const handleSend = async () => {
-    if (!input.trim() && files.length === 0) return;
+    if (!input.trim()) return;
 
     if (!currentChat) {
-      const chatTitle = title || input.slice(0, 30) + (input.length > 30 ? '...' : '') || 'File Analysis';
-      if (files.length > 0) {
-        await createChat(chatTitle, input || 'Analyze uploaded files');
-      } else {
-        await createChat(chatTitle, input);
-      }
+      const chatTitle = title || input.slice(0, 30) + (input.length > 30 ? '...' : '');
+      await createChat(chatTitle, input);
     } else {
-      if (files.length > 0) {
-        await sendMessageWithFiles(currentChat.id, input, files);
-      } else {
-        await sendMessage(currentChat.id, input);
-      }
+      await sendMessage(currentChat.id, input);
     }
 
     setInput('');
     setTitle('');
-    setFiles([]);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -275,10 +153,6 @@ export default function ChatInterface() {
       e.preventDefault();
       handleSend();
     }
-  };
-
-  const handleRemoveFile = (index: number) => {
-    setFiles(files.filter((_, i) => i !== index));
   };
 
   return (
@@ -293,7 +167,7 @@ export default function ChatInterface() {
             <p className="text-sm text-muted-foreground">
               {currentChat 
                 ? `${currentChat.messages.length} messages` 
-                : 'Start a conversation to fact-check information with text or files'}
+                : 'Start a conversation to fact-check information'}
             </p>
           </div>
           <div className="flex items-center space-x-2">
@@ -316,24 +190,10 @@ export default function ChatInterface() {
                 <h3 className="text-lg font-semibold text-foreground mb-2">
                   Welcome to BigGan Mela Fact Checker
                 </h3>
-                <p className="text-muted-foreground max-w-md mx-auto mb-4">
+                <p className="text-muted-foreground max-w-md mx-auto">
                   Ask any question and get fact-checked information with reliable sources. 
-                  Upload PDFs and images for comprehensive analysis.
+                  Our AI analyzes multiple sources to provide accurate answers.
                 </p>
-                <div className="flex justify-center gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <File className="w-4 h-4" />
-                    PDF Analysis
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Image className="w-4 h-4" />
-                    Image OCR
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <ExternalLink className="w-4 h-4" />
-                    Source Verification
-                  </div>
-                </div>
               </div>
             )}
 
@@ -356,19 +216,11 @@ export default function ChatInterface() {
 
       {/* Input Area */}
       <div className="flex-shrink-0 border-t bg-card p-4 shadow-lg">
-        <div className="max-w-3xl mx-auto space-y-3">
-          {/* File Upload */}
-          <FileUpload 
-            files={files}
-            onFilesChange={setFiles}
-            onRemoveFile={handleRemoveFile}
-          />
-          
-          {/* Text Input */}
+        <div className="max-w-3xl mx-auto">
           <div className="flex gap-3">
             <div className="flex-1">
               <Input
-                placeholder={files.length > 0 ? "Add a question about your files..." : "Ask a question to fact-check..."}
+                placeholder="Ask a question to fact-check..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
@@ -378,7 +230,7 @@ export default function ChatInterface() {
             </div>
             <Button
               onClick={handleSend}
-              disabled={(!input.trim() && files.length === 0) || isLoading}
+              disabled={!input.trim() || isLoading}
               size="lg"
               className="px-6 shadow-md hover:shadow-lg transition-shadow"
             >
@@ -389,9 +241,8 @@ export default function ChatInterface() {
               )}
             </Button>
           </div>
-          
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>Press Enter to send • Shift+Enter for new line • Upload files for analysis</span>
+          <div className="flex items-center justify-between mt-2 text-xs text-muted-foreground">
+            <span>Press Enter to send • Shift+Enter for new line</span>
             <span className="flex items-center gap-1">
               Powered by AI <Badge variant="outline" className="text-xs">Beta</Badge>
             </span>

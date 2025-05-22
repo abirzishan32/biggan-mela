@@ -159,7 +159,7 @@ export function getFilteredQuestions(classLevel: string, subject: string, count:
 
 export function formatQuizMessage(question: QuizQuestion): string {
   // Format the question for SMS
-  let message = `বিজ্ঞানযজ্ঞ কুইজ:\n\n${question.question}\n\n`;
+  let message = `বিজ্ঞানমেলা কুইজ:\n\n${question.question}\n\n`;
   
   // Add options
   question.options.forEach((option, index) => {
@@ -174,7 +174,7 @@ export function formatQuizMessage(question: QuizQuestion): string {
 export function formatMultipleQuizMessage(questions: QuizQuestion[]): string {
   if (questions.length === 0) return "কোন প্রশ্ন খুঁজে পাওয়া যায়নি।";
   
-  let message = `🧠 বিজ্ঞানযজ্ঞ কুইজ সিরিজ 🧠\n\n`;
+  let message = `🧠 বিজ্ঞানমেলা কুইজ সিরিজ 🧠\n\n`;
   
   questions.forEach((question, qIndex) => {
     message += `প্রশ্ন ${qIndex + 1}: ${question.question}\n\n`;
