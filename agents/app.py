@@ -4,6 +4,9 @@ from flask_restx import Api, Resource, fields
 from birdnet import analyze_bird, analyzer
 from birdphoto import analyze_bird_photo
 from banglaocr import perform_ocr
+from flask_socketio import SocketIO, emit, join_room, leave_room
+from factcheck import FactCheckChain
+from asgiref.sync import async_to_sync
 import os
 
 app = Flask(__name__)
@@ -13,6 +16,20 @@ api = Api(app,
     version='1.0',
     description='API for analyzing bird sounds and images using BirdNET and HuggingFace',
     doc='/swagger'
+)
+
+# Configure SocketIO with proper CORS
+socketio = SocketIO(
+    app, 
+    cors_allowed_origins="*",
+    async_mode='threading',
+    logger=True,
+    engineio_logger=True
+)
+
+fact_checker = FactCheckChain(
+    tavily_api_key=os.getenv('TAVILY_API_KEY'),
+    google_api_key=os.getenv('GOOGLE_API_KEY')
 )
 
 # Define the namespace
@@ -106,8 +123,75 @@ class OCR(Resource):
         except Exception as e:
             return {'error': str(e), 'success': False}, 500
 
+# Socket.IO event handlers
+@socketio.on('connect')
+def handle_connect():
+    print(f'Client connected: {request.sid}')
+    emit('connected', {'data': 'Connected to BigGan Mela server'})
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    print(f'Client disconnected: {request.sid}')
+
+@socketio.on('join_room')
+def handle_join_room(data):
+    room = data.get('room', request.sid)
+    join_room(room)
+    print(f'Client {request.sid} joined room {room}')
+    emit('room_joined', {'room': room})
+
+@socketio.on('leave_room')
+def handle_leave_room(data):
+    room = data.get('room', request.sid)
+    leave_room(room)
+    print(f'Client {request.sid} left room {room}')
+    emit('room_left', {'room': room})
+
+@socketio.on('chat_message')
+def handle_message(data):
+    print(f'Message from {request.sid}: {data}')
+    emit('message', data, broadcast=True, include_self=False)
+
+@socketio.on('typing')
+def handle_typing(data):
+    emit('typing', data, broadcast=True, include_self=False)
+
+@ns.route('/factcheck')
+class FactCheck(Resource):
+    @ns.expect(api.model('FactCheckRequest', {
+        'query': fields.String(required=True, description='The statement to fact check'),
+        'socket_id': fields.String(description='Socket ID of the client')
+    }))
+    @ns.response(200, 'Success')
+    @ns.response(400, 'Bad Request')
+    @ns.response(500, 'Internal Server Error')
+    def post(self):
+        """Process a fact-checking request"""
+        try:
+            data = request.get_json()
+            query = data.get('query')
+            
+            if not query:
+                return {'error': 'Query is required'}, 400
+            
+            # Get socket ID from headers if available
+            socket_id = request.headers.get('X-Socket-ID')
+            print(f"Processing fact check for socket: {socket_id}")
+            
+            # Use async_to_sync to handle the coroutine
+            verify_fact_sync = async_to_sync(fact_checker.verify_fact)
+            result = verify_fact_sync(socketio, query, socket_id)
+            
+            return result
+            
+        except Exception as e:
+            print(f"Error in fact check: {e}")
+            return {'error': str(e)}, 500
+
 if __name__ == '__main__':
     # Check if BirdNET is properly initialized
     if analyzer is None:
         print("WARNING: BirdNET analyzer failed to initialize. Audio analysis will not be available.")
-    app.run(debug=False, use_reloader=False, port=5000)
+    
+    print("Starting BigGan Mela server with Socket.IO...")
+    socketio.run(app, debug=True, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)

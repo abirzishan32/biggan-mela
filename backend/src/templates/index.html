@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fact Checker Application</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Fact Checker Application</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Upload Files for Fact Checking</h2>
+            <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="files" multiple accept=".pdf, .jpg, .jpeg, .png">
+                <button type="submit">Upload</button>
+            </form>
+        </section>
+        <section id="uploadStatus"></section>
+    </main>
+    <script src="../static/js/upload.js"></script>
+</body>
+</html>

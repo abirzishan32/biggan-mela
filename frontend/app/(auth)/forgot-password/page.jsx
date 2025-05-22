@@ -1,4 +1,4 @@
-import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision";
+
 import { FormMessage } from "@/components/ui/form-message";
 import Link from "next/link";
 import { SubmitButton } from "@/components/ui/submit-button";

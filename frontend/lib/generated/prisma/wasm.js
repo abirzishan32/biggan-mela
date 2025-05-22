@@ -183,9 +183,35 @@ exports.Prisma.ObservationScalarFieldEnum = {
   importance: 'importance'
 };
 
+exports.Prisma.ChatScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  profileId: 'profileId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  chatId: 'chatId',
+  profileId: 'profileId',
+  content: 'content',
+  role: 'role',
+  mediaUrl: 'mediaUrl',
+  mediaType: 'mediaType',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -198,6 +224,12 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
 
 exports.Prisma.ModelName = {
   Profile: 'Profile',
@@ -206,7 +238,9 @@ exports.Prisma.ModelName = {
   Option: 'Option',
   QuizAttempt: 'QuizAttempt',
   Answer: 'Answer',
-  Observation: 'Observation'
+  Observation: 'Observation',
+  Chat: 'Chat',
+  Message: 'Message'
 };
 
 /**

@@ -28,7 +28,8 @@ import {
   Microscope,
   CircuitBoard,
   RadioTower,
-  Newspaper
+  Newspaper,
+  Eye
 } from 'lucide-react'
 import Image from 'next/image'
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -270,6 +271,37 @@ const GlobalSidebar = ({ isSidebarCollapsed, toggleSidebar }: GlobalSidebarProps
       label: "ক্যারিয়ার গাইডেন্স",
       id: "career-guidance",
       isNew: true,
+    },
+    {
+      href: "/image-explanation",
+      icon: <Sparkles size={20} />,
+      label: "ছবি বিবরণ",
+      id: "image-explanation",
+    },
+    {
+      href: "/submit",
+      icon: <Eye size={20} />,
+      label: "দৃষ্টিভ্য",
+      id: "submit",
+    },
+    {
+      href: "/science-news",
+      icon: <Newspaper size={20} />,
+      label: "বিজ্ঞানের খবর",
+      id: "science-news",
+      isNew: false,
+    },
+    {
+      href: "/image-explanation",
+      icon: <Sparkles size={20} />,
+      label: "ছবি বিবরণ",
+      id: "image-explanation",
+    },
+    {
+      href: "/submit",
+      icon: <Eye size={20} />,
+      label: "দৃষ্টিভ্য",
+      id: "submit",
     },
     {
       href: "/science-news",

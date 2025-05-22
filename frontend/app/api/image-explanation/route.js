@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { WikipediaQueryRun } from "@langchain/community/tools";
+import { WikipediaQueryRun } from "@langchain/community/tools/wikipedia_query_run";
 
 // Get API key from environment variable
-const apiKey = process.env.GOOGLE_AI_API_KEY;
+const apiKey = process.env.GEMINI_API_KEY;
 
 if (!apiKey) {
   console.error('Google AI API key is not configured. Please add GOOGLE_AI_API_KEY to your .env.local file');
@@ -60,7 +60,7 @@ Make sure your response is:
 5. Takes into account the conversation history
 6. Includes mathematical solutions if present
 
-YOUR RESPONSE MUST BE IN BENGALI
+YOUR RESPONSE MUST BE IN BENGALI, NO BANGLISH UNLESS IT'S EXPLICITLY REQUIRED.
 
 Format your response as a JSON object with the following structure:
 {
@@ -73,7 +73,7 @@ Format your response as a JSON object with the following structure:
     "steps": ["Step 1", "Step 2", "Step 3"],
     "answer": "The final answer",
     "explanation": "Explanation of the solution in Bengali",
-    "fullSolution": "Complete solution with all steps and detailed explanations"
+    "fullSolution": "Complete solution with all steps and detailed explanations",
   }
 }`;
 
@@ -144,7 +144,7 @@ export async function POST(request) {
     });
 
     const data = await response.json();
-
+    console.log(data);
     if (!response.ok) {
       throw new Error(data.error || 'Failed to process image');
     }

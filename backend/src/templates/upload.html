@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Files</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <h1>Upload Files for Fact Checking</h1>
+    <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+        <label for="files">Select files to upload (images or PDFs):</label>
+        <input type="file" id="files" name="files" multiple accept=".pdf, .jpg, .jpeg, .png">
+        <button type="submit">Upload</button>
+    </form>
+    <div id="progress"></div>
+    <script src="../static/js/upload.js"></script>
+</body>
+</html>
