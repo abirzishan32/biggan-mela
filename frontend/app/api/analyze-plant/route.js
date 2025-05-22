@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from "@google/generative-ai"
 import { z } from "zod"
+import prisma from "@/lib/prisma"
 
 // Get API key from environment variable
 const apiKey = process.env.GOOGLE_AI_API_KEY
@@ -104,9 +105,40 @@ export async function POST(request) {
       throw new Error(`Failed to parse AI response: ${parseError.message}`)
     }
 
+    // If the plant should be stored, save it to the database
+    if (analysis.shouldStore) {
+      try {
+        const observation = await prisma.observation.create({
+          data: {
+            category: 'plant',
+            name: plantData.scientificName,
+            description: `Common Names: ${plantData.commonNames?.join(', ') || 'Unknown'}\nFamily: ${plantData.family?.scientificName || 'Unknown'}\nGenus: ${plantData.genus?.scientificName || 'Unknown'}\n\nAnalysis: ${analysis.explanation}`,
+            importance: analysis.conservationStatus
+          }
+        })
+
+        return NextResponse.json({
+          analysis,
+          isImportant: true,
+          storedInDatabase: true,
+          observationId: observation.id
+        })
+      } catch (dbError) {
+        console.error('Error storing plant in database:', dbError)
+        // Continue with the response even if database storage fails
+        return NextResponse.json({
+          analysis,
+          isImportant: true,
+          storedInDatabase: false,
+          error: 'Failed to store in database'
+        })
+      }
+    }
+
     return NextResponse.json({
       analysis,
-      isImportant: analysis.shouldStore
+      isImportant: false,
+      storedInDatabase: false
     })
   } catch (error) {
     console.error('Error analyzing plant:', error)

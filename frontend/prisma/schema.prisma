@@ -73,3 +73,11 @@ model Answer {
   selectedOption String
   isCorrect      Boolean
 }
+
+model Observation {
+  id String @id @default(uuid())
+  category String
+  name String
+  description String
+  importance String
+}

@@ -160,6 +160,15 @@ export default function SubmitObservation() {
 
         const analysisData = await analysisResponse.json()
         setPlantAnalysis(analysisData)
+
+        // Show appropriate message based on database storage
+        if (analysisData.isImportant) {
+          if (analysisData.storedInDatabase) {
+            setError(`Important plant detected and stored in database! ID: ${analysisData.observationId}`)
+          } else {
+            setError('Important plant detected but failed to store in database. Please try again.')
+          }
+        }
       }
     } catch (error) {
       console.error('Error:', error)
@@ -678,10 +687,20 @@ export default function SubmitObservation() {
                   <p className="text-muted-foreground">{plantAnalysis.analysis.explanation}</p>
                 </div>
 
-                {plantAnalysis.analysis.shouldStore && (
-                  <div className="mt-4 p-4 bg-accent border border-accent-foreground/20 rounded-md">
-                    <p className="text-accent-foreground font-medium">
-                      This plant appears to be important! Consider storing it in the database for future research.
+                {plantAnalysis.isImportant && (
+                  <div className={`mt-4 p-4 rounded-md ${
+                    plantAnalysis.storedInDatabase 
+                      ? 'bg-green-100 border border-green-200' 
+                      : 'bg-yellow-100 border border-yellow-200'
+                  }`}>
+                    <p className={`font-medium ${
+                      plantAnalysis.storedInDatabase 
+                        ? 'text-green-800' 
+                        : 'text-yellow-800'
+                    }`}>
+                      {plantAnalysis.storedInDatabase 
+                        ? `Important plant stored in database! ID: ${plantAnalysis.observationId}`
+                        : 'Important plant detected but failed to store in database. Please try again.'}
                     </p>
                   </div>
                 )}
