@@ -94,7 +94,7 @@ export default function PrismLabPage() {
           
           {/* Overlay for angle information */}
           <div className="absolute top-4 right-4 bg-black bg-opacity-60 text-white p-3 rounded-md">
-            <div className="text-lg font-bold">Incident Angle: {incidentAngle.toFixed(1)}°</div>
+            <div className="text-lg font-bold text-gray-700">Incident Angle: {incidentAngle.toFixed(1)}°</div>
             {measurementData.length > 0 && (
               <div>Last Deviation: {measurementData[measurementData.length-1].deviationAngle.toFixed(1)}°</div>
             )}

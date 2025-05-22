@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { WikipediaQueryRun } from "@langchain/community/tools/wikipedia_query_run";
+import { WikipediaQueryRun } from "@langchain/community/tools";
 
 // Get API key from environment variable
 const apiKey = process.env.GOOGLE_AI_API_KEY;

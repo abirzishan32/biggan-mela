@@ -44,10 +44,11 @@ export default function Graph({ data, minDeviation }: GraphProps) {
       {
         label: 'Angle of Deviation',
         data: sortedData.map(d => d.deviationAngle),
-        borderColor: 'rgb(75, 192, 192)',
-        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        borderColor: 'rgb(56, 189, 248)',
+        backgroundColor: 'rgba(56, 189, 248, 0.5)',
         tension: 0.3,
-        pointRadius: 4
+        pointRadius: 4,
+        pointBackgroundColor: 'rgb(56, 189, 248)',
       }
     ]
   };
@@ -57,7 +58,7 @@ export default function Graph({ data, minDeviation }: GraphProps) {
     chartData.datasets.push({
       label: 'Minimum Deviation',
       data: Array(sortedData.length).fill(minDeviation),
-      borderColor: 'rgba(255, 99, 132, 0.8)',
+      borderColor: 'rgba(248, 113, 113, 0.8)',
       borderDash: [5, 5],
       borderWidth: 2,
       pointRadius: 0,
@@ -73,27 +74,49 @@ export default function Graph({ data, minDeviation }: GraphProps) {
       x: {
         title: {
           display: true,
-          text: 'Angle of Incidence (degrees)'
+          text: 'Angle of Incidence (degrees)',
+          color: '#e2e8f0'
+        },
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)'
+        },
+        ticks: {
+          color: '#e2e8f0'
         }
       },
       y: {
         title: {
           display: true,
-          text: 'Angle of Deviation (degrees)'
+          text: 'Angle of Deviation (degrees)',
+          color: '#e2e8f0'
         },
-        min: minDeviation ? Math.max(0, minDeviation - 10) : undefined
+        min: minDeviation ? Math.max(0, minDeviation - 10) : undefined,
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)'
+        },
+        ticks: {
+          color: '#e2e8f0'
+        }
       }
     },
     plugins: {
       legend: {
         position: 'top',
+        labels: {
+          color: '#e2e8f0'
+        }
       },
       tooltip: {
         callbacks: {
           label: function(context) {
             return `${context.dataset.label}: ${parseFloat(context.formattedValue).toFixed(2)}°`;
           }
-        }
+        },
+        backgroundColor: 'rgba(17, 24, 39, 0.8)',
+        titleColor: '#ffffff',
+        bodyColor: '#e2e8f0',
+        borderColor: 'rgba(56, 189, 248, 0.5)',
+        borderWidth: 1,
       }
     }
   };
@@ -107,9 +130,9 @@ export default function Graph({ data, minDeviation }: GraphProps) {
   
   if (data.length < 2) {
     return (
-      <div className="mt-4 bg-white p-4 rounded-lg shadow">
-        <h2 className="text-lg font-semibold mb-2">i-D Graph</h2>
-        <div className="text-center text-gray-500 py-4">
+      <div className="mt-4 bg-gray-900 p-4 rounded-lg shadow-lg border border-gray-800">
+        <h2 className="text-lg font-semibold mb-2 text-white">i-D Graph</h2>
+        <div className="text-center text-gray-400 py-4 bg-gray-800 rounded-md">
           Take at least 2 measurements to generate a graph.
         </div>
       </div>
@@ -117,16 +140,16 @@ export default function Graph({ data, minDeviation }: GraphProps) {
   }
   
   return (
-    <div className="mt-4 bg-white p-4 rounded-lg shadow">
-      <h2 className="text-lg font-semibold mb-2">i-D Graph</h2>
-      <div className="h-64 mb-2">
+    <div className="mt-4 bg-gray-900 p-4 rounded-lg shadow-lg border border-gray-800">
+      <h2 className="text-lg font-semibold mb-2 text-white">i-D Graph</h2>
+      <div className="h-64 mb-2 bg-gray-800 p-3 rounded-md border border-gray-700">
         <Line 
           ref={chartRef}
           data={chartData} 
           options={chartOptions} 
         />
       </div>
-      <div className="text-xs text-gray-600 mt-2">
+      <div className="text-xs text-gray-400 mt-2">
         <p>
           The minimum of the curve indicates the angle of minimum deviation (Dm).
           At this point, the light ray passes symmetrically through the prism.

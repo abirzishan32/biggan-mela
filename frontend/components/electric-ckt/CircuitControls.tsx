@@ -155,7 +155,7 @@ export default function CircuitControls() {
             state.simulation.isRunning 
               ? "bg-red-500 hover:bg-red-600" 
               : "bg-green-500 hover:bg-green-600"
-          } text-white transition`}
+          } text-black transition`}
         >
           {state.simulation.isRunning ? "Stop Simulation" : "Run Simulation"}
         </button>
@@ -251,7 +251,7 @@ export default function CircuitControls() {
       )}
       
       {state.simulation.isRunning && (
-        <div className="mt-6 bg-gray-100 p-3 rounded">
+        <div className="mt-6 bg-black-100 p-3 rounded">
           <h3 className="font-medium mb-2">Simulation Results</h3>
           <p className="text-sm">Current flowing: {state.simulation.currentFlow.toFixed(2)}A</p>
           <p className="text-sm">Total resistance: {(calculateTotalResistance(state.components) / 1000).toFixed(2)}kΩ</p>

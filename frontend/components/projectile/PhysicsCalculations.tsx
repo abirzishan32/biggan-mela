@@ -42,78 +42,78 @@ export default function PhysicsCalculations({
   const vy = velocity * Math.sin(angleRadians);
   
   return (
-    <div className="mt-6 bg-white p-4 rounded-lg shadow">
-      <h2 className="text-lg font-bold mb-3">Physics Analysis</h2>
+    <div className="mt-6 bg-gray-800 p-4 rounded-lg shadow-lg">
+      <h2 className="text-lg font-bold mb-3 text-white">Physics Analysis</h2>
       
-      <div className="mb-4">
-        <h3 className="font-semibold mb-2">Initial Conditions:</h3>
+      <div className="mb-4 bg-gray-700 p-3 rounded-md">
+        <h3 className="font-semibold mb-2 text-blue-300">Initial Conditions:</h3>
         <div className="grid grid-cols-2 gap-2 text-sm">
-          <div>Velocity:</div>
-          <div>{velocity.toFixed(1)} m/s</div>
+          <div className="text-gray-300">Velocity:</div>
+          <div className="text-white font-mono">{velocity.toFixed(1)} m/s</div>
           
-          <div>Angle:</div>
-          <div>{angle.toFixed(1)}°</div>
+          <div className="text-gray-300">Angle:</div>
+          <div className="text-white font-mono">{angle.toFixed(1)}°</div>
           
-          <div>Mass:</div>
-          <div>{mass.toFixed(1)} kg</div>
+          <div className="text-gray-300">Mass:</div>
+          <div className="text-white font-mono">{mass.toFixed(1)} kg</div>
           
-          <div>Air Resistance:</div>
-          <div>{airResistance ? 'Enabled' : 'Disabled'}</div>
+          <div className="text-gray-300">Air Resistance:</div>
+          <div className="text-white font-mono">{airResistance ? 'Enabled' : 'Disabled'}</div>
           
           {airResistance && (
             <>
-              <div>Wind Speed:</div>
-              <div>{windSpeed.toFixed(1)} m/s</div>
+              <div className="text-gray-300">Wind Speed:</div>
+              <div className="text-white font-mono">{windSpeed.toFixed(1)} m/s</div>
             </>
           )}
         </div>
       </div>
       
-      <div className="mb-4">
-        <h3 className="font-semibold mb-2">Velocity Components:</h3>
+      <div className="mb-4 bg-gray-700 p-3 rounded-md">
+        <h3 className="font-semibold mb-2 text-blue-300">Velocity Components:</h3>
         <div className="grid grid-cols-2 gap-2 text-sm">
-          <div>Horizontal (vₓ):</div>
-          <div>{vx.toFixed(2)} m/s</div>
+          <div className="text-gray-300">Horizontal (vₓ):</div>
+          <div className="text-white font-mono">{vx.toFixed(2)} m/s</div>
           
-          <div>Vertical (vᵧ):</div>
-          <div>{vy.toFixed(2)} m/s</div>
+          <div className="text-gray-300">Vertical (vᵧ):</div>
+          <div className="text-white font-mono">{vy.toFixed(2)} m/s</div>
         </div>
       </div>
       
-      <div className="mb-4">
-        <h3 className="font-semibold mb-2">Theoretical Predictions (without air resistance):</h3>
+      <div className="mb-4 bg-gray-700 p-3 rounded-md">
+        <h3 className="font-semibold mb-2 text-blue-300">Theoretical Predictions (without air resistance):</h3>
         <div className="grid grid-cols-2 gap-2 text-sm">
-          <div>Maximum Height:</div>
-          <div>{theoreticalMaxHeight.toFixed(2)} m</div>
+          <div className="text-gray-300">Maximum Height:</div>
+          <div className="text-white font-mono">{theoreticalMaxHeight.toFixed(2)} m</div>
           
-          <div>Range:</div>
-          <div>{theoreticalRange.toFixed(2)} m</div>
+          <div className="text-gray-300">Range:</div>
+          <div className="text-white font-mono">{theoreticalRange.toFixed(2)} m</div>
           
-          <div>Flight Time:</div>
-          <div>{theoreticalFlightTime.toFixed(2)} s</div>
+          <div className="text-gray-300">Flight Time:</div>
+          <div className="text-white font-mono">{theoreticalFlightTime.toFixed(2)} s</div>
         </div>
       </div>
       
       {results.flightTime > 0 && (
-        <div className="mb-4">
-          <h3 className="font-semibold mb-2">Simulation Results:</h3>
+        <div className="mb-4 bg-gray-700 p-3 rounded-md">
+          <h3 className="font-semibold mb-2 text-blue-300">Simulation Results:</h3>
           <div className="grid grid-cols-2 gap-2 text-sm">
-            <div>Maximum Height:</div>
-            <div>{results.maxHeight.toFixed(2)} m</div>
+            <div className="text-gray-300">Maximum Height:</div>
+            <div className="text-white font-mono">{results.maxHeight.toFixed(2)} m</div>
             
-            <div>Range:</div>
-            <div>{results.distance.toFixed(2)} m</div>
+            <div className="text-gray-300">Range:</div>
+            <div className="text-white font-mono">{results.distance.toFixed(2)} m</div>
             
-            <div>Flight Time:</div>
-            <div>{results.flightTime.toFixed(2)} s</div>
+            <div className="text-gray-300">Flight Time:</div>
+            <div className="text-white font-mono">{results.flightTime.toFixed(2)} s</div>
             
-            <div>Initial Energy:</div>
-            <div>{results.initialEnergy.toFixed(2)} J</div>
+            <div className="text-gray-300">Initial Energy:</div>
+            <div className="text-white font-mono">{results.initialEnergy.toFixed(2)} J</div>
           </div>
           
           {airResistance && (
-            <div className="mt-2 text-sm">
-              <p className="font-italic text-gray-600">
+            <div className="mt-2 text-sm text-gray-400">
+              <p className="italic">
                 Results differ from theoretical predictions due to air resistance and wind effects.
               </p>
             </div>
@@ -121,8 +121,8 @@ export default function PhysicsCalculations({
         </div>
       )}
       
-      <div className="text-sm text-gray-600">
-        <h3 className="font-semibold mb-1">Equations:</h3>
+      <div className="text-sm text-gray-400 bg-gray-700 p-3 rounded-md">
+        <h3 className="font-semibold mb-1 text-blue-300">Equations:</h3>
         <p>Maximum Height: h = v₀²sin²θ / 2g</p>
         <p>Range: R = v₀²sin(2θ) / g</p>
         <p>Flight Time: t = 2v₀sinθ / g</p>

@@ -137,22 +137,11 @@ export default function RefractionSimulator() {
           showAngles={showAngles}
           time={simulationTime}
         />
-        
-        {/* Information overlay */}
-        <div className="absolute bottom-4 left-4 bg-white bg-opacity-75 p-3 rounded-lg shadow-lg text-sm max-w-xs">
-          <h3 className="font-bold text-base mb-1">Incident Angle: {incidentAngle.toFixed(1)}°</h3>
-          {isReflectionOccurring ? (
-            <p className="text-red-600 font-semibold">Total Internal Reflection Occurring!</p>
-          ) : (
-            <p>Refracted Angle: {refractedAngle.toFixed(1)}°</p>
-          )}
-          <p className="mt-1 text-gray-700">Material: {material.name} (n = {material.refractiveIndex})</p>
-        </div>
       </div>
       
-      {/* Controls and information panel */}
-      <div className="w-full md:w-80 bg-white p-4 overflow-y-auto shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Refraction Controls</h2>
+      {/* Controls and information panel - Changed from white to dark themed background */}
+      <div className="w-full md:w-80 bg-gray-900 p-4 overflow-y-auto shadow-lg border-l border-gray-700">
+        <h2 className="text-xl font-bold mb-4 text-blue-300">Refraction Controls</h2>
         
         <AngleControls 
           incidentAngle={incidentAngle}
@@ -165,16 +154,16 @@ export default function RefractionSimulator() {
           onMaterialChange={setMaterial}
         />
         
-        <div className="mt-4 space-y-2">
+        <div className="mt-4 space-y-2 bg-gray-800 p-3 rounded-lg border border-gray-700">
           <div className="flex items-center">
             <input
               type="checkbox"
               id="show-normals"
               checked={showNormals}
               onChange={(e) => setShowNormals(e.target.checked)}
-              className="mr-2"
+              className="mr-2 accent-blue-500"
             />
-            <label htmlFor="show-normals" className="text-sm font-medium">Show Normal Line</label>
+            <label htmlFor="show-normals" className="text-sm font-medium text-gray-300">Show Normal Line</label>
           </div>
           
           <div className="flex items-center">
@@ -183,9 +172,9 @@ export default function RefractionSimulator() {
               id="show-angles"
               checked={showAngles}
               onChange={(e) => setShowAngles(e.target.checked)}
-              className="mr-2"
+              className="mr-2 accent-blue-500"
             />
-            <label htmlFor="show-angles" className="text-sm font-medium">Show Angle Measurements</label>
+            <label htmlFor="show-angles" className="text-sm font-medium text-gray-300">Show Angle Measurements</label>
           </div>
         </div>
         

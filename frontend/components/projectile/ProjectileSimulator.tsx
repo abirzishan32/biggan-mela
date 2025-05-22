@@ -427,7 +427,7 @@ export default function ProjectileSimulator() {
         </div>
         
         {projectile.hasLanded && (
-          <div className="absolute bottom-4 left-4 bg-white bg-opacity-75 p-3 rounded-lg shadow-lg z-30">
+          <div className="absolute bottom-4 left-4 bg-gray-700 bg-opacity-75 p-3 rounded-lg shadow-lg z-30">
             <h3 className="font-bold text-lg mb-2">Results:</h3>
             <p>Maximum Height: {results.maxHeight.toFixed(2)} meters</p>
             <p>Distance: {results.distance.toFixed(2)} meters</p>
