@@ -180,9 +180,9 @@ biggan-mela/
    pip install -r requirements.txt
    ```
 
-4. **Agent Services Setup:**
+4. **Agent Services Setup (Optional):**
    ```bash
-   cd agents
+   cd ../agents
    pip install -r requirements.txt
    ```
 
@@ -329,7 +329,7 @@ We welcome contributions from the community! Here's how you can help:
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is open source and available for educational purposes.
 
 ## 🙏 Acknowledgments
 
